@@ -7,5 +7,3 @@ class TestView(APIView):
         data={1:'test',2:'ceci est un test'}
 
         return Response(json.dumps(data))
-
-
