@@ -17,3 +17,10 @@ __pycache__/
 .vscode/
 .idea/
 
+# Expo
+.expo
+.expo-shared
+
+# Node
+node_modules
+

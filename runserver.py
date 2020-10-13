@@ -19,4 +19,6 @@ with open("frontEnd/backend_url.json",'w') as file :
 
 
 # Launch frontend server (Expo)
-os.system("cd frontEnd && npm run start")
+os.system("cd frontEnd && expo start --tunnel")
+
+
