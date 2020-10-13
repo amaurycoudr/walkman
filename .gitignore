@@ -21,3 +21,6 @@ __pycache__/
 .expo
 .expo-shared
 
+# Node
+node_modules
+
