@@ -1,5 +1,11 @@
 # walkman
 
+## Run Dev Server
+
+- cd walkman
+- python ./runserver.py
+- scan QR code
+
 ## Install Project
 - **prerequisite**
 
