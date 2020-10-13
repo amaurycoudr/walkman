@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, \
     BaseUserManager
 from api import settings
+from rest_framework.exceptions import ParseError
 
 
 class UserManger(BaseUserManager):
@@ -10,23 +11,29 @@ class UserManger(BaseUserManager):
     def create_user(self, name=None, password=None, email=None, phone=None, **extra_fields):
         """ create and save a new user"""
         if not email and not phone and not password:
-            raise ValueError('User must have a valid email or phone')
-        if email:
-            user = self.model(
-                email=self.normalize_email(email), **extra_fields)
-        elif phone:
-            user = self.model(
-                phone=phone, **extra_fields)
+            raise ParseError('User must have a valid email or phone')
         else:
-            user = self.model(
-                name=name, **extra_fields
-            )
-        if password:
-            user.set_password(password)
-        else:
-            user.set_unusable_password()
-        user.save()
-        return user
+            if email:
+                user = self.model(
+                    email=self.normalize_email(email),
+                    name=name,
+                    **extra_fields)
+            elif phone:
+                user = self.model(
+                    phone=phone,
+                    name=name,
+                    **extra_fields)
+            else:
+                user = self.model(
+                    name=name,
+                    **extra_fields
+                )
+            if password:
+                user.set_password(password)
+            else:
+                user.set_unusable_password()
+            user.save()
+            return user
 
     def create_superuser(self, name, password):
         """ create and save a new superuser"""
@@ -57,4 +64,4 @@ class OneTimePassword(models.Model):
         on_delete=models.CASCADE,
     )
     counter = models.IntegerField(default=0, blank=False)
-    isValid = models.BooleanField()
+    isValid = models.BooleanField(default=True)
