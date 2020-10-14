@@ -18,3 +18,10 @@ back/api/variable_env.py
 .vscode/
 .idea/
 
+# Expo
+.expo
+.expo-shared
+
+# Node
+node_modules
+
