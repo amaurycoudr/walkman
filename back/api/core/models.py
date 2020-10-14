@@ -47,7 +47,7 @@ class UserManger(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     """custom user models """
-    phone = models.IntegerField(unique=True, null=True, blank=True)
+    phone = models.CharField(unique=True,max_length=11, null=True, blank=True)
     email = models.EmailField(max_length=255, unique=True, null=True, blank=True)
     name = models.CharField(max_length=255, unique=True)
     is_active = models.BooleanField(default=False)
