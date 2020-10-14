@@ -1,5 +1,5 @@
 from twilio.rest import Client
-from user.variable_env import AUTH_TOKEN,ACCOUNT_SID
+from variable_env import AUTH_TOKEN,ACCOUNT_SID
 
 # Your Account Sid and Auth Token from twilio.com/console
 # DANGER! This is insecure. See http://twil.io/secure
@@ -10,7 +10,7 @@ auth_token = AUTH_TOKEN
 client = Client(account_sid, auth_token)
 
 
-def message(phone,OTP):
+def twilioSMS(phone, OTP):
     phoneFinal='+'+phone
     print(phoneFinal)
     client.messages \
