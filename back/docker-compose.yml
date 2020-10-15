@@ -9,13 +9,13 @@ services:
     volumes:
       - ./api:/api
     environment:
-      - DB_HOST=db
+      - DB_HOST=postgres
       - DB_NAME=app
       - DB_USER=postgres
       - DB_PASS=password
     depends_on:
-      - db
-  db:
+      - postgres
+  postgres:
     image: postgres:10-alpine
     environment:
       - POSTGRES_DB=app
