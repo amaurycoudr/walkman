@@ -16,7 +16,7 @@ const SwitchPhoneMail = () => {
                         <Text>Téléphone</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                    onPress={() => setMeanIdentification("mail")}
+                    onPress={() => setMeanIdentification("email")}
                     >
                         <Text>Mail</Text>
                     </TouchableOpacity>
@@ -29,6 +29,8 @@ const SwitchPhoneMail = () => {
                 keyboardType={meanIdentification === "phone" ? "phone-pad" : "email-address"}
                 placeholder={meanIdentification === "phone" ? "numéro de téléphone" : "adresse email"}
                 style={styles.input}
+                autoCapitalize="none"
+                autoCorrect={false}
                 />
         </View>
     )
@@ -41,7 +43,8 @@ const styles = StyleSheet.create({
     },
     input : {
         borderWidth : 1,
-        color : "black"
+        color : "black",
+        marginBottom : 10
     }
 })
 

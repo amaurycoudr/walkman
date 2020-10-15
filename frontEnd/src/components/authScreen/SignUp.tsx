@@ -9,7 +9,7 @@ import {AuthContext} from "../../contexts/AuthContext";
 
 
 const SignUp = () => {
-    const {pseudo,setPseudo} = useContext(AuthContext);
+    const {pseudo,setPseudo,signUp,passwordSent,meanIdentification,identification} = useContext(AuthContext);
 
     return(
         <View >
@@ -24,9 +24,14 @@ const SignUp = () => {
 
             <SwitchPhoneMail />
 
-            <TouchableOpacity style={styles.touchable}>
+            <TouchableOpacity 
+            onPress={() => {
+                signUp(pseudo,meanIdentification,identification)
+            }}
+            style={styles.touchable}>
                 <Text style={{color : "white"}}>S'inscrire</Text>
             </TouchableOpacity>
+
 
             
             

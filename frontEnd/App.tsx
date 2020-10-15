@@ -14,6 +14,7 @@ import CreationTaskScreen from "./src/screens/CreationTaskScreen";
 import DashboardScreen from "./src/screens/DashboardScreen";
 import AuthScreen from "./src/screens/AuthScreen";
 
+
 // Navigation
 const StackTask = createStackNavigator();
 const TabMain = createBottomTabNavigator();

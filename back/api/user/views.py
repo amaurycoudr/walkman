@@ -90,7 +90,7 @@ def retrieve_user(request):
                 raise ParseError("verify your phone number")
         else:
             try:
-                user = get_user_model().objects.get(phone=request.data["email"])
+                user = get_user_model().objects.get(email=request.data["email"])
             except get_user_model().DoesNotExist:
                 raise ParseError("verify your email")
         return user, count_type
