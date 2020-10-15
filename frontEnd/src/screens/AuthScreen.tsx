@@ -1,21 +1,30 @@
 import React, {useState} from "react";
-import {View,Text,TouchableOpacity,StyleSheet,StatusBar} from "react-native";
+import {View,StyleSheet,StatusBar} from "react-native";
 
 // components
 import SignUp from "../components/authScreen/SignUp"
 import SignIn from "../components/authScreen/SignIn"
 import SwitchInUp from "../components/authScreen/SwitchInUp"
 
+//context
+import {AuthProvider} from "../contexts/AuthContext";
+
+
+
+
 const AuthScreen = () => {
 
-    const [registered,setRegistered] = useState(false);
+    const [registered,setRegistered] = useState(false)
+
 
     return(
-        <View style={styles.root}>
-            <StatusBar /> 
-            {!registered ? <SignUp /> : <SignIn/>}
-            <SwitchInUp registered={registered} setRegistered={setRegistered} />
-        </View>
+        <AuthProvider>
+            <View style={styles.root}>
+                <StatusBar /> 
+                {!registered ? <SignUp /> : <SignIn />}
+                <SwitchInUp registered={registered} setRegistered={setRegistered}  />
+            </View>
+        </AuthProvider>
     );
 
 };

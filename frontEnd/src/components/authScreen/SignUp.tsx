@@ -1,37 +1,28 @@
-import React, {useState} from "react";
+import React, {useContext} from "react";
 import {View,Text,TouchableOpacity,TextInput,StyleSheet} from "react-native";
+
+import SwitchPhoneMail from "./SwitchPhoneMail";
+
+import {AuthContext} from "../../contexts/AuthContext";
 
 
 
 
 const SignUp = () => {
-    const [form,setForm] = useState({
-        username : "",
-        mail : "",
-        phone : ""
-    });
+    const {pseudo,setPseudo} = useContext(AuthContext);
 
     return(
         <View >
             <TextInput 
-            value={form.username}
+            value={pseudo}
             autoCapitalize="none"
             autoCorrect={false}
             placeholder="Pseudo"
             style={styles.input}
-            onChangeText={(name) => {setForm({
-                ...form,
-                username : name
-            })}}
+            onChangeText={(name) => setPseudo(name)}
             />
 
-            <TextInput
-            value={form.phone}
-            autoCapitalize="none"
-            autoCorrect={false}
-            placeholder="Numéro de téléphone ou mail" 
-            style={styles.input}
-            />
+            <SwitchPhoneMail />
 
             <TouchableOpacity style={styles.touchable}>
                 <Text style={{color : "white"}}>S'inscrire</Text>
@@ -57,8 +48,7 @@ const styles = StyleSheet.create({
     },
     touchable : {
         backgroundColor : "blue",
-    }
-    
+    },
 });
 
 export default SignUp;

@@ -1,16 +1,16 @@
-import React, {useState} from 'react'
-import {TextInput,TouchableOpacity,View,StyleSheet,Text} from "react-native";
+import React, {useContext} from 'react'
+import {TouchableOpacity,View,StyleSheet,Text} from "react-native";
+
+import SwitchPhoneMail from "./SwitchPhoneMail"
+
+
+
 
 export default function SignIn() {
-    const [phone,setPhone] = useState("");
 
     return (
         <View>
-            <TextInput 
-            value={phone}
-            placeholder="Numéro de téléphone ou email"
-            style = {styles.input}
-            />
+            <SwitchPhoneMail />
             <TouchableOpacity style={styles.touchable}>
                 <Text style={{color : "white"}}>Se connecter</Text>
             </TouchableOpacity>
