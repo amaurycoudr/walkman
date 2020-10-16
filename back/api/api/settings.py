@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
-from variable_env import EMAIL_PASSWORD
+
 
 from pathlib import Path
 
@@ -129,5 +129,5 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'walkmansignup@gmail.com'
-EMAIL_HOST_PASSWORD = 'MbjR^rxv&p1&Ahvl^V%5e3VQwB3#73^2NRak@p7SpcQq!VGoYhJu4^MYH'
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
 EMAIL_USE_TLS = True

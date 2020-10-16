@@ -12,7 +12,7 @@ yarn-error.log*
 # Python
 __pycache__/
 *.pyc
-back/api/variable_env.py
+.env
 
 # IDE
 .vscode/

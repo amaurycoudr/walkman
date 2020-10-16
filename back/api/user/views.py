@@ -15,7 +15,7 @@ from django.core.mail import send_mail
 from rest_framework.authtoken.models import Token
 
 from api.settings import EMAIL_HOST_USER
-from user.serializer import UserEmailSerializer, UserPhoneSerializer
+from user.serializer import UserEmailSerializer, UserPhoneSerializer, UserNameSerializer
 from core.models import OneTimePassword, User
 from user.twilioApi import twilioSMS
 
@@ -101,6 +101,11 @@ class SignUpView(viewsets.ViewSet):
         handle the user signUp with the methode create
     """
 
+    @staticmethod
+    def list(request):
+        user=get_user_model().objects.all()
+        serializer=UserNameSerializer(user,many=True)
+        return Response(serializer.data)
     @staticmethod
     def create(request):
         """
