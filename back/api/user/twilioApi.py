@@ -1,22 +1,28 @@
 from twilio.rest import Client
-from variable_env import AUTH_TOKEN,ACCOUNT_SID
+import os
 
-# Your Account Sid and Auth Token from twilio.com/console
-# DANGER! This is insecure. See http://twil.io/secure
-account_sid = ACCOUNT_SID
+account_sid = os.environ.get('ACCOUNT_SID')
 
-auth_token = AUTH_TOKEN
+auth_token = os.environ.get('AUTH_TOKEN')
 
 client = Client(account_sid, auth_token)
 
 
 def twilioSMS(phone, OTP):
+    """
+    Parameters
+    ----------
+    phone : str
+        the phone number without the +
+    OTP : str
+        the code to send at the user
+    """
     phoneFinal='+'+phone
     print(phoneFinal)
     client.messages \
                     .create(
                          body="Your secret code is "+OTP,
-                         from_='+18582615702',
+                         from_='+33644609917',
                          to=phoneFinal
                      )
 

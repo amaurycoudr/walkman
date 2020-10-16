@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 
 class UserEmailSerializer(serializers.ModelSerializer):
     """"""
+
     class Meta:
         model = get_user_model()
         fields = ('email', 'name')
@@ -15,6 +16,7 @@ class UserEmailSerializer(serializers.ModelSerializer):
 
 class UserPhoneSerializer(serializers.ModelSerializer):
     """"""
+
     class Meta:
         model = get_user_model()
         fields = ('phone', 'name')
@@ -22,3 +24,11 @@ class UserPhoneSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         """"""
         return get_user_model().objects.create_user(**validated_data)
+
+
+class UserNameSerializer(serializers.ModelSerializer):
+    """"""
+
+    class Meta:
+        model = get_user_model()
+        fields = ('name',)
