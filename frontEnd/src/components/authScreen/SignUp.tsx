@@ -5,11 +5,13 @@ import SwitchPhoneMail from "./SwitchPhoneMail";
 
 import {AuthContext} from "../../contexts/AuthContext";
 
+import globalStyles from "../../styles/global";
+
 
 
 
 const SignUp = () => {
-    const {pseudo,setPseudo,signUp,passwordSent,meanIdentification,identification} = useContext(AuthContext);
+    const {pseudo,setPseudo,signUp,meanIdentification,identification,pseudoErrorMessage} = useContext(AuthContext);
 
     return(
         <View >
@@ -22,14 +24,16 @@ const SignUp = () => {
             onChangeText={(name) => setPseudo(name)}
             />
 
+            {pseudoErrorMessage ? <Text>{pseudoErrorMessage}</Text> : null}
+
             <SwitchPhoneMail />
 
             <TouchableOpacity 
             onPress={() => {
                 signUp(pseudo,meanIdentification,identification)
             }}
-            style={styles.touchable}>
-                <Text style={{color : "white"}}>S'inscrire</Text>
+            style={globalStyles.button}>
+                <Text style={{color : "white",textAlign : "center"}}>S'inscrire</Text>
             </TouchableOpacity>
 
 

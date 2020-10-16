@@ -9,7 +9,8 @@ const globalStyles = StyleSheet.create({
     button : {
         paddingVertical : 1,
         paddingHorizontal : 10,
-        backgroundColor : "blue"
+        backgroundColor : "blue",
+        justifyContent : "center"
     }
 });
 

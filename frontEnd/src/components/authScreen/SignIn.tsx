@@ -10,13 +10,13 @@ import {AuthContext} from "../../contexts/AuthContext";
 
 export default function SignIn() {
 
-    const {setPasswordSent} = useContext(AuthContext);
+    const {signInAgain,meanIdentification,identification} = useContext(AuthContext);
 
     return (
         <View>
             <SwitchPhoneMail />
             <TouchableOpacity 
-            onPress={() => setPasswordSent(true)}
+            onPress={() => signInAgain(meanIdentification,identification)}
             style={styles.touchable}>
                 <Text style={{color : "white"}}>Se connecter</Text>
             </TouchableOpacity>

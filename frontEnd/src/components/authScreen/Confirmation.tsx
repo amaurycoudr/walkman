@@ -7,7 +7,7 @@ import {AuthContext} from "../../contexts/AuthContext";
 
 export default function Confirmation() {
 
-    const {password,setPassword,setPasswordSent,signIn,identification,meanIdentification} = useContext(AuthContext);
+    const {password,setPassword,setPasswordSent,signIn,identification,meanIdentification,passwordAttempt,reset} = useContext(AuthContext);
 
     return (
         <View>
@@ -18,16 +18,19 @@ export default function Confirmation() {
             keyboardType="number-pad"
             style={globalStyles.input}
             />
+
+            {passwordAttempt<3 ? <Text>Mot de passe incorrect il vous reste {passwordAttempt} tentative(s)</Text> : null}
+
             <TouchableOpacity
             style={{...globalStyles.button,...styles.touchable}}
-            onPress={() => signIn(identification,password,meanIdentification)}
+            onPress={() => signIn(identification,password,meanIdentification,passwordAttempt)}
             >
                 <Text>Confirmer</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
             style={{...globalStyles.button,...styles.touchable}}
-            onPress={() => setPasswordSent(false)}
+            onPress={() => reset()}
             >
                 <Text>Annuler</Text>
             </TouchableOpacity>
