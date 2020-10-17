@@ -7,9 +7,28 @@ import usePseudo from "../hooks/usePseudo";
 
 import {signUpValid,pseudoValid,setFormatPhone,signInValid} from "../helpers/authCheckers";
 
+// Typescript
+type state = {
+    meanIdentification : string,
+    identification : string,
+    pseudo : string,
+    pseudoError : boolean,
+    pseudoErrorMessage : string,
+    passwordSent : boolean,
+    password : string,
+    passwordAttempt : number,
+};
+
+type actions = "setMeanIdentification" | "setIdentification" | "setPseudo" | "setPseudoError" | "setPseudoErrorMessage" | "setPasswordSent" | "setPassword" | "setPasswordAttempt" | "reset" ;
+type dispatch = {
+    type : actions,
+    payload : string|boolean|number|state
+}
 
 
-const reducer = (state,action) => {
+
+
+const reducer = (state : state, action : dispatch)  => {
     switch(action.type){
         case 'setMeanIdentification' :
             return {...state , meanIdentification : action.payload}
@@ -32,7 +51,7 @@ const reducer = (state,action) => {
     }
 };
 
-const init = () => {
+const init = ()  => {
     const initialState = {
         meanIdentification : "phone",
         identification : "",
@@ -50,28 +69,28 @@ const init = () => {
 const baseUrl = require("../../backend_url.json")["url"]+"/api/users";
 
 
-export const AuthContext = createContext(init());
+export const AuthContext = createContext<state>(init());
 
-export const AuthProvider = ({children}) => {
+export const AuthProvider:React.FC = ({children}) => {
 
 
     const navigation = useNavigation();
 
     const pseudos = usePseudo();
 
-    const [state,dispatch] = useReducer(reducer,init());
+    const [state ,dispatch] = useReducer(reducer,init());
 
 
 
-    const setMeanIdentification = (dispatch) => (mean) =>{
+    const setMeanIdentification = (dispatch:React.Dispatch<dispatch>) => (mean : string) =>{
         dispatch({type : "setMeanIdentification", payload : mean})
     }
 
-    const setIdentification = (dispatch) => (value) => {   
+    const setIdentification = (dispatch:React.Dispatch<dispatch>) => (value : string) => {   
         dispatch({type : "setIdentification", payload : value})
     }
     
-    const setPseudo = (dispatch) => (value) => {
+    const setPseudo = (dispatch:React.Dispatch<dispatch>) => (value : string) => {
         const error = !pseudoValid(value,pseudos);
         const message = error ? "Ce pseudo est déjà utilisé. Veuillez en choisir un autre" : "";
         dispatch({type : "setPseudoError",payload : error});
@@ -80,7 +99,7 @@ export const AuthProvider = ({children}) => {
         
     }
 
-    const signUp = (dispatch) => (pseudo,mean,identification)  => {
+    const signUp = (dispatch:React.Dispatch<dispatch>) => (pseudo : string,mean : string,identification : string)  => {
         if(mean === "phone"){
             identification = setFormatPhone(identification);
             dispatch({type : "setIdentification",payload : identification})
@@ -98,7 +117,7 @@ export const AuthProvider = ({children}) => {
         .then(() => dispatch({type : "setPasswordSent", payload : true}),error => console.log(error))
     };
 
-    const signInAgain = (dispatch) => (mean,identification) => {
+    const signInAgain = (dispatch:React.Dispatch<dispatch>) => (mean : string,identification : string) => {
         if(mean === "phone"){
             identification = setFormatPhone(identification);
             dispatch({type : "setIdentification",payload : identification})
@@ -116,12 +135,12 @@ export const AuthProvider = ({children}) => {
 
     };
 
-    const reset = (dispatch) => () => {
+    const reset = (dispatch:React.Dispatch<dispatch>) => () => {
         dispatch({type:"reset",payload:init()})
         navigation.navigate("Auth");
     }
 
-    const signIn = (dispatch) => (identification,otp,mean,passwordAttempt) => {
+    const signIn = (dispatch:React.Dispatch<dispatch>) => (identification : string,otp : string,mean : string,passwordAttempt : number) => {
         const url = baseUrl+"/signin/?type="+mean;
         let data = {
             [mean] : identification,
@@ -137,13 +156,13 @@ export const AuthProvider = ({children}) => {
                 dispatch({type:"setPasswordAttempt",payload:passwordAttempt})
             }
             else{
-                dispatch({type:"reset",payload:init()})
+                dispatch({type:"reset",payload : init()})
                 navigation.navigate("Auth");
             }
         })
     };
 
-    const setPassword = (dispatch) => (value) => {
+    const setPassword = (dispatch:React.Dispatch<dispatch>) => (value : string) => {
         dispatch({type : "setPassword", payload : value})
     }
 

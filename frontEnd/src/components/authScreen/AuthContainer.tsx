@@ -1,5 +1,5 @@
-import React, {useState,useContext} from "react";
-import {View,StyleSheet,StatusBar,Text} from "react-native";
+import React, {useContext,useState} from "react";
+import {View,StyleSheet,StatusBar} from "react-native";
 
 import SignUp from "./SignUp";
 import SignIn from "./SignIn";
