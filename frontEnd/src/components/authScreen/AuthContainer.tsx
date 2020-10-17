@@ -1,4 +1,4 @@
-import React, {useContext,useState} from "react";
+import React, {useContext} from "react";
 import {View,StyleSheet,StatusBar} from "react-native";
 
 import SignUp from "./SignUp";
@@ -10,14 +10,13 @@ import {AuthContext} from "../../contexts/AuthContext";
 
 export default function AuthContainer() {
 
-    const [hasAccount,setHasAccount] = useState(false);
-    const {passwordSent} = useContext(AuthContext);
+    const {passwordSent,hasAccount} = useContext(AuthContext);
 
     return (
         <View style={styles.root}>
                 <StatusBar />
                 {!passwordSent ? !hasAccount ? <SignUp /> : <SignIn /> : <Confirmation />}
-                {!passwordSent ? <SwitchInUp hasAccount={hasAccount} setHasAccount={setHasAccount} /> : null}
+                {!passwordSent ? <SwitchInUp hasAccount={hasAccount} /> : null}
         </View>
     )
 };

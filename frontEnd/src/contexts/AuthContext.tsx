@@ -14,12 +14,13 @@ type state = {
     pseudo : string,
     pseudoError : boolean,
     pseudoErrorMessage : string,
+    hasAccount : boolean,
     passwordSent : boolean,
     password : string,
     passwordAttempt : number,
 };
 
-type actions = "setMeanIdentification" | "setIdentification" | "setPseudo" | "setPseudoError" | "setPseudoErrorMessage" | "setPasswordSent" | "setPassword" | "setPasswordAttempt" | "reset" ;
+type actions = "setMeanIdentification" | "setIdentification" | "setPseudo" | "setPseudoError" | "setPseudoErrorMessage" | "setHasAccount" | "setPasswordSent" | "setPassword" | "setPasswordAttempt" | "reset" ;
 type dispatch = {
     type : actions,
     payload : string|boolean|number|state
@@ -40,6 +41,8 @@ const reducer = (state : state, action : dispatch)  => {
             return {...state, pseudoError : action.payload}
         case 'setPseudoErrorMessage':
             return {...state, pseudoErrorMessage : action.payload}
+        case 'setHasAccount':
+            return {...state, hasAccount : action.payload}
         case 'setPasswordSent' : 
             return {...state, passwordSent : action.payload}
         case 'setPassword' :
@@ -58,6 +61,7 @@ const init = ()  => {
         pseudo : "",
         pseudoError : false,
         pseudoErrorMessage : "",
+        hasAccount : false,
         passwordSent : false,
         password : "",
         passwordAttempt : 3
@@ -114,7 +118,16 @@ export const AuthProvider:React.FC = ({children}) => {
             name : pseudo
         }
         axios.post(url,data)
-        .then(() => dispatch({type : "setPasswordSent", payload : true}),error => console.log(error))
+        .then(
+            () => dispatch({type : "setPasswordSent", payload : true}), //succes
+            (error) => { //failure
+                console.log("already registered")
+                dispatch({type:"setHasAccount",payload:true})
+            })
+    };
+
+    const toggleInUp = (dispatch:React.Dispatch<dispatch>) => (hasAccount : boolean) => {
+        dispatch({type:"setHasAccount",payload:hasAccount})
     };
 
     const signInAgain = (dispatch:React.Dispatch<dispatch>) => (mean : string,identification : string) => {
@@ -178,6 +191,7 @@ export const AuthProvider:React.FC = ({children}) => {
             setPseudo : setPseudo(dispatch),
             signUp : signUp(dispatch),
             signInAgain : signInAgain(dispatch),
+            toggleInUp : toggleInUp(dispatch),
             signIn : signIn(dispatch),
             reset : reset(dispatch),
             ...state
