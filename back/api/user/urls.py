@@ -6,7 +6,6 @@ router = DefaultRouter()
 router.register('signup', SignUpView, basename='SignUp'),
 router.register('signin', SignInView, basename='Signin'),
 router.register('getcode', NewCode, basename='GetCode'),
-router.register('getcode', NewCode, basename='GetCode'),
 urlpatterns = [
 
     path('', include(router.urls)),
