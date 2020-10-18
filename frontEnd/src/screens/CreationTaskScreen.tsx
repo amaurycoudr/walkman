@@ -4,8 +4,8 @@ import { View, Text } from "react-native";
 const CreationTaskScreen = () => {
     return (
         <View>
-        <Text>Creation Task Screen < /Text>
-            < /View>
+            <Text>Creation Task Screen </Text>
+        </View>
     );
 };
 
