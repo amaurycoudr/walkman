@@ -10,7 +10,7 @@ import {AuthContext} from "../../contexts/AuthContext";
 
 export default function SignIn() {
 
-    const {signInAgain,meanIdentification,identification} = useContext(AuthContext);
+    const {signInAgain,meanIdentification,identification} = useContext(AuthContext)!;
 
     return (
         <View>

@@ -1,4 +1,4 @@
-import React, {useReducer, createContext,Reducer} from "react";
+import React, {useReducer, createContext, Reducer, Context} from "react";
 import axios from "axios";
 import {useNavigation} from '@react-navigation/native';
 
@@ -12,7 +12,6 @@ type StateType = {
     meanIdentification: string,
     identification: string,
     pseudo: string,
-    pseudoError: boolean,
     pseudoErrorMessage: string,
     hasAccount: boolean,
     passwordSent: boolean,
@@ -20,34 +19,42 @@ type StateType = {
     passwordAttempt: number,
 };
 
+type ContextType<T> = {
+    [P in keyof T]: T[P];
+} & {
+    setMeanIdentification: (mean: string) => void,
+    setIdentification: (identification: string) => void,
+    setPassword: (password: string) => void,
+    setPseudo: (value: string) => void,
+    signUp: (pseudo: string, mean: string, identification: string) => void,
+    signInAgain: (mean: string, identification: string) => void,
+    toggleInUp: (hasAccount: boolean) => void,
+    signIn: (identification: string, otp: string, mean: string, passwordAttempt: number) => void,
+    reset: () => void,
+}
+
 type ActionType =
     | { type: 'setMeanIdentification'; payload: string }
     | { type: 'setIdentification'; payload: string }
     | { type: 'setPseudo'; payload: string }
-    | { type: 'setPseudoError'; payload: { error:boolean,message:string } }
+    | { type: 'setPseudoError'; payload: string }
     | { type: 'setHasAccount'; payload: boolean }
     | { type: 'setPasswordSent'; payload: boolean }
     | { type: 'setPassword'; payload: string }
     | { type: 'setPasswordAttempt'; payload: number }
     | { type: 'reset'; payload: StateType };
 
-type CallbackFunctionVariadic = (...args: any[]) => void;
 
-type AuthContextType =
-    | CallbackFunctionVariadic
-    | StateType
-
-
-const reducer:Reducer<StateType, ActionType>  = (state, action) => {
+const reducer: Reducer<StateType, ActionType> = (state, action) => {
     switch (action.type) {
         case 'setMeanIdentification' :
             return {...state, meanIdentification: action.payload}
         case 'setIdentification' :
             return {...state, identification: action.payload}
         case 'setPseudo' :
-            return {...state, pseudo: action.payload}
+            return {...state, pseudo: action.payload,}
         case 'setPseudoError':
-            return {...state, pseudoError: action.payload.error,pseudoErrorMessage: action.payload.message}
+            return {...state, pseudoErrorMessage: action.payload}
         case 'setHasAccount':
             return {...state, hasAccount: action.payload}
         case 'setPasswordSent' :
@@ -65,7 +72,6 @@ const initialState: StateType = {
     meanIdentification: "phone",
     identification: "",
     pseudo: "",
-    pseudoError: false,
     pseudoErrorMessage: "",
     hasAccount: false,
     passwordSent: false,
@@ -81,7 +87,7 @@ const init = () => {
 const baseUrl = require("../../backend_url.json")["url"] + "/api/users";
 
 
-export const AuthContext = createContext<Partial<AuthContextType>>(initialState);
+export const AuthContext = React.createContext<ContextType<StateType> | undefined>(undefined);
 
 export const AuthProvider: React.FC = ({children}) => {
 
@@ -104,7 +110,7 @@ export const AuthProvider: React.FC = ({children}) => {
     const setPseudo = (dispatch: React.Dispatch<ActionType>) => (value: string) => {
         const error = !pseudoValid(value, pseudos);
         const message = error ? "Ce pseudo est déjà utilisé. Veuillez en choisir un autre" : "";
-        dispatch({type: "setPseudoError", payload: {error:error,message:message}});
+        dispatch({type: "setPseudoError", payload: message});
         dispatch({type: "setPseudo", payload: value});
 
     }

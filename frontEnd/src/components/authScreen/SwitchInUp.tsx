@@ -7,7 +7,7 @@ import {AuthContext} from "../../contexts/AuthContext";
 
 export default function SwitchInUp() {
 
-    const {hasAccount,toggleInUp} = useContext(AuthContext);
+    const {hasAccount,toggleInUp} = useContext(AuthContext)!;
 
 
     if(hasAccount){

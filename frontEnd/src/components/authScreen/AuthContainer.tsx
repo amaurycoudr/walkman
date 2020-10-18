@@ -10,13 +10,13 @@ import {AuthContext} from "../../contexts/AuthContext";
 
 export default function AuthContainer() {
 
-    const {passwordSent,hasAccount} = useContext(AuthContext);
+    const {passwordSent,hasAccount} = useContext(AuthContext)!;
 
     return (
         <View style={styles.root}>
                 <StatusBar />
                 {!passwordSent ? !hasAccount ? <SignUp /> : <SignIn /> : <Confirmation />}
-                {!passwordSent ? <SwitchInUp hasAccount={hasAccount} /> : null}
+                {!passwordSent ? <SwitchInUp /> : null}
         </View>
     )
 };

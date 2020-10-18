@@ -11,7 +11,7 @@ import globalStyles from "../../styles/global";
 
 
 const SignUp = () => {
-    const {pseudo,setPseudo,signUp,meanIdentification,identification,pseudoErrorMessage} = useContext(AuthContext);
+    const {pseudo,setPseudo,signUp,meanIdentification,identification,pseudoErrorMessage} = useContext(AuthContext)!;
 
     return(
         <View >

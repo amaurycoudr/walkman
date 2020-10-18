@@ -5,7 +5,7 @@ import {AuthContext} from "../../contexts/AuthContext";
 
 const SwitchPhoneMail = () => {
 
-    const {setMeanIdentification,identification,setIdentification,meanIdentification} = useContext(AuthContext);
+    const {setMeanIdentification,identification,setIdentification,meanIdentification} = useContext(AuthContext)!;
 
     return (
         <View>
