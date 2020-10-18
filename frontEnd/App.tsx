@@ -6,12 +6,14 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 
 // Screens
-import FakeApi from "./src/screens/FakeApi.tsx";
-import SettingsScreen from "./src/screens/SettingsScreen.tsx";
-import TasksScreen from "./src/screens/TasksScreen.tsx";
-import TaskScreen from "./src/screens/TaskScreen.tsx";
-import CreationTaskScreen from "./src/screens/CreationTaskScreen.tsx";
-import DashboardScreen from "./src/screens/DashboardScreen.tsx";
+import FakeApi from "./src/screens/FakeApi";
+import SettingsScreen from "./src/screens/SettingsScreen";
+import TasksScreen from "./src/screens/TasksScreen";
+import TaskScreen from "./src/screens/TaskScreen";
+import CreationTaskScreen from "./src/screens/CreationTaskScreen";
+import DashboardScreen from "./src/screens/DashboardScreen";
+import AuthScreen from "./src/screens/AuthScreen";
+
 
 // Navigation
 const StackTask = createStackNavigator();
@@ -32,7 +34,8 @@ const TaskNavigation = () => {
 const App = () => {
   return (
     <NavigationContainer>
-      <TabMain.Navigator initialRouteName= "Test" >
+      <TabMain.Navigator initialRouteName= "AuthScreen" >
+        <TabMain.Screen name="Auth" component={AuthScreen} />
         <TabMain.Screen name= "Settings" component = { SettingsScreen } />
         <TabMain.Screen name="TaskNavigation" component = { TaskNavigation } />
         <TabMain.Screen name="Dashboard" component = { DashboardScreen } />

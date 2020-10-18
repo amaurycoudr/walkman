@@ -4,8 +4,8 @@ import { View, Text } from "react-native";
 const TaskScreen = () => {
     return (
         <View>
-        <Text>Task Screen < /Text>
-            < /View>
+            <Text>Task Screen </Text>
+        </View>
     );
 };
 
