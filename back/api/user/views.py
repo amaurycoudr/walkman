@@ -3,21 +3,22 @@ the views to handle the users/ endpoint
 """
 
 from pyotp import HOTP
-from datetime import datetime
+from datetime import datetime, timedelta
+
 import base64
 
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.request import Request
-from rest_framework.exceptions import ParseError
+from rest_framework.exceptions import ParseError, NotAcceptable
 from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
 
-
 from user.serializer import UserEmailSerializer, UserPhoneSerializer
 from core.models import OneTimePassword, User
-from user.twilioApi import twilio_sms_sign
-from user.mailSender import sign_mail
+from tasks.twilioApi import twilio_sms_sign
+from tasks.mailSender import sign_mail
+from user.exception import WrongCode, NotFound, AlreadyUsed, ToSoon
 
 
 def return_value(name):
@@ -52,11 +53,9 @@ def send_password(user, otp, count_type, code):
 
     """
     if count_type == 'phone':
-        twilio_sms_sign(user.phone, code.at(otp.counter))
+        twilio_sms_sign.delay(user.phone, code.at(otp.counter))
     elif count_type == 'email':
-        print(user)
-        sign_mail(user.email,code.at(otp.counter))
-
+        sign_mail.delay(user.email, code.at(otp.counter))
 
 
 def retrieve_user(request):
@@ -75,18 +74,18 @@ def retrieve_user(request):
     count_type = request.query_params.get('type')
 
     if count_type != 'email' and count_type != 'phone':
-        raise ParseError("you must provide a type")
+        raise NotAcceptable("you must provide a type")
     else:
         if count_type == 'phone':
             try:
                 user = get_user_model().objects.get(phone=request.data["phone"])
             except get_user_model().DoesNotExist:
-                raise ParseError("verify your phone number")
+                raise NotFound()
         else:
             try:
                 user = get_user_model().objects.get(email=request.data["email"])
             except get_user_model().DoesNotExist:
-                raise ParseError("verify your email")
+                raise NotFound()
         return user, count_type
 
 
@@ -95,18 +94,19 @@ class SignUpView(viewsets.ViewSet):
         handle the user signUp with the methode create
     """
 
-    def get_serializer(self,data=None):
+    def get_serializer(self, data=None):
         count_type = self.request.query_params.get('type')
         if count_type == 'phone':
             return UserPhoneSerializer(data=data)
         elif count_type == 'email':
             return UserEmailSerializer(data=data)
         else:
-            raise ParseError("you must provide a type")
+            raise NotAcceptable("you must provide a type")
+
     @staticmethod
     def list(request):
-         user=get_user_model().objects.all().values_list("name", flat=True)
-         return Response(list(user))
+        user = get_user_model().objects.all().values_list("name", flat=True)
+        return Response(list(user))
 
     def create(self, request):
         """
@@ -121,17 +121,18 @@ class SignUpView(viewsets.ViewSet):
         Response
             confirm that the user is signup
         """
-        serializer=self.get_serializer(data=request.data)
+        serializer = self.get_serializer(data=request.data)
         if serializer.is_valid(False):
             user = serializer.save()
             otp = OneTimePassword.objects.create(user=user)
-
+            otp.save()
             key = base64.b32encode(return_value(user.name).encode())
             code = HOTP(key)
             send_password(user, otp, self.request.query_params.get('type'), code)
             return Response({"message": "You are signup, your code has been send as your email or phone"}, status=201)
         else:
-            raise ParseError("something goes wrong... already register ?")
+            raise AlreadyUsed()
+
 
 class NewCode(viewsets.ViewSet):
     @staticmethod
@@ -149,22 +150,30 @@ class NewCode(viewsets.ViewSet):
                 confirm that the otp has been sent
         """
         user, count_type = retrieve_user(request)
-        print(user)
-        otp = OneTimePassword.objects.get(user=user)
-        otp.counter += 1
-        otp.isValid = True
-        otp.save()
-        key = base64.b32encode(return_value(user.name).encode())
-        code = HOTP(key)
-        send_password(user, otp, count_type, code)
 
-        return Response({"message": "Your code has been send as your email or phone"}, status=201)
+        otp = OneTimePassword.objects.get(user=user)
+        minute = timedelta(0, 21600)
+        time = datetime.now() - otp.last_modification.replace(tzinfo=None)
+        if time > minute or count_type == 'email':
+            otp.counter += 1
+            otp.isValid = True
+            otp.save()
+
+            key = base64.b32encode(return_value(user.name).encode())
+            code = HOTP(key)
+            send_password(user, otp, count_type, code)
+
+            return Response({"message": "Your code has been send as your email or phone"}, status=201)
+        else:
+            raise ToSoon(detail={"error": 4, "time": 21600-time.seconds})
+
 
 class SignInView(viewsets.ViewSet):
     """The Sign In View
         handle the user signIn
         with the methode create it checks the password and send the token
     """
+
     @staticmethod
     def create(request):
         """
@@ -192,4 +201,4 @@ class SignInView(viewsets.ViewSet):
             return Response({"Token": token.key})
 
         else:
-            raise ParseError("Wrong code")
+            raise WrongCode()

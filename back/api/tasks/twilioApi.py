@@ -1,13 +1,13 @@
 from twilio.rest import Client
 import os
+from api import settings
+from celery import shared_task
+account_sid = settings.ACCOUNT_SID
 
-account_sid = os.environ.get('ACCOUNT_SID')
-
-auth_token = os.environ.get('AUTH_TOKEN')
-
+auth_token = settings.AUTH_TOKEN
 client = Client(account_sid, auth_token)
 
-
+@shared_task
 def twilio_sms_sign(phone, OTP):
     """
     Parameters
@@ -18,7 +18,7 @@ def twilio_sms_sign(phone, OTP):
         the code to send at the user
     """
     phoneFinal = '+%s' % (phone,)
-    print(phoneFinal)
+
     client.messages \
         .create(
         body="Your secret code is %s" % (OTP,),
