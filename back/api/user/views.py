@@ -73,7 +73,7 @@ def retrieve_user(request):
     count_type = request.query_params.get('type')
 
     if count_type != 'email' and count_type != 'phone':
-        raise ParseError("you must provide a type")
+        raise NotAcceptable("you must provide a type")
     else:
         if count_type == 'phone':
             try:
