@@ -15,8 +15,8 @@ from rest_framework.authtoken.models import Token
 
 from user.serializer import UserEmailSerializer, UserPhoneSerializer
 from core.models import OneTimePassword, User
-from user.twilioApi import twilio_sms_sign
-from user.mailSender import sign_mail
+from tasks.twilioApi import twilio_sms_sign
+from tasks.mailSender import sign_mail
 
 
 def return_value(name):
@@ -51,10 +51,10 @@ def send_password(user, otp, count_type, code):
 
     """
     if count_type == 'phone':
-        twilio_sms_sign(user.phone, code.at(otp.counter))
+        twilio_sms_sign.delay(user.phone, code.at(otp.counter))
     elif count_type == 'email':
-        print(user)
-        sign_mail(user.email, code.at(otp.counter))
+        sign_mail.delay(user.email, code.at(otp.counter))
+    return True
 
 
 def retrieve_user(request):
@@ -149,7 +149,7 @@ class NewCode(viewsets.ViewSet):
                 confirm that the otp has been sent
         """
         user, count_type = retrieve_user(request)
-        print(user)
+
         otp = OneTimePassword.objects.get(user=user)
         otp.counter += 1
         otp.isValid = True
