@@ -65,3 +65,4 @@ class OneTimePassword(models.Model):
     )
     counter = models.IntegerField(default=0, blank=False)
     isValid = models.BooleanField(default=True)
+    last_modification = models.DateTimeField(auto_now=True)
