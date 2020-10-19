@@ -13,16 +13,35 @@ services:
       - DB_NAME=${POSTGRES_DB}
       - DB_USER=${POSTGRES_USER}
       - DB_PASS=${POSTGRES_PASSWORD}
+      - SECRET_KEY=${SECRET_KEY}
       - ACCOUNT_SID=${ACCOUNT_SID}
       - AUTH_TOKEN=${AUTH_TOKEN}
       - EMAIL_PASSWORD=${EMAIL_PASSWORD}
       - EMAIL_USER=${EMAIL_USER}
-      - SECRET_KEY=${SECRET_KEY}
     depends_on:
       - db
+      - redis
   db:
     image: postgres:10-alpine
     environment:
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+  celery:
+    build:
+      context: .
+    command: celery -A api worker --loglevel=INFO
+    volumes:
+      - ./api:/api
+    environment:
+      - DEBUG=1
+      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 ['*']
+      - CELERY_BROKER=redis://redis:6379/0
+      - CELERY_BACKEND=redis://redis:6379/0
+    env_file:
+      - .env
+    depends_on:
+      - api
+      - redis
+  redis:
+    image: redis:5-alpine
