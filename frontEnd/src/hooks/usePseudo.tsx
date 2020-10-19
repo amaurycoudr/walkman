@@ -10,14 +10,7 @@ export default function usePseudo() {
     useEffect(() => {
         const url = baseUrl+"/signup";
         axios.get(url)
-        .then(result => {
-            let pseudos = [];
-            const alreadyUsedPseudo = result.data;
-            alreadyUsedPseudo.forEach(user => {
-                pseudos.push(user.name)
-            })
-            setPseudo(pseudos)
-        })
+        .then(result => {setPseudo(result.data)})
     },[]);
 
     return pseudo;
