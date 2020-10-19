@@ -9,10 +9,9 @@ import base64
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.request import Request
-from rest_framework.exceptions import ParseError
+from rest_framework.exceptions import ParseError, NotAcceptable
 from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
-
 
 from user.serializer import UserEmailSerializer, UserPhoneSerializer
 from core.models import OneTimePassword, User
@@ -55,8 +54,7 @@ def send_password(user, otp, count_type, code):
         twilio_sms_sign(user.phone, code.at(otp.counter))
     elif count_type == 'email':
         print(user)
-        sign_mail(user.email,code.at(otp.counter))
-
+        sign_mail(user.email, code.at(otp.counter))
 
 
 def retrieve_user(request):
@@ -95,18 +93,19 @@ class SignUpView(viewsets.ViewSet):
         handle the user signUp with the methode create
     """
 
-    def get_serializer(self,data=None):
+    def get_serializer(self, data=None):
         count_type = self.request.query_params.get('type')
         if count_type == 'phone':
             return UserPhoneSerializer(data=data)
         elif count_type == 'email':
             return UserEmailSerializer(data=data)
         else:
-            raise ParseError("you must provide a type")
+            raise NotAcceptable("you must provide a type")
+
     @staticmethod
     def list(request):
-         user=get_user_model().objects.all().values_list("name", flat=True)
-         return Response(list(user))
+        user = get_user_model().objects.all().values_list("name", flat=True)
+        return Response(list(user))
 
     def create(self, request):
         """
@@ -121,7 +120,7 @@ class SignUpView(viewsets.ViewSet):
         Response
             confirm that the user is signup
         """
-        serializer=self.get_serializer(data=request.data)
+        serializer = self.get_serializer(data=request.data)
         if serializer.is_valid(False):
             user = serializer.save()
             otp = OneTimePassword.objects.create(user=user)
@@ -132,6 +131,7 @@ class SignUpView(viewsets.ViewSet):
             return Response({"message": "You are signup, your code has been send as your email or phone"}, status=201)
         else:
             raise ParseError("something goes wrong... already register ?")
+
 
 class NewCode(viewsets.ViewSet):
     @staticmethod
@@ -160,11 +160,13 @@ class NewCode(viewsets.ViewSet):
 
         return Response({"message": "Your code has been send as your email or phone"}, status=201)
 
+
 class SignInView(viewsets.ViewSet):
     """The Sign In View
         handle the user signIn
         with the methode create it checks the password and send the token
     """
+
     @staticmethod
     def create(request):
         """
