@@ -12,13 +12,13 @@ import {AuthContext} from "../../contexts/AuthContext";
 
 const getCodeContainer:FC = () => {
 
-    const {mean,changeMean,identificationChange,identification,identificationIsValid,authNavigation,getCode} = useContext(AuthContext);
+    const {mean,changeMean,identificationChange,identification,identificationIsValid,authNavigation,getCode,loading} = useContext(AuthContext);
 
     return (
         <View>
             <Switcher mean={mean} changeMean={changeMean} />
             {mean==="phone" ? <PhoneInput identificationChange={identificationChange} identification={identification} identificationIsValid={identificationIsValid} /> : <EmailInput identificationChange={identificationChange} identification={identification} identificationIsValid={identificationIsValid} />}
-            <AuthButton text="Recevoir mon code" changer={getCode} args={[mean,identification]} />
+            <AuthButton text="Recevoir mon code" changer={getCode} args={[mean,identification]} loading={loading} />
             <AuthNavigation message="Pas encore de compte ? " linkName="S'inscrire" conteneur="SignUpContainer" changeConteneur={authNavigation}/>
         </View>
     )

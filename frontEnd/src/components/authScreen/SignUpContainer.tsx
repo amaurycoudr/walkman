@@ -13,7 +13,7 @@ import AuthButton from "./AuthButton"
 
 const SignUpContainer:FC = () => {
 
-    const {pseudo,pseudoChange,pseudoIsValid,mean,changeMean,identificationChange,identification,identificationIsValid,signUp,authNavigation} = useContext(AuthContext)
+    const {pseudo,pseudoChange,pseudoIsValid,mean,changeMean,identificationChange,identification,identificationIsValid,signUp,authNavigation,loading} = useContext(AuthContext)
 
     return (
         <View>
@@ -30,7 +30,7 @@ const SignUpContainer:FC = () => {
 
             {mean==="phone" ? <PhoneInput identificationChange={identificationChange} identification={identification} identificationIsValid={identificationIsValid} /> : <EmailInput identificationChange={identificationChange} identification={identification} identificationIsValid={identificationIsValid} />}
 
-            <AuthButton text="S'inscrire" changer={signUp} args={[pseudo,mean,identification]} />
+            <AuthButton text="S'inscrire" changer={signUp} args={[pseudo,mean,identification]} loading={loading} />
 
             <AuthNavigation message="Déjà un compte ? " linkName="Recevoir mon code" changeConteneur={authNavigation} conteneur="GetCodeContainer" />
             <AuthNavigation message="Déjà reçu un code ? " linkName="Se connecter" changeConteneur={authNavigation} conteneur="SignInContainer" />

@@ -17,7 +17,8 @@ type StateType = {
     errorMessage: string,
     code : string,
     passwordAttempt : number,
-    conteneur : string
+    conteneur : string,
+    loading : boolean,
 };
 
 type ContextType<T> = {
@@ -44,6 +45,7 @@ type ActionType =
     | { type: 'setPasswordAttempt'; payload: number }
     | { type: 'reset'; payload: StateType }
     | { type: 'setErrorMessage'; payload: string }
+    | { type: 'setLoading'; payload: boolean }
     | { type: 'setConteneur'; payload: string };
 
 
@@ -67,6 +69,8 @@ const reducer: Reducer<StateType, ActionType> = (state, action) => {
             return {...state, conteneur: action.payload}
         case 'setErrorMessage':
             return {...state, errorMessage: action.payload}
+        case 'setLoading':
+            return {...state, loading: action.payload}
     }
 };
 
@@ -79,7 +83,8 @@ const initialState: StateType = {
     errorMessage: "",
     code : "",
     passwordAttempt : 3,
-    conteneur : "SignUpContainer"
+    conteneur : "SignUpContainer",
+    loading : false
 
 };
 const init = () => {
@@ -151,13 +156,16 @@ export const AuthProvider: React.FC = ({children}) => {
             name: pseudo
         }
 
+        dispatch({type:"setLoading",payload:true})
         axios.post(url, data)
             .then(
                 (result) => {
+                    dispatch({type:"setLoading",payload:false})
                     dispatch({type:"setConteneur",payload:"SignInContainer"})
                     dispatch({type:"setErrorMessage",payload:""})
                 },
                 (error) => {
+                    dispatch({type:"setLoading",payload:false})
                     switch(error.response.data.error){
                         case "2":
                             console.log("error 2")
@@ -178,15 +186,19 @@ export const AuthProvider: React.FC = ({children}) => {
             return
         }
         const url = baseUrl + "/getcode/?type=" + mean
+
+        dispatch({type:"setLoading",payload:true})
         axios.post(url,{
             [mean] : identification
         })
         .then(
             (result) => {
+                dispatch({type:"setLoading",payload:false})
                 dispatch({type:"setErrorMessage",payload:""})
                 dispatch({type:"setConteneur",payload:"SignInContainer"})
             },
             (error) => {
+                dispatch({type:"setLoading",payload:false})
                 switch(error.response.data.error){
                     case "3":
                         console.log("error 3")
@@ -201,18 +213,30 @@ export const AuthProvider: React.FC = ({children}) => {
     
     const signIn = (dispatch: React.Dispatch<ActionType>) => (identification: string, otp: string, mean: string, passwordAttempt: number) => {
         const url = baseUrl + "/signin/?type=" + mean;
+        if (mean === "phone") {
+            identification = setFormatPhone(identification);
+            dispatch({type: "setIdentification", payload: identification})
+        }
+        if (!signInValid(identification)) {
+            dispatch({type:"setErrorMessage",payload:"Il semblerait que vous ayez déjà reçu un code de connexion."})
+            return
+        }
         let data = {
             [mean]: identification,
             otp: parseInt(otp)
         }
+        dispatch({type:"setLoading",payload:true})
         axios.post(url, data)
             .then(response => {
+                dispatch({type:"setLoading",payload:false})
                 console.log(response.data.Token) // To Do : store this token in redux
                 navigation.navigate("TaskNavigation")
                 dispatch({type:"setErrorMessage",payload:""})
                 dispatch({type:"reset",payload:init()})
                 
             }, (error) => {
+                console.log(error.response)
+                dispatch({type:"setLoading",payload:false})
                 switch(error.response.data.error){
                     case "1": //wrong code
                         console.log("error 1")
