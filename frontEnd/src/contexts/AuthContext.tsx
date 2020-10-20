@@ -107,7 +107,6 @@ export const AuthProvider: React.FC = ({children}) => {
         dispatch({type: "setMean", payload: mean})
     }
 
-    //to-do : identificationIsValid (checker)
     const identificationChange = (dispatch: React.Dispatch<ActionType>) => (value: string) => {
         dispatch({type: "setIdentification", payload: value})
     }
@@ -151,6 +150,7 @@ export const AuthProvider: React.FC = ({children}) => {
             [mean]: identification,
             name: pseudo
         }
+
         axios.post(url, data)
             .then(
                 (result) => {
@@ -158,7 +158,12 @@ export const AuthProvider: React.FC = ({children}) => {
                     dispatch({type:"setErrorMessage",payload:""})
                 },
                 (error) => {
-                    dispatch({type:"setErrorMessage",payload:"Il semblerait que votre compte existe déjà"})
+                    switch(error.response.data.error){
+                        case "2":
+                            console.log("error 2")
+                            dispatch({type:"setErrorMessage",payload:"Il semblerait que votre compte existe déjà. Essayez de vous connecter"})
+                            return
+                    }
                 })
     };
 
@@ -180,6 +185,14 @@ export const AuthProvider: React.FC = ({children}) => {
             (result) => {
                 dispatch({type:"setErrorMessage",payload:""})
                 dispatch({type:"setConteneur",payload:"SignInContainer"})
+            },
+            (error) => {
+                switch(error.response.data.error){
+                    case "3":
+                        console.log("error 3")
+                        dispatch({type:"setErrorMessage",payload:"Vous n'êtes pas encore inscrit."})
+                        return
+                }
             }
         )
             
@@ -198,14 +211,25 @@ export const AuthProvider: React.FC = ({children}) => {
                 navigation.navigate("TaskNavigation")
                 dispatch({type:"setErrorMessage",payload:""})
                 dispatch({type:"reset",payload:init()})
-            }, () => {
-                passwordAttempt -= 1;
-                if (passwordAttempt > 0) {
-                    dispatch({type: "setPasswordAttempt", payload: passwordAttempt})
-                } else {
-                    dispatch({type: "reset", payload: init()})
-                    navigation.navigate("Auth");
-                }
+                
+            }, (error) => {
+                switch(error.response.data.error){
+                    case "1": //wrong code
+                        console.log("error 1")
+                        dispatch({type:"setErrorMessage",payload:"Vous vous êtes trompé de code. Veuillez réessayer."})
+                        passwordAttempt -= 1;
+                        if (passwordAttempt > 0) {
+                            dispatch({type: "setPasswordAttempt", payload: passwordAttempt})
+                        } else {
+                            dispatch({type: "reset", payload: init()})
+                            navigation.navigate("Auth");
+                        }
+                        break;
+                    case "4": //code to soon
+                        console.log("error 4")
+                        dispatch({type:"setErrorMessage",payload:"Un code vous a déjà été envoyé. Regardez vos mails ou sms."})
+                        break
+                    }
             })
     };
     
