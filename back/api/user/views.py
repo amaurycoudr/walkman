@@ -14,7 +14,7 @@ from rest_framework.exceptions import ParseError, NotAcceptable
 from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
 
-from user.serializer import UserEmailSerializer, UserPhoneSerializer
+from user.serializer import UserSerializer
 from core.models import OneTimePassword, User
 from tasks.twilioApi import twilio_sms_sign
 from tasks.mailSender import sign_mail
@@ -94,15 +94,6 @@ class SignUpView(viewsets.ViewSet):
         handle the user signUp with the methode create
     """
 
-    def get_serializer(self, data=None):
-        count_type = self.request.query_params.get('type')
-        if count_type == 'phone':
-            return UserPhoneSerializer(data=data)
-        elif count_type == 'email':
-            return UserEmailSerializer(data=data)
-        else:
-            raise NotAcceptable("you must provide a type")
-
     @staticmethod
     def list(request):
         user = get_user_model().objects.all().values_list("name", flat=True)
@@ -121,8 +112,9 @@ class SignUpView(viewsets.ViewSet):
         Response
             confirm that the user is signup
         """
-        serializer = self.get_serializer(data=request.data)
-        if serializer.is_valid(False):
+        #serializer = self.get_serializer(data=request.data)
+        serializer=UserSerializer(data=request.data)
+        if serializer.is_valid(True):
             user = serializer.save()
             otp = OneTimePassword.objects.create(user=user)
             otp.save()
