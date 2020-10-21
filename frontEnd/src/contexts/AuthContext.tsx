@@ -1,4 +1,4 @@
-import React, {useReducer, createContext, Reducer, Context} from "react";
+import React, {useReducer, createContext, Reducer} from "react";
 import axios from "axios";
 import {useNavigation} from '@react-navigation/native';
 
@@ -95,7 +95,7 @@ const init = () => {
 const baseUrl = require("../../backend_url.json")["url"] + "/api/users";
 
 
-export const AuthContext = React.createContext<ContextType<StateType> | undefined>(undefined);
+export const AuthContext = createContext<ContextType<StateType> | undefined>(undefined);
 
 export const AuthProvider: React.FC = ({children}) => {
 
@@ -107,7 +107,7 @@ export const AuthProvider: React.FC = ({children}) => {
     const [state, dispatch] = useReducer(reducer, initialState, init);
 
 
-    
+
     const changeMean = (dispatch: React.Dispatch<ActionType>) => (mean: string) => {
         dispatch({type: "setMean", payload: mean})
     }
@@ -116,7 +116,7 @@ export const AuthProvider: React.FC = ({children}) => {
         dispatch({type: "setIdentification", payload: value})
     }
 
-    
+
     const pseudoChange = (dispatch: React.Dispatch<ActionType>) => (value: string) => {
         const error = !pseudoValid(value, pseudos);
         dispatch({type: "setPseudoIsValid", payload: !error});
@@ -137,10 +137,10 @@ export const AuthProvider: React.FC = ({children}) => {
         navigation.navigate("Auth");
     }
 
-    
 
 
-    
+
+
     const signUp = (dispatch: React.Dispatch<ActionType>) => (pseudo: string, mean: string, identification: string) => {
         if (mean === "phone") {
             identification = setFormatPhone(identification);
@@ -168,7 +168,6 @@ export const AuthProvider: React.FC = ({children}) => {
                     dispatch({type:"setLoading",payload:false})
                     switch(error.response.data.error){
                         case "2":
-                            console.log("error 2")
                             dispatch({type:"setErrorMessage",payload:"Il semblerait que votre compte existe déjà. Essayez de vous connecter"})
                             return
                     }
@@ -201,16 +200,19 @@ export const AuthProvider: React.FC = ({children}) => {
                 dispatch({type:"setLoading",payload:false})
                 switch(error.response.data.error){
                     case "3":
-                        console.log("error 3")
                         dispatch({type:"setErrorMessage",payload:"Vous n'êtes pas encore inscrit."})
+                        return
+                    case "4":
+                        const message=`vous pourrez recevoir un code dans ${error.response.data.time}s`
+                        dispatch({type:"setErrorMessage",payload: message})
                         return
                 }
             }
         )
-            
+
 
     };
-    
+
     const signIn = (dispatch: React.Dispatch<ActionType>) => (identification: string, otp: string, mean: string, passwordAttempt: number) => {
         const url = baseUrl + "/signin/?type=" + mean;
         if (mean === "phone") {
@@ -233,13 +235,12 @@ export const AuthProvider: React.FC = ({children}) => {
                 navigation.navigate("TaskNavigation")
                 dispatch({type:"setErrorMessage",payload:""})
                 dispatch({type:"reset",payload:init()})
-                
+
             }, (error) => {
-                console.log(error.response)
                 dispatch({type:"setLoading",payload:false})
                 switch(error.response.data.error){
                     case "1": //wrong code
-                        console.log("error 1")
+
                         dispatch({type:"setErrorMessage",payload:"Vous vous êtes trompé de code. Veuillez réessayer."})
                         passwordAttempt -= 1;
                         if (passwordAttempt > 0) {
@@ -249,14 +250,10 @@ export const AuthProvider: React.FC = ({children}) => {
                             navigation.navigate("Auth");
                         }
                         break;
-                    case "4": //code to soon
-                        console.log("error 4")
-                        dispatch({type:"setErrorMessage",payload:"Un code vous a déjà été envoyé. Regardez vos mails ou sms."})
-                        break
                     }
             })
     };
-    
+
     const authNavigation = (dispatch:React.Dispatch<ActionType>) => (conteneur: "SignUpContainer"|"SignInContainer"|"GetCodeContainer") => {
         dispatch({type:"setErrorMessage",payload:""})
         dispatch({type : "setConteneur",payload:conteneur})
