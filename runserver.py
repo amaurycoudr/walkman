@@ -2,8 +2,8 @@ import os, json, subprocess
 
 # Launch backend server
 #os.system("cd back && docker-compose up")
-subprocess.Popen("cd back && docker-compose up",shell=True)
-print('back launched')
+#subprocess.Popen("cd back && docker-compose up",shell=True)
+#print('back launched')
 
 # Launch ngrox
 #os.system("./ngrok http 8000")

@@ -11,6 +11,9 @@ const globalStyles = StyleSheet.create({
         paddingHorizontal : 10,
         backgroundColor : "blue",
         justifyContent : "center"
+    },
+    margin5 : {
+        margin : 5
     }
 });
 

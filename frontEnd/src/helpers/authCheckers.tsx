@@ -1,5 +1,5 @@
 export const pseudoValid  = (pseudo :string ,pseudos : string[]) : boolean => {
-    return !pseudos.includes(pseudo)
+    return !pseudos.includes(pseudo) && pseudo.length > 0
 };
 
 export const mailCorrect = (mail : string) : boolean => {
