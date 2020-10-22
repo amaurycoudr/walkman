@@ -17,7 +17,7 @@ type StateType = {
     errorMessage: string,
     code : string,
     passwordAttempt : number,
-    conteneur : string,
+    container : "SignUpContainer" | "SignInContainer" | "GetCodeContainer",
     loading : boolean,
 };
 
@@ -46,7 +46,7 @@ type ActionType =
     | { type: 'reset'; payload: StateType }
     | { type: 'setErrorMessage'; payload: string }
     | { type: 'setLoading'; payload: boolean }
-    | { type: 'setConteneur'; payload: string };
+    | { type: 'setConteneur'; payload: "SignUpContainer" | "SignInContainer" | "GetCodeContainer" };
 
 
 const reducer: Reducer<StateType, ActionType> = (state, action) => {
@@ -66,7 +66,7 @@ const reducer: Reducer<StateType, ActionType> = (state, action) => {
         case 'reset':
             return action.payload;
         case 'setConteneur':
-            return {...state, conteneur: action.payload}
+            return {...state, container: action.payload}
         case 'setErrorMessage':
             return {...state, errorMessage: action.payload}
         case 'setLoading':
@@ -83,7 +83,7 @@ const initialState: StateType = {
     errorMessage: "",
     code : "",
     passwordAttempt : 3,
-    conteneur : "SignUpContainer",
+    container : "SignUpContainer",
     loading : false
 
 };
