@@ -8,9 +8,9 @@ import ErrorMessage from "./ErrorMessage";
 
 import {AuthContext} from "../../contexts/AuthContext"
 
-const switchRender = (conteneur:"SignUpContainer"|"SignInContainer"|"GetCodeContainer") => {
+const switchRender = (container:"SignUpContainer"|"SignInContainer"|"GetCodeContainer") => {
     
-    switch(conteneur){
+    switch(container){
         case "SignUpContainer":
             return <SignUpContainer />
         case "GetCodeContainer":
@@ -24,13 +24,13 @@ const switchRender = (conteneur:"SignUpContainer"|"SignInContainer"|"GetCodeCont
 
 export default function AuthContainer() {
 
-    const {conteneur,errorMessage} = useContext(AuthContext);
+    const {container,errorMessage} = useContext(AuthContext)!;
 
     return (
         <View style={styles.root}>
                 <StatusBar />
                 <ErrorMessage errorMessage={errorMessage} />
-                {switchRender(conteneur)}
+                {switchRender(container)}
         </View>
     )
 };
