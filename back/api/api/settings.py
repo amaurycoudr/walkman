@@ -39,8 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'colorfield',
     'core',
-    'user'
+    'user',
+    'tasks'
 ]
 
 MIDDLEWARE = [
@@ -124,6 +126,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+MEDIA_ROOT = '/media/'
+MEDIA_URL = 'http://0.0.0.0:8000/media/' # For development
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
