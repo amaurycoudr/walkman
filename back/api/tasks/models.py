@@ -3,7 +3,7 @@ from colorfield.fields import ColorField
 
 from os.path import splitext
 from datetime import datetime, timedelta
-from PIL import Image
+#from PIL import Image
 
 def saveTaskPhoto(instance,filename):
     taskId = instance.id
@@ -27,7 +27,7 @@ class Task(models.Model):
     categorie = models.ForeignKey(Categorie,on_delete=models.SET_NULL,null=True)
     user = models.ForeignKey('core.User',on_delete=models.CASCADE)
     title = models.CharField(max_length=150)
-    thumbnail = models.ImageField(null=True,blank=True,upload_to=saveTaskPhoto) #to do
+    #thumbnail = models.ImageField(null=True,blank=True,upload_to=saveTaskPhoto) #to do
     description = models.TextField(null=True,blank=True)
     begin = models.DateField(auto_now_add=True)
     repeat = models.IntegerField() # Set when a task is created and will not channge
@@ -36,12 +36,12 @@ class Task(models.Model):
     lastBegin = models.DateTimeField(null=True,blank=True)
     done = models.IntegerField(default=0) # how many time the task has been done
 
-    def save(self, *args, **kwargs):
+    """ def save(self, *args, **kwargs):
         super(Task, self).save(*args, **kwargs)
         image = Image.open(self.thumbnail.path)
         output_size = (50, 50)
         image.thumbnail(output_size)
-        image.save(self.thumbnail.path)
+        image.save(self.thumbnail.path) """
 
     @property
     def points(self):
