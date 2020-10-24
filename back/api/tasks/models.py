@@ -17,10 +17,16 @@ class Difficulty(models.Model):
     label = models.CharField(max_length=30,unique=True)
     points = models.IntegerField(default=0)
 
+    def __str__(self):
+        return self.label
+
 class Categorie(models.Model):
     title = models.CharField(max_length=50,unique=True)
     color = ColorField(default="#FFF")
     icon = models.CharField(max_length=50,blank=True,null=True) #for now it's the icon's name (if we use fontello for example)
+
+    def __str__(self):
+        return self.title
 
 class Task(models.Model):
     difficulty = models.ForeignKey(Difficulty,on_delete=models.SET_NULL,null=True)
@@ -36,10 +42,13 @@ class Task(models.Model):
     lastBegin = models.DateTimeField(null=True,blank=True)
     done = models.IntegerField(default=0) # how many time the task has been done
 
+    class Meta:
+        unique_together = ('title', 'user',)
+
     """ def save(self, *args, **kwargs):
         super(Task, self).save(*args, **kwargs)
         image = Image.open(self.thumbnail.path)
-        output_size = (50, 50)
+        output_size = (50, 50)  
         image.thumbnail(output_size)
         image.save(self.thumbnail.path) """
 
@@ -60,6 +69,8 @@ class Task(models.Model):
     
     @property
     def state(self):
+        if self.lastBegin is None :
+            return "to do"
         today = datetime.now()
         delta = today - self.lastBegin
         if delta.days >= self.frequency :
@@ -69,5 +80,8 @@ class Task(models.Model):
                 return "doing"
             else :
                 return "done"
+    
+    def __str__(self):
+        return f'{self.title} / {self.id}'
 
 
