@@ -1,11 +1,9 @@
 # thib token : adc549e0711ed4eca8adc3a88a59989bbeb4c346
 from datetime import datetime, timedelta
 
-from django.shortcuts import render
-from rest_framework.views import APIView
 from rest_framework import viewsets
 from rest_framework.response import Response
-from rest_framework.exceptions import ParseError, NotAcceptable
+from rest_framework.exceptions import  NotAcceptable
 
 from rest_framework.permissions import IsAuthenticated
 

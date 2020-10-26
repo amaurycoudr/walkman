@@ -126,15 +126,15 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+#USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
 
-MEDIA_ROOT = '/media/'
-MEDIA_URL = 'http://0.0.0.0:8000/media/' # For development
+MEDIA_ROOT = '/vol/web/media'
+MEDIA_URL = '/vol/web/media/' 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
