@@ -12,8 +12,8 @@ class CategorieSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class TaskSerializer(serializers.ModelSerializer):
-    categorie = CategorieSerializer(required=False)
-    difficulty = DifficultySerializer(required=False)
+    categorie = CategorieSerializer()
+    difficulty = DifficultySerializer()
     points = serializers.ReadOnlyField()
     finish = serializers.ReadOnlyField()
     predictedEnd = serializers.ReadOnlyField()
@@ -23,12 +23,11 @@ class TaskSerializer(serializers.ModelSerializer):
         model = Task
         exclude = ['user']
     
+    
     def create(self,validated_data):
-        print("create")
         return Task.objects.create(**validated_data)
     
     def update(self,instance,validated_data):
-        print("update")
         instance.difficulty = validated_data.get('difficulty', instance.difficulty)
         instance.categorie = validated_data.get('categorie', instance.categorie)
         instance.user = validated_data.get('user', instance.user)

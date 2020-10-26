@@ -10,6 +10,9 @@ from rest_framework.permissions import IsAuthenticated
 from .models import Categorie,Difficulty,Task
 from .serializer import TaskSerializer
 
+from django.core.exceptions import ObjectDoesNotExist
+from django.db import IntegrityError
+
 
 class TaskList(viewsets.ViewSet):
     permission_classes = (IsAuthenticated,)
@@ -25,11 +28,25 @@ class CreateTask(viewsets.ViewSet):
 
     def create(self,request):
         user = request.user
-        categorie = Categorie.objects.get(title=request.data.pop("categorie"))
-        difficulty = Difficulty.objects.get(label=request.data.pop("difficulty"))
-        serializer = TaskSerializer(data=request.data)
-        if(serializer.is_valid()):
-            newTask = serializer.save(user=user,difficulty=difficulty,categorie=categorie)
+        try :
+            categorie = Categorie.objects.get(title=request.data.pop("categorie"))#title of categorie
+        except ObjectDoesNotExist :
+            raise NotAcceptable("categorie name doesn't exist")
+        except KeyError :
+            raise NotAcceptable("categorie name not provided")
+
+        try :
+            difficulty = Difficulty.objects.get(label=request.data.pop("difficulty"))#label of difficulty
+        except ObjectDoesNotExist :
+            raise NotAcceptable("Difficulty name doesn't exist")
+        except KeyError :
+            raise NotAcceptable("Difficulty name not provided")
+        serializer = TaskSerializer(data=request.data,partial=True)
+        if(serializer.is_valid() and (categorie is not None) and (difficulty is not None)):
+            try :
+                newTask = serializer.save(user=user,difficulty=difficulty,categorie=categorie)
+            except IntegrityError:
+                raise NotAcceptable("Integrity error")
             return Response({"message":"task succesfully added"})
         else :
             raise NotAcceptable("data not valid")
