@@ -1,6 +1,6 @@
 from django.db import models
 from colorfield.fields import ColorField
-
+from api import settings
 from os.path import splitext
 from datetime import datetime, timedelta
 from PIL import Image
@@ -21,7 +21,7 @@ class Difficulty(models.Model):
     def __str__(self):
         return self.label
 
-class Categorie(models.Model):
+class Category(models.Model):
     title = models.CharField(max_length=50,unique=True)
     color = ColorField(default="#FFF")
     icon = models.CharField(max_length=50,blank=True,null=True) #for now it's the icon's name (if we use fontello for example)
@@ -31,8 +31,8 @@ class Categorie(models.Model):
 
 class Task(models.Model):
     difficulty = models.ForeignKey(Difficulty,on_delete=models.SET_NULL,null=True)
-    categorie = models.ForeignKey(Categorie,on_delete=models.SET_NULL,null=True)
-    user = models.ForeignKey('core.User',on_delete=models.CASCADE)
+    category = models.ForeignKey(Category,on_delete=models.SET_NULL,null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
     title = models.CharField(max_length=150)
     repeat = models.IntegerField() # Set when a task is created and will not channge
     frequency = models.IntegerField() # number of days
