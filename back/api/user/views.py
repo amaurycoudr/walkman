@@ -197,8 +197,10 @@ class SignInView(viewsets.ViewSet):
             otp.save()
             user.is_active = True
             user.save()
-            token = Token.objects.create(user=user)
+            token, created=Token.objects.get_or_create(user=user)
+
             return Response({"Token": token.key})
+
 
         else:
             raise WrongCode()

@@ -4,9 +4,9 @@ import {View,StyleSheet,StatusBar} from "react-native";
 import SignUpContainer from "./SignUpContainer";
 import GetCodeContainer from "./GetCodeContainer";
 import SignInContainer from "./SignInContainer";
-import ErrorMessage from "./ErrorMessage";
+import ErrorMessage from "../components/authScreen/ErrorMessage";
 
-import {AuthContext} from "../../contexts/AuthContext"
+import {AuthContext} from "../contexts/AuthContext"
 
 const switchRender = (container:"SignUpContainer"|"SignInContainer"|"GetCodeContainer") => {
     

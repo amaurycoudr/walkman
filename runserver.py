@@ -20,7 +20,6 @@ with open("frontEnd/backend_url.json",'w') as file :
     file.write(json.dumps({'url' : public_url}))
 
 
-# Launch frontend server (Expo)
-os.system("cd frontEnd && expo start --tunnel")
+
 
 

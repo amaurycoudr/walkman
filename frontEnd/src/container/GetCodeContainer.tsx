@@ -1,18 +1,18 @@
 import React, {useContext,FC} from 'react'
 import { View } from 'react-native'
 
-import Switcher from "./Switcher"
-import PhoneInput from "./PhoneInput"
-import EmailInput from "./EmailInput"
-import AuthNavigation from "./AuthNavigation"
-import AuthButton from "./AuthButton"
+import Switcher from "../components/authScreen/Switcher"
+import PhoneInput from "../components/authScreen/PhoneInput"
+import EmailInput from "../components/authScreen/EmailInput"
+import AuthNavigation from "../components/authScreen/AuthNavigation"
+import AuthButton from "../components/authScreen/AuthButton"
 
-import {AuthContext} from "../../contexts/AuthContext";
+import {AuthContext} from "../contexts/AuthContext";
 
 
 const getCodeContainer:FC = () => {
 
-    const {mean,changeMean,identificationChange,identification,identificationIsValid,authNavigation,getCode,loading} = useContext(AuthContext);
+    const {mean,changeMean,identificationChange,identification,identificationIsValid,authNavigation,getCode,loading} = useContext(AuthContext)!;
 
     return (
         <View>

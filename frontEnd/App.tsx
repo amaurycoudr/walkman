@@ -3,6 +3,7 @@ import React from "react";
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
+import {Provider} from "react-redux";
 
 
 // Screens
@@ -13,6 +14,10 @@ import TaskScreen from "./src/screens/TaskScreen";
 import CreationTaskScreen from "./src/screens/CreationTaskScreen";
 import DashboardScreen from "./src/screens/DashboardScreen";
 import AuthScreen from "./src/screens/AuthScreen";
+
+//Redux
+
+import store from "./store";
 
 
 // Navigation
@@ -31,7 +36,7 @@ const TaskNavigation = () => {
   )
 };
 
-const App = () => {
+const AppNav = () => {
   return (
     <NavigationContainer>
       <TabMain.Navigator initialRouteName= "AuthScreen" >
@@ -45,6 +50,10 @@ const App = () => {
   );
 };
 
+const App=()=>{
+    return(
+    <Provider store={store}><AppNav/></Provider>
+    )}
 
 
 export default App;

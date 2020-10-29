@@ -4,12 +4,15 @@ import {useNavigation} from '@react-navigation/native';
 
 import usePseudo from "../hooks/usePseudo";
 
+import {setToken} from "../../slice/tokenSlice";
+
 
 import {signUpValid, pseudoValid, setFormatPhone, signInValid} from "../helpers/authCheckers";
+import {useDispatch} from "react-redux";
 
 // Typescript
 type StateType = {
-    mean: string,
+    mean: "phone" | "email",
     identification: string,
     pseudo: string,
     pseudoIsValid: boolean,
@@ -21,10 +24,11 @@ type StateType = {
     loading : boolean,
 };
 
+
 type ContextType<T> = {
     [P in keyof T]: T[P];
 } & {
-    changeMean: (mean: string) => void,
+    changeMean: (mean: "phone" | "email") => void,
     identificationChange: (identification: string) => void,
     codeChange: (password: string) => void,
     pseudoChange: (value: string) => void,
@@ -33,11 +37,11 @@ type ContextType<T> = {
     signIn: (identification: string, otp: string, mean: string, passwordAttempt: number) => void,
     reset: () => void,
     errorMessageChange: (errorMessage:string) => void,
-    authNavigation: (conteneur:"SignUpContainer"|"SignInContainer"|"GetCodeContainer") => void,
+    authNavigation: (container:"SignUpContainer"|"SignInContainer"|"GetCodeContainer") => void,
 }
 
 type ActionType =
-    | { type: 'setMean'; payload: string }
+    | { type: 'setMean'; payload: "phone" | "email" }
     | { type: 'setIdentification'; payload: string }
     | { type: 'setPseudo'; payload: string }
     | { type: 'setPseudoIsValid'; payload: boolean }
@@ -46,8 +50,22 @@ type ActionType =
     | { type: 'reset'; payload: StateType }
     | { type: 'setErrorMessage'; payload: string }
     | { type: 'setLoading'; payload: boolean }
-    | { type: 'setConteneur'; payload: "SignUpContainer" | "SignInContainer" | "GetCodeContainer" };
+    | { type: 'setContainer'; payload: "SignUpContainer" | "SignInContainer" | "GetCodeContainer" };
 
+
+const initialState: StateType = {
+    mean: "phone",
+    identification: "",
+    pseudo: "",
+    pseudoIsValid: true,
+    identificationIsValid: true,
+    errorMessage: "",
+    code : "",
+    passwordAttempt : 3,
+    container : "SignUpContainer",
+    loading : false
+
+};
 
 const reducer: Reducer<StateType, ActionType> = (state, action) => {
     switch (action.type) {
@@ -65,7 +83,7 @@ const reducer: Reducer<StateType, ActionType> = (state, action) => {
             return {...state, passwordAttempt: action.payload}
         case 'reset':
             return action.payload;
-        case 'setConteneur':
+        case 'setContainer':
             return {...state, container: action.payload}
         case 'setErrorMessage':
             return {...state, errorMessage: action.payload}
@@ -74,19 +92,6 @@ const reducer: Reducer<StateType, ActionType> = (state, action) => {
     }
 };
 
-const initialState: StateType = {
-    mean: "phone",
-    identification: "",
-    pseudo: "",
-    pseudoIsValid: true,
-    identificationIsValid: true,
-    errorMessage: "",
-    code : "",
-    passwordAttempt : 3,
-    container : "SignUpContainer",
-    loading : false
-
-};
 const init = () => {
 
     return initialState;
@@ -99,7 +104,6 @@ export const AuthContext = createContext<ContextType<StateType> | undefined>(und
 
 export const AuthProvider: React.FC = ({children}) => {
 
-
     const navigation = useNavigation();
 
     const pseudos = usePseudo();
@@ -108,7 +112,7 @@ export const AuthProvider: React.FC = ({children}) => {
 
 
 
-    const changeMean = (dispatch: React.Dispatch<ActionType>) => (mean: string) => {
+    const changeMean = (dispatch: React.Dispatch<ActionType>) => (mean: "phone" | "email") => {
         dispatch({type: "setMean", payload: mean})
     }
 
@@ -116,14 +120,12 @@ export const AuthProvider: React.FC = ({children}) => {
         dispatch({type: "setIdentification", payload: value})
     }
 
-
     const pseudoChange = (dispatch: React.Dispatch<ActionType>) => (value: string) => {
         const error = !pseudoValid(value, pseudos);
         dispatch({type: "setPseudoIsValid", payload: !error});
         dispatch({type: "setPseudo", payload: value});
 
     }
-
     const errorMessageChange = (dispatch:React.Dispatch<ActionType>) => (errorMessage : string) => {
         dispatch({type:"setErrorMessage",payload: errorMessage});
     }
@@ -161,7 +163,7 @@ export const AuthProvider: React.FC = ({children}) => {
             .then(
                 (result) => {
                     dispatch({type:"setLoading",payload:false})
-                    dispatch({type:"setConteneur",payload:"SignInContainer"})
+                    dispatch({type:"setContainer",payload:"SignInContainer"})
                     dispatch({type:"setErrorMessage",payload:""})
                 },
                 (error) => {
@@ -194,7 +196,7 @@ export const AuthProvider: React.FC = ({children}) => {
             (result) => {
                 dispatch({type:"setLoading",payload:false})
                 dispatch({type:"setErrorMessage",payload:""})
-                dispatch({type:"setConteneur",payload:"SignInContainer"})
+                dispatch({type:"setContainer",payload:"SignInContainer"})
             },
             (error) => {
                 dispatch({type:"setLoading",payload:false})
@@ -232,6 +234,7 @@ export const AuthProvider: React.FC = ({children}) => {
             .then(response => {
                 dispatch({type:"setLoading",payload:false})
                 console.log(response.data.Token) // To Do : store this token in redux
+
                 navigation.navigate("TaskNavigation")
                 dispatch({type:"setErrorMessage",payload:""})
                 dispatch({type:"reset",payload:init()})
@@ -254,9 +257,9 @@ export const AuthProvider: React.FC = ({children}) => {
             })
     };
 
-    const authNavigation = (dispatch:React.Dispatch<ActionType>) => (conteneur: "SignUpContainer"|"SignInContainer"|"GetCodeContainer") => {
+    const authNavigation = (dispatch:React.Dispatch<ActionType>) => (container: "SignUpContainer"|"SignInContainer"|"GetCodeContainer") => {
         dispatch({type:"setErrorMessage",payload:""})
-        dispatch({type : "setConteneur",payload:conteneur})
+        dispatch({type : "setContainer",payload:container})
     }
 
 
