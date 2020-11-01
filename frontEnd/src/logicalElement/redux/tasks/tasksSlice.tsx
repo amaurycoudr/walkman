@@ -1,6 +1,6 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {FAILED, INITIAL, LOADING, SUCCEEDED} from "../../../helpers/api";
-import {RootState, storeState} from "../../store";
+import {RootState} from "../../store";
 import {TASKS_FILTER_STATE} from "./tasksConst";
 import {fetchTasks} from "./tasksAsyncThunk";
 import {tasksState} from "./tasksType";
