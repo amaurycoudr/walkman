@@ -1,7 +1,7 @@
 import React, {useContext,FC} from 'react'
 import { View, Text } from 'react-native'
 
-import {AuthContext} from "../contexts/AuthContext";
+import {AuthContext} from "../../logicalElement/contexts/AuthContext";
 
 import PseudoInput from "../components/authScreen/PseudoInput"
 import Switcher from "../components/authScreen/Switcher"
@@ -32,8 +32,8 @@ const SignUpContainer:FC = () => {
 
             <AuthButton text="S'inscrire" changer={signUp} args={[pseudo,mean,identification]} loading={loading} />
 
-            <AuthNavigation message="Déjà un compte ? " linkName="Recevoir mon code" changeConteneur={authNavigation} conteneur="GetCodeContainer" />
-            <AuthNavigation message="Déjà reçu un code ? " linkName="Se connecter" changeConteneur={authNavigation} conteneur="SignInContainer" />
+            <AuthNavigation message="Déjà un compte ? " linkName="Recevoir mon code" changeContainer={authNavigation} container="GetCodeContainer" />
+            <AuthNavigation message="Déjà reçu un code ? " linkName="Se connecter" changeContainer={authNavigation} container="SignInContainer" />
 
         </View>
     )

@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
             new_name='Category',
         ),
         migrations.RenameField(
-            model_name='task',
+            model_name='tasks',
             old_name='categorie',
             new_name='category',
         ),

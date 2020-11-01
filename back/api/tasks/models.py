@@ -34,14 +34,14 @@ class Task(models.Model):
     category = models.ForeignKey(Category,on_delete=models.SET_NULL,null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
     title = models.CharField(max_length=150)
-    repeat = models.IntegerField() # Set when a task is created and will not channge
+    repeat = models.IntegerField() # Set when a tasks is created and will not channge
     frequency = models.IntegerField() # number of days
     duration = models.IntegerField() # number of minutes
     thumbnail = models.ImageField(null=True,blank=True,upload_to=saveTaskPhoto) 
     description = models.TextField(null=True,blank=True)
     begin = models.DateField(auto_now_add=True)
     lastBegin = models.DateTimeField(null=True,blank=True)
-    done = models.IntegerField(default=0) # how many time the task has been done
+    done = models.IntegerField(default=0) # how many time the tasks has been done
 
     class Meta:
         unique_together = ('title', 'user',)

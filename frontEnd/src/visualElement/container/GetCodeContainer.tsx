@@ -7,7 +7,7 @@ import EmailInput from "../components/authScreen/EmailInput"
 import AuthNavigation from "../components/authScreen/AuthNavigation"
 import AuthButton from "../components/authScreen/AuthButton"
 
-import {AuthContext} from "../contexts/AuthContext";
+import {AuthContext} from "../../logicalElement/contexts/AuthContext";
 
 
 const getCodeContainer:FC = () => {
@@ -19,7 +19,7 @@ const getCodeContainer:FC = () => {
             <Switcher mean={mean} changeMean={changeMean} />
             {mean==="phone" ? <PhoneInput identificationChange={identificationChange} identification={identification} identificationIsValid={identificationIsValid} /> : <EmailInput identificationChange={identificationChange} identification={identification} identificationIsValid={identificationIsValid} />}
             <AuthButton text="Recevoir mon code" changer={getCode} args={[mean,identification]} loading={loading} />
-            <AuthNavigation message="Pas encore de compte ? " linkName="S'inscrire" conteneur="SignUpContainer" changeConteneur={authNavigation}/>
+            <AuthNavigation message="Pas encore de compte ? " linkName="S'inscrire" container="SignUpContainer" changeContainer={authNavigation}/>
         </View>
     )
 }

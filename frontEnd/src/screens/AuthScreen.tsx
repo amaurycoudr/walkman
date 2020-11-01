@@ -1,10 +1,10 @@
 import React, {useState,useContext} from "react";
 
 // components
-import AuthContainer from "../container/AuthContainer";
+import AuthContainer from "../visualElement/container/AuthContainer";
 
 //context
-import {AuthProvider} from "../contexts/AuthContext";
+import {AuthProvider} from "../logicalElement/contexts/AuthContext";
 
 
 const AuthScreen = () => {

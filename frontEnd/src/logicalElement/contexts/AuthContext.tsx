@@ -4,11 +4,12 @@ import {useNavigation} from '@react-navigation/native';
 
 import usePseudo from "../hooks/usePseudo";
 
-import {setToken} from "../../slice/tokenSlice";
+import {setToken} from "../redux/token/tokenSlice";
 
 
-import {signUpValid, pseudoValid, setFormatPhone, signInValid} from "../helpers/authCheckers";
+import {signUpValid, pseudoValid, setFormatPhone, signInValid} from "../../helpers/authCheckers";
 import {useDispatch} from "react-redux";
+import {BASE_URL} from "../../helpers/api";
 
 // Typescript
 type StateType = {
@@ -18,10 +19,10 @@ type StateType = {
     pseudoIsValid: boolean,
     identificationIsValid: boolean,
     errorMessage: string,
-    code : string,
-    passwordAttempt : number,
-    container : "SignUpContainer" | "SignInContainer" | "GetCodeContainer",
-    loading : boolean,
+    code: string,
+    passwordAttempt: number,
+    container: "SignUpContainer" | "SignInContainer" | "GetCodeContainer",
+    loading: boolean,
 };
 
 
@@ -36,8 +37,8 @@ type ContextType<T> = {
     getCode: (mean: string, identification: string) => void,
     signIn: (identification: string, otp: string, mean: string, passwordAttempt: number) => void,
     reset: () => void,
-    errorMessageChange: (errorMessage:string) => void,
-    authNavigation: (container:"SignUpContainer"|"SignInContainer"|"GetCodeContainer") => void,
+    errorMessageChange: (errorMessage: string) => void,
+    authNavigation: (container: "SignUpContainer" | "SignInContainer" | "GetCodeContainer") => void,
 }
 
 type ActionType =
@@ -60,10 +61,10 @@ const initialState: StateType = {
     pseudoIsValid: true,
     identificationIsValid: true,
     errorMessage: "",
-    code : "",
-    passwordAttempt : 3,
-    container : "SignUpContainer",
-    loading : false
+    code: "",
+    passwordAttempt: 3,
+    container: "SignUpContainer",
+    loading: false
 
 };
 
@@ -97,7 +98,7 @@ const init = () => {
     return initialState;
 }
 
-const baseUrl = require("../../backend_url.json")["url"] + "/api/users";
+const user_url = BASE_URL + 'users'
 
 
 export const AuthContext = createContext<ContextType<StateType> | undefined>(undefined);
@@ -108,8 +109,9 @@ export const AuthProvider: React.FC = ({children}) => {
 
     const pseudos = usePseudo();
 
-    const [state, dispatch] = useReducer(reducer, initialState, init);
+    const dispatchRedux = useDispatch()
 
+    const [state, dispatch] = useReducer(reducer, initialState, init);
 
 
     const changeMean = (dispatch: React.Dispatch<ActionType>) => (mean: "phone" | "email") => {
@@ -126,8 +128,8 @@ export const AuthProvider: React.FC = ({children}) => {
         dispatch({type: "setPseudo", payload: value});
 
     }
-    const errorMessageChange = (dispatch:React.Dispatch<ActionType>) => (errorMessage : string) => {
-        dispatch({type:"setErrorMessage",payload: errorMessage});
+    const errorMessageChange = (dispatch: React.Dispatch<ActionType>) => (errorMessage: string) => {
+        dispatch({type: "setErrorMessage", payload: errorMessage});
     }
 
     const codeChange = (dispatch: React.Dispatch<ActionType>) => (value: string) => {
@@ -140,37 +142,37 @@ export const AuthProvider: React.FC = ({children}) => {
     }
 
 
-
-
-
     const signUp = (dispatch: React.Dispatch<ActionType>) => (pseudo: string, mean: string, identification: string) => {
         if (mean === "phone") {
             identification = setFormatPhone(identification);
             dispatch({type: "setIdentification", payload: identification})
         }
         if (!signUpValid(identification, pseudo, pseudos)) {
-            dispatch({type:"setErrorMessage",payload:"Veuillez rentrer un pseudo et/ou un identifiant correct"})
+            dispatch({type: "setErrorMessage", payload: "Veuillez rentrer un pseudo et/ou un identifiant correct"})
             return
         }
-        const url = baseUrl + "/signup/?type=" + mean
+        const url = user_url + "/signup/?type=" + mean
         let data = {
             [mean]: identification,
             name: pseudo
         }
 
-        dispatch({type:"setLoading",payload:true})
+        dispatch({type: "setLoading", payload: true})
         axios.post(url, data)
             .then(
                 (result) => {
-                    dispatch({type:"setLoading",payload:false})
-                    dispatch({type:"setContainer",payload:"SignInContainer"})
-                    dispatch({type:"setErrorMessage",payload:""})
+                    dispatch({type: "setLoading", payload: false})
+                    dispatch({type: "setContainer", payload: "SignInContainer"})
+                    dispatch({type: "setErrorMessage", payload: ""})
                 },
                 (error) => {
-                    dispatch({type:"setLoading",payload:false})
-                    switch(error.response.data.error){
+                    dispatch({type: "setLoading", payload: false})
+                    switch (error.response.data.error) {
                         case "2":
-                            dispatch({type:"setErrorMessage",payload:"Il semblerait que votre compte existe déjà. Essayez de vous connecter"})
+                            dispatch({
+                                type: "setErrorMessage",
+                                payload: "Il semblerait que votre compte existe déjà. Essayez de vous connecter"
+                            })
                             return
                     }
                 })
@@ -183,68 +185,68 @@ export const AuthProvider: React.FC = ({children}) => {
             dispatch({type: "setIdentification", payload: identification})
         }
         if (!signInValid(identification)) {
-            dispatch({type:"setErrorMessage",payload:"Il semblerait que vous ayez déjà reçu un code de connexion."})
+            dispatch({type: "setErrorMessage", payload: "Il semblerait que vous ayez déjà reçu un code de connexion."})
             return
         }
-        const url = baseUrl + "/getcode/?type=" + mean
+        const url = user_url + "/getcode/?type=" + mean
 
-        dispatch({type:"setLoading",payload:true})
-        axios.post(url,{
-            [mean] : identification
+        dispatch({type: "setLoading", payload: true})
+        axios.post(url, {
+            [mean]: identification
         })
-        .then(
-            (result) => {
-                dispatch({type:"setLoading",payload:false})
-                dispatch({type:"setErrorMessage",payload:""})
-                dispatch({type:"setContainer",payload:"SignInContainer"})
-            },
-            (error) => {
-                dispatch({type:"setLoading",payload:false})
-                switch(error.response.data.error){
-                    case "3":
-                        dispatch({type:"setErrorMessage",payload:"Vous n'êtes pas encore inscrit."})
-                        return
-                    case "4":
-                        const message=`vous pourrez recevoir un code dans ${error.response.data.time}s`
-                        dispatch({type:"setErrorMessage",payload: message})
-                        return
+            .then(
+                (result) => {
+                    dispatch({type: "setLoading", payload: false})
+                    dispatch({type: "setErrorMessage", payload: ""})
+                    dispatch({type: "setContainer", payload: "SignInContainer"})
+                },
+                (error) => {
+                    dispatch({type: "setLoading", payload: false})
+                    switch (error.response.data.error) {
+                        case "3":
+                            dispatch({type: "setErrorMessage", payload: "Vous n'êtes pas encore inscrit."})
+                            return
+                        case "4":
+                            const message = `vous pourrez recevoir un code dans ${error.response.data.time}s`
+                            dispatch({type: "setErrorMessage", payload: message})
+                            return
+                    }
                 }
-            }
-        )
-
+            )
 
     };
 
     const signIn = (dispatch: React.Dispatch<ActionType>) => (identification: string, otp: string, mean: string, passwordAttempt: number) => {
-        const url = baseUrl + "/signin/?type=" + mean;
+        const url = user_url + "/signin/?type=" + mean;
         if (mean === "phone") {
             identification = setFormatPhone(identification);
             dispatch({type: "setIdentification", payload: identification})
         }
         if (!signInValid(identification)) {
-            dispatch({type:"setErrorMessage",payload:"Il semblerait que vous ayez déjà reçu un code de connexion."})
+            dispatch({type: "setErrorMessage", payload: "Il semblerait que vous ayez déjà reçu un code de connexion."})
             return
         }
         let data = {
             [mean]: identification,
             otp: parseInt(otp)
         }
-        dispatch({type:"setLoading",payload:true})
+        dispatch({type: "setLoading", payload: true})
         axios.post(url, data)
             .then(response => {
-                dispatch({type:"setLoading",payload:false})
-                console.log(response.data.Token) // To Do : store this token in redux
-
-                navigation.navigate("TaskNavigation")
-                dispatch({type:"setErrorMessage",payload:""})
-                dispatch({type:"reset",payload:init()})
+                dispatch({type: "setLoading", payload: false})
+                dispatch({type: "reset", payload: init()})
+                dispatch({type: "setErrorMessage", payload: ""})
+                dispatchRedux(setToken(response.data.Token))
 
             }, (error) => {
-                dispatch({type:"setLoading",payload:false})
-                switch(error.response.data.error){
+                dispatch({type: "setLoading", payload: false})
+                switch (error.response.data.error) {
                     case "1": //wrong code
 
-                        dispatch({type:"setErrorMessage",payload:"Vous vous êtes trompé de code. Veuillez réessayer."})
+                        dispatch({
+                            type: "setErrorMessage",
+                            payload: "Vous vous êtes trompé de code. Veuillez réessayer."
+                        })
                         passwordAttempt -= 1;
                         if (passwordAttempt > 0) {
                             dispatch({type: "setPasswordAttempt", payload: passwordAttempt})
@@ -253,13 +255,13 @@ export const AuthProvider: React.FC = ({children}) => {
                             navigation.navigate("Auth");
                         }
                         break;
-                    }
+                }
             })
     };
 
-    const authNavigation = (dispatch:React.Dispatch<ActionType>) => (container: "SignUpContainer"|"SignInContainer"|"GetCodeContainer") => {
-        dispatch({type:"setErrorMessage",payload:""})
-        dispatch({type : "setContainer",payload:container})
+    const authNavigation = (dispatch: React.Dispatch<ActionType>) => (container: "SignUpContainer" | "SignInContainer" | "GetCodeContainer") => {
+        dispatch({type: "setErrorMessage", payload: ""})
+        dispatch({type: "setContainer", payload: container})
     }
 
 
