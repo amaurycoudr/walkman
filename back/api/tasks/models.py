@@ -12,8 +12,6 @@ def saveTaskPhoto(instance,filename):
     return f'tasks/task_{taskId}{ext}'
     
 
-
-
 class Difficulty(models.Model):
     label = models.CharField(max_length=30,unique=True)
     points = models.IntegerField(default=0)
@@ -36,7 +34,7 @@ class Task(models.Model):
     title = models.CharField(max_length=150)
     repeat = models.IntegerField() # Set when a tasks is created and will not channge
     frequency = models.IntegerField() # number of days
-    duration = models.IntegerField() # number of minutes
+    duration = models.IntegerField(null=True,blank=True) # number of minutes
     thumbnail = models.ImageField(null=True,blank=True,upload_to=saveTaskPhoto) 
     description = models.TextField(null=True,blank=True)
     begin = models.DateField(auto_now_add=True)
@@ -73,12 +71,12 @@ class Task(models.Model):
     def state(self):
         if self.lastBegin is None :
             return "to do"
-        today = datetime.now()
-        delta = today - self.lastBegin
+        now = datetime.now()
+        delta = now - self.lastBegin
         if delta.days >= self.frequency :
             return "to do"
         else :
-            if self.lastBegin + timedelta(minutes=self.duration) > today :
+            if self.duration and self.lastBegin + timedelta(minutes=self.duration) > now :
                 return "doing"
             else :
                 return "done"

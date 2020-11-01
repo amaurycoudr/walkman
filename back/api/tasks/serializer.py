@@ -29,6 +29,6 @@ class TaskSerializer(serializers.ModelSerializer):
         fields = ('id', 'difficulty', 'category',
                   'title', 'repeat', 'frequency', 'duration',
                   'thumbnail', 'description', 'begin',
-                  'lastBegin', 'done',)
+                  'lastBegin', 'done','state',)
 
 
