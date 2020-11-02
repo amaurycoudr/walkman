@@ -16,8 +16,8 @@ from rest_framework.authtoken.models import Token
 
 from user.serializer import UserEmailSerializer, UserPhoneSerializer
 from core.models import OneTimePassword, User
-from tasks.twilioApi import twilio_sms_sign
-from tasks.mailSender import sign_mail
+from workers.twilioApi import twilio_sms_sign
+from workers.mailSender import sign_mail
 from user.exception import WrongCode, NotFound, AlreadyUsed, ToSoon
 
 
