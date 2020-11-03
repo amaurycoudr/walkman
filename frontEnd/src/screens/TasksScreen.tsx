@@ -15,8 +15,8 @@ import { changeFilter, initEditTask, editTask } from "../logicalElement/redux/ta
 
 import { TASKS_FILTER_CATEGORY, TASKS_FILTER_STATE } from "../logicalElement/redux/tasks/tasksConst";
 
-// Components
-import EditableSlider from "../visualElement/components/tasks/EditableSlider";
+
+
 
 
 // Container
@@ -82,15 +82,6 @@ const TasksScreen = () => {
             <Text>LIST TASK</Text>
             <FlatList data={taskValues} keyExtractor={(item, index) => item.title.toString()} renderItem={value =>
                 <Text>{value.item.title}</Text>} />
-
-            <EditableSlider
-                isEditable={false}
-                initialValue={2}
-                min={0}
-                max={10}
-                field="nothing"
-                isEdited={(value) => { console.log(`ended in ${value}`) }}
-            />
 
         </View>
     );
