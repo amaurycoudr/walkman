@@ -15,6 +15,7 @@ def saveTaskPhoto(instance,filename):
 class Difficulty(models.Model):
     label = models.CharField(max_length=30,unique=True)
     points = models.IntegerField(default=0)
+    icon = models.CharField(max_length=50,blank=True,null=True)
 
     def __str__(self):
         return self.label
