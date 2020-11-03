@@ -1,37 +1,45 @@
 import React, {useEffect} from "react";
-import {View, Text, Button} from "react-native";
+import {View, Text, Button, ScrollView, FlatList} from "react-native";
 import {useDispatch, useSelector} from "react-redux";
 import {tasksSelector} from "../logicalElement/redux/tasks/tasksSlice";
 import {selectToken} from "../logicalElement/redux/token/tokenSlice";
-import {fetchTasks} from "../logicalElement/redux/tasks/tasksAsyncThunk";
+import {
+    createTask,
+    fetchCategories,
+    fetchDifficulties,
+    fetchTasks,
+    updateTask
+} from "../logicalElement/redux/tasks/tasksAsyncThunk";
 import {INITIAL} from "../helpers/api";
-import {changeFilter} from "../logicalElement/redux/tasks/tasksSlice";
+import {changeFilter, initEditTask, editTask} from "../logicalElement/redux/tasks/tasksSlice";
 
 import {TASKS_FILTER_CATEGORY, TASKS_FILTER_STATE} from "../logicalElement/redux/tasks/tasksConst";
 
 
-const TasksScreen = ({navigation}) => {
+const TasksScreen = () => {
 
     const dispatch = useDispatch()
 
-    const tasks = useSelector(tasksSelector)
+    const tasksState = useSelector(tasksSelector)
     const token = useSelector(selectToken)!
+    const taskValues =Object.values(tasksState.tasksDict)
+        useEffect(() => {
+            if (tasksState.status == INITIAL) {
+                dispatch(fetchTasks(token))
+                dispatch(fetchDifficulties())
+                dispatch(fetchCategories())
+                //ICI JE CHOISI LE ID DE LA TACHE QUI VA ETRE EDITE
+                dispatch(initEditTask(1))
 
-    useEffect(() => {
-        if (tasks.status == INITIAL) {
-            dispatch(fetchTasks(token))
-    }
-  }, [tasks.status, dispatch])
 
-
+            }
+        }, [tasksState.status, dispatch])
     return (
         <View>
-            <Text>Tasks Screen </Text>
-            <Text>Liste des taches</Text>
-            <Button
-                title="Go to Task"
-                onPress={() => navigation.navigate("TaskNavigation", {screen: "Task"})}
-            />
+            <Text>Example for the redux actions </Text>
+
+            <Text>{tasksState.filter.toUpperCase()}</Text>
+
             <Button
                 title="state filter"
                 onPress={() => dispatch(changeFilter(TASKS_FILTER_STATE))}
@@ -40,11 +48,34 @@ const TasksScreen = ({navigation}) => {
                 title="category filter"
                 onPress={() => dispatch(changeFilter(TASKS_FILTER_CATEGORY))}
             />
+            <Text>EDIT TASK/UPDATE TASK {tasksState.edit.title}</Text>
             <Button
-                title="Go to TaskCreation"
-                onPress={() => navigation.navigate("TaskNavigation", {screen: "CreationTask"})}
+                title="choix 1"
+                onPress={() => dispatch(editTask({title: "titre 1"}))}
             />
-
+            <Button
+                title="choix 2"
+                onPress={() => dispatch(editTask({title: "titre 2"}))}
+            />
+            <Button
+                title="update task"
+                onPress={() => dispatch(updateTask(token))}
+            />
+            <Text>CREATE TASK</Text>
+            <Button
+                title="create task"
+                onPress={() => dispatch(createTask({
+                    description: `description plu s ${Math.random() * 100}`,
+                    title: `le titre au hasard ${Math.random() * 100}`,
+                    category: 1,
+                    difficulty: 1,
+                    repeat: 100,
+                    frequency: 13
+                }))}
+            />
+            <Text>LIST TASK</Text>
+            <FlatList data={taskValues} keyExtractor={(item, index) => item.title.toString()} renderItem={value =>
+                <Text>{value.item.title}</Text>}/>
         </View>
     );
 };
