@@ -1,6 +1,6 @@
 import {TASKS_FILTER_CATEGORY, TASKS_FILTER_STATE,} from "./tasksConst";
 
-export type taskType = {
+export interface taskTypeApiResult {
     description?: string,
     title: string,
     begin: string,
@@ -14,16 +14,44 @@ export type taskType = {
     repeat: number,
     thumbnail: string | null,
 }
+export interface taskType {
+    title: string,
+    category: number,
+    difficulty: number,
+    repeat: number,
+    frequency: number,
+    begin?: string|null,
+    duration?: number|null,
+    done?: string|null,
+    description?: string|null,
+    lastBegin?: string | null,
+    thumbnail?: string | null,
+}
+
+export interface editTaskType {
+    description?: string,
+    title?: string,
+    begin?: string,
+    category?: number,
+    difficulty?: number,
+    done?: string,
+    duration?: number,
+    frequency?: number,
+    lastBegin?: string | null,
+    repeat?: number,
+    thumbnail?: string | null,
+}
 
 export type difficulty = {
     label: string,
     point: number
 }
 
-export type categories = {
+export type category = {
     title: string,
     color: string,
     icon: string,
+    id: number,
 }
 
 export type statesTask = {
@@ -31,14 +59,21 @@ export type statesTask = {
 }
 
 
-export type filterType= typeof TASKS_FILTER_CATEGORY | typeof TASKS_FILTER_STATE
+export type filterType = typeof TASKS_FILTER_CATEGORY | typeof TASKS_FILTER_STATE
+export interface  tasksDictType{
+    [id:string]:taskType,
 
+
+}
 export type tasksState = {
     statesTask: statesTask[]
-    tasksList: taskType[],
+    tasksDict: tasksDictType,
     difficulties: difficulty[],
-    categories: categories[],
-    status: string,
+    categories: category[],
     filter: filterType,
+    status: string,
+    taskFocus: null | number,
+    taskEdit: null | number,
+    edit: editTaskType,
 }
 
