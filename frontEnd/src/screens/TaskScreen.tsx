@@ -1,12 +1,13 @@
 import React from "react";
 import { View, Text } from "react-native";
-import IconActionLess from "../visualElement/components/tasks/IconActionLess"
+
+// Container
+import TaskThumbnail from "../visualElement/container/tasks/TaskThumbnail";
 
 const TaskScreen = () => {
     return (
         <View>
-            <Text>Task Screen </Text>
-            <IconActionLess />
+            <TaskThumbnail />
         </View>
     );
 };
