@@ -16,7 +16,8 @@ import { changeFilter, initEditTask, editTask } from "../logicalElement/redux/ta
 import { TASKS_FILTER_CATEGORY, TASKS_FILTER_STATE } from "../logicalElement/redux/tasks/tasksConst";
 
 
-
+// Components
+import ProgressBar from "../visualElement/components/tasks/ProgressBar";
 
 
 // Container
@@ -27,8 +28,11 @@ const TasksScreen = () => {
     const dispatch = useDispatch()
 
     const tasksState = useSelector(tasksSelector)
+    console.log(`keys ${Object.keys(tasksState.tasksDict)}`)
     const token = useSelector(selectToken)!
     const taskValues = Object.values(tasksState.tasksDict)
+    console.log(`taskValues ${taskValues}`)
+    console.log(`token ${token}`)
     useEffect(() => {
         if (tasksState.status == INITIAL) {
             dispatch(fetchTasks(token))
@@ -82,6 +86,23 @@ const TasksScreen = () => {
             <Text>LIST TASK</Text>
             <FlatList data={taskValues} keyExtractor={(item, index) => item.title.toString()} renderItem={value =>
                 <Text>{value.item.title}</Text>} />
+            {/* <FlatList 
+                data={taskValues}
+                keyExtractor={(item) => item.title.toString()}
+                renderItem={({item}) => {
+                    return(
+                        <TaskThumbnail 
+                        task={item}
+                        />
+                    )
+                }}
+            /> */}
+
+            <Text>TASK THUMBNAIL</Text>
+            <TaskThumbnail
+                task={taskValues[0]}
+            />
+
 
         </View>
     );
