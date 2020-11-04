@@ -5,8 +5,8 @@ interface Props {
     fullWidth: number,
     progressWidth: number,
     height: number,
-    colorCompleted: string,
-    backgroundColor: string,
+    colorCompleted?: string,
+    backgroundColor?: string,
     style?: StyleProp<ViewStyle | TextStyle>
 }
 
@@ -41,5 +41,10 @@ const ProgressBar: FC<Props> = ({ fullWidth, progressWidth, height, colorComplet
         </View>
     )
 };
+
+ProgressBar.defaultProps = {
+    colorCompleted: "#1060A5",
+    backgroundColor: "#B0B0B0"
+}
 
 export default ProgressBar;

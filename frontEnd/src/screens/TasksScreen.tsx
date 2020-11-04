@@ -28,18 +28,15 @@ const TasksScreen = () => {
     const dispatch = useDispatch()
 
     const tasksState = useSelector(tasksSelector)
-    console.log(`keys ${Object.keys(tasksState.tasksDict)}`)
     const token = useSelector(selectToken)!
     const taskValues = Object.values(tasksState.tasksDict)
-    console.log(`taskValues ${taskValues}`)
-    console.log(`token ${token}`)
     useEffect(() => {
         if (tasksState.status == INITIAL) {
             dispatch(fetchTasks(token))
             dispatch(fetchDifficulties())
             dispatch(fetchCategories())
             //ICI JE CHOISI LE ID DE LA TACHE QUI VA ETRE EDITE
-            dispatch(initEditTask(1))
+            dispatch(initEditTask(-1))
 
 
         }
@@ -83,27 +80,22 @@ const TasksScreen = () => {
                     frequency: 13
                 }))}
             />
-            <Text>LIST TASK</Text>
-            <FlatList data={taskValues} keyExtractor={(item, index) => item.title.toString()} renderItem={value =>
-                <Text>{value.item.title}</Text>} />
-            {/* <FlatList 
+
+
+            <Text>TASK THUMBNAIL</Text>
+            <FlatList
                 data={taskValues}
                 keyExtractor={(item) => item.title.toString()}
-                renderItem={({item}) => {
-                    return(
-                        <TaskThumbnail 
-                        task={item}
+                renderItem={({ item, index }) => {
+                    return (
+                        <TaskThumbnail
+                            task={item}
+                            isEditable={tasksState.taskEdit === index}
+                            initEdit={() => dispatch(initEditTask(index))}
                         />
                     )
                 }}
-            /> */}
-
-            <Text>TASK THUMBNAIL</Text>
-            <TaskThumbnail
-                task={taskValues[0]}
             />
-
-
         </View>
     );
 };

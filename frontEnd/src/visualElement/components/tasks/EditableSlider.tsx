@@ -1,32 +1,31 @@
-import React, { FC, useState } from 'react'
-import { View, Text, StyleProp, ViewStyle, TextStyle } from 'react-native'
+import React, { FC } from 'react'
+import { View, StyleProp, ViewStyle, TextStyle } from 'react-native'
 
 import Slider from '@react-native-community/slider';
 
 interface Props {
-    isEditable : boolean,
-    initialValue: number,
+    isEditable: boolean,
+    value: number,
+    setValue: Function,
     field: string,
     isEdited: Function,
     min: number,
     max: number,
     step?: number,
-    style?: StyleProp<ViewStyle|TextStyle>
+    style?: StyleProp<ViewStyle | TextStyle>
 }
 
-const EditableSlider: FC<Props> = ({ isEditable, initialValue, field, isEdited, min, max, step, style }) => {
+const EditableSlider: FC<Props> = ({ isEditable, value, setValue, field, isEdited, min, max, step, style }) => {
 
-    const [value, setValue] = useState<number>(initialValue);
 
 
     return (
         <View>
-            <Text>{value}</Text>
             <Slider
                 disabled={!isEditable}
                 value={value}
                 onValueChange={val => setValue(val)}
-                onSlidingComplete={newValue => isEdited({[field] : newValue})}
+                onSlidingComplete={newValue => isEdited({ [field]: newValue })}
                 minimumValue={min}
                 maximumValue={max}
                 step={step}

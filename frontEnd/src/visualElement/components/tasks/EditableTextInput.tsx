@@ -5,16 +5,17 @@ interface Props {
     field : "title" | "description",
     initialValue: string,
     isEdited: Function,
+    isEditable: boolean,
     styleText?: StyleProp<TextStyle>,
     styleInput?: StyleProp<TextStyle | ViewStyle>
 };
 
 
 
-const EditableTextInput: FC<Props> = ({ field, initialValue, isEdited, styleText, styleInput }) => {
+const EditableTextInput: FC<Props> = ({ field, initialValue, isEdited, isEditable, styleText, styleInput }) => {
 
     const [value, setValue] = useState<string>(initialValue);
-    const [isEditable, setIsEditable] = useState<boolean>(true);
+    const [isEditing, setIsEditing] = useState<boolean>(true);
 
     const handleChangeText = (newValue: string) => {
         setValue(newValue);
@@ -24,9 +25,9 @@ const EditableTextInput: FC<Props> = ({ field, initialValue, isEdited, styleText
     return (
         <View>
             {
-                isEditable ?
+                isEditing ?
                     <Text
-                        onPress={() => setIsEditable(false)}
+                        onPress={() => isEditable ? setIsEditing(false) : null}
                         style={[styleText]}
                     >
                         {value}
@@ -35,10 +36,11 @@ const EditableTextInput: FC<Props> = ({ field, initialValue, isEdited, styleText
                     <TextInput
                         value={value}
                         onChangeText={newValue => handleChangeText(newValue)}
-                        onBlur={() => setIsEditable(true)}
+                        onBlur={() => setIsEditing(true)}
                         autoCapitalize="none"
                         autoCorrect={false}
                         style={[styleInput, styles.input]}
+                        autoFocus={true}
                     />
             }
         </View>
