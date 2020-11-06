@@ -11,6 +11,7 @@ export const changeFilterAction: CaseReducer<tasksState, PayloadAction<filterTyp
 export const editTaskAction: CaseReducer<tasksState, PayloadAction<editTaskType>> = (state, action) => {
     return ({
         ...state, edit: Object.assign({...state.edit}, action.payload)
+        //...state, edit: {...state.edit, ...action.payload} :)
     })
 }
 export const initEditTaskAction: CaseReducer<tasksState, PayloadAction<number | null>> = (state, action) => {

@@ -17,6 +17,7 @@ export const fetchTasks = createAsyncThunk('tasks/fetchTasks', async (token: str
 export const updateTask = createAsyncThunk<taskTypeApiResult | undefined,
     editTaskType,
     { state: RootState }>('tasks/updateTask',
+
     async (edit, thunkApi) => {
         const token = thunkApi.getState().token
         const id = thunkApi.getState().tasks.taskEdit
@@ -25,6 +26,7 @@ export const updateTask = createAsyncThunk<taskTypeApiResult | undefined,
             const result = await axios.patch(tasksUrl, edit, {headers: {authorization: `Token ${token}`}})
             return result.data as taskTypeApiResult
         } catch (err
+
             ) {
 
         }

@@ -1,10 +1,13 @@
 import React from "react";
 import { View, Text } from "react-native";
 
+// Container
+import TaskThumbnail from "../visualElement/container/tasks/TaskThumbnail";
+
 const TaskScreen = () => {
     return (
         <View>
-            <Text>Task Screen </Text>
+            <TaskThumbnail />
         </View>
     );
 };
