@@ -30,23 +30,22 @@ export const initFocusTaskAction: CaseReducer<tasksState> = (state) => {
     })
 }
 //action without Action at the end => Action that handle side effect (API Call)
-export const addPodcastFetch: CaseReducer<tasksState, PayloadAction<taskTypeApiResult[] | undefined>> = (state, action) => {
+export const addTasksFetch: CaseReducer<tasksState, PayloadAction<taskTypeApiResult[] | undefined>> = (state, action) => {
     let tasksDict = {} as tasksDictType
     const result = action.payload!
+
     result.forEach(value => {
         const id = value.id
-        delete value.id
         tasksDict[id] = value as taskType
     })
     return ({
         ...state, status: SUCCEEDED, tasksDict: tasksDict
     })
 }
-export const addPodcast: CaseReducer<tasksState, PayloadAction<taskTypeApiResult | undefined>> = (state, action) => {
+export const addTask: CaseReducer<tasksState, PayloadAction<taskTypeApiResult | undefined>> = (state, action) => {
 
     const value = action.payload!
     const id = value.id
-    delete value.id
     state.tasksDict[id] = value as taskType
 
 }

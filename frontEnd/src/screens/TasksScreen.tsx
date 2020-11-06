@@ -1,4 +1,3 @@
-
 import React, {useEffect} from "react";
 import {View, Text, Button, ScrollView, FlatList} from "react-native";
 import {useDispatch, useSelector} from "react-redux";
@@ -18,10 +17,10 @@ import {
     fetchTasks,
     updateTask
 } from "../logicalElement/redux/tasks/tasksAsyncThunk";
-import { INITIAL } from "../helpers/api";
-import { changeFilter, initEditTask, editTask } from "../logicalElement/redux/tasks/tasksSlice";
+import {INITIAL} from "../helpers/api";
+import {changeFilter, initEditTask, editTask} from "../logicalElement/redux/tasks/tasksSlice";
 
-import { TASKS_FILTER_CATEGORY, TASKS_FILTER_STATE } from "../logicalElement/redux/tasks/tasksConst";
+import {TASKS_FILTER_CATEGORY, TASKS_FILTER_STATE} from "../logicalElement/redux/tasks/tasksConst";
 
 
 // Components
@@ -31,28 +30,30 @@ import ProgressBar from "../visualElement/components/tasks/ProgressBar";
 // Container
 import TaskThumbnail from "../visualElement/container/tasks/TaskThumbnail";
 
+
 const TasksScreen = () => {
 
     const dispatch = useDispatch()
 
     const tasksStatus = useSelector(tasksStatusSelector)
     const taskValues = useSelector(tasksTasksSelector)
-    const tasksFilter =useSelector(tasksFilterSelector)
+    const taskTitles = useSelector(tasksTitleSelector)
+    const tasksFilter = useSelector(tasksFilterSelector)
     const token = useSelector(selectToken)!
-    const editable =useSelector(tasksEditableSelector)
+    const editable = useSelector(tasksEditableSelector)
+    console.log(taskValues)
+
+    useEffect(() => {
+        if (tasksStatus == INITIAL) {
+            dispatch(fetchTasks(token))
+            dispatch(fetchDifficulties())
+            dispatch(fetchCategories())
+            //ICI JE CHOISI LE ID DE LA TACHE QUI VA ETRE EDITE
+            dispatch(initEditTask(1))
 
 
-        useEffect(() => {
-            if (tasksStatus == INITIAL) {
-                dispatch(fetchTasks(token))
-                dispatch(fetchDifficulties())
-                dispatch(fetchCategories())
-                //ICI JE CHOISI LE ID DE LA TACHE QUI VA ETRE EDITE
-                dispatch(initEditTask(1))
-
-
-            }
-        }, [tasksStatus, dispatch])
+        }
+    }, [tasksStatus, dispatch])
 
     return (
         <View>
@@ -71,15 +72,15 @@ const TasksScreen = () => {
             <Text>EDIT TASK/UPDATE TASK </Text>
             <Button
                 title="choix 1"
-                onPress={() => dispatch(editTask({ title: "titre 1" }))}
+                onPress={() => dispatch(editTask({title: "titre 1"}))}
             />
             <Button
                 title="choix 2"
-                onPress={() => dispatch(editTask({ title: "titre 2" }))}
+                onPress={() => dispatch(editTask({title: "titre 2"}))}
             />
             <Button
                 title="update task"
-                onPress={() => dispatch(updateTask({title: "tits,;lsmcsldre 2"}))}
+                onPress={() => dispatch(updateTask({title: "test" + Math.floor(Math.random() * Math.floor(100))}))}
             />
             <Text>CREATE TASK</Text>
             <Button
@@ -95,17 +96,17 @@ const TasksScreen = () => {
             />
 
 
-
             <Text>TASK THUMBNAIL</Text>
             <FlatList
-                data={Object.keys(taskValues)}
-                keyExtractor={(item) => item}
-                renderItem={({ item, index }) => {
+                data={Object.values(taskValues)}
+                keyExtractor={(item) => item.title}
+                renderItem={({item, index}) => {
+
                     return (
                         <TaskThumbnail
-                            task={taskValues[item]}
-                            isEditable={editable === parseInt(item) }
-                            initEdit={() => dispatch(initEditTask(parseInt(item)))}
+                            task={item}
+                            isEditable={editable === item.id}
+                            initEdit={() => dispatch(initEditTask(item.id!))}
                         />
                     )
                 }}

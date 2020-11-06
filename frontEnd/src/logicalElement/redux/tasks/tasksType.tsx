@@ -22,7 +22,7 @@ export interface taskType {
     frequency: number,
     begin?: string|null,
     duration?: number|null,
-
+    id?: number,
     done? : number|null,
     description?: string|null,
     lastBegin?: string | null,
