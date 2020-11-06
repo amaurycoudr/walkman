@@ -15,10 +15,10 @@ export const fetchTasks = createAsyncThunk('tasks/fetchTasks', async (token: str
     }
 })
 export const updateTask = createAsyncThunk<taskTypeApiResult | undefined,
-    string,
+    editTaskType,
     { state: RootState }>('tasks/updateTask',
-    async (token: string, thunkApi) => {
-        const edit = thunkApi.getState().tasks.edit
+    async (edit, thunkApi) => {
+        const token = thunkApi.getState().token
         const id = thunkApi.getState().tasks.taskEdit
         try {
             const tasksUrl = `${BASE_URL}tasks/${id}/`
