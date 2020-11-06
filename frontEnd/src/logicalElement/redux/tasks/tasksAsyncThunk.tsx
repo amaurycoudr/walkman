@@ -42,7 +42,7 @@ export const createTask = createAsyncThunk<taskTypeApiResult | undefined,
             return result.data as taskTypeApiResult
         } catch (err
             ) {
-
+    console.log(err)
         }
     })
 export const fetchCategories = createAsyncThunk('tasks/fetchCategories', async () => {

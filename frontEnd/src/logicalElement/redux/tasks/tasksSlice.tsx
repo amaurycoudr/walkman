@@ -78,6 +78,11 @@ export default tasksReducer
 export const tasksSelector = (state: RootState) => state.tasks
 export const tasksStatusSelector = (state: RootState) => state.tasks.status
 export const tasksFilterSelector = (state :RootState)=> state.tasks.filter
+export const tasksDifficultiesSelector = (state :RootState)=> state.tasks.difficulties
+export const tasksEditableSelector = (state :RootState)=> state.tasks.taskEdit
+export const tasksCategoriesSelector = (state :RootState)=> state.tasks.categories
+export const tasksTaskSelector = (state :RootState,id:number)=> state.tasks.tasksDict[id]
+export const tasksTasksSelector = (state :RootState)=> state.tasks.tasksDict
 export const tasksTitleSelector = (state: RootState) => {
     const result=[] as string[];
     Object.values(state.tasks.tasksDict).forEach(
