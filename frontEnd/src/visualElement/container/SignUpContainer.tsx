@@ -1,7 +1,7 @@
 import React, {useContext,FC} from 'react'
 import { View, Text } from 'react-native'
 
-import {AuthContext} from "../../logicalElement/contexts/AuthContext";
+import {AuthContext} from "../../features/token/contexts/AuthContext";
 
 import PseudoInput from "../components/authScreen/PseudoInput"
 import Switcher from "../components/authScreen/Switcher"

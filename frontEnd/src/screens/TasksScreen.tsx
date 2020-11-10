@@ -1,34 +1,34 @@
 import React, {useEffect} from "react";
-import {View, Text, Button, ScrollView, FlatList} from "react-native";
+import {View, Text, Button, ScrollView, FlatList, SafeAreaView} from "react-native";
 import {useDispatch, useSelector} from "react-redux";
 import {
     tasksEditableSelector,
     tasksFilterSelector,
 
     tasksStatusSelector, tasksTasksSelector,
-    tasksTitleSelector
-} from "../logicalElement/redux/tasks/tasksSlice";
-import {selectToken} from "../logicalElement/redux/token/tokenSlice";
+
+} from "../features/tasks/redux/tasksSlice";
+import {selectToken} from "../features/token/redux/tokenSlice";
 
 import {
     createTask,
     fetchCategories,
     fetchDifficulties,
     fetchTasks,
-    updateTask
-} from "../logicalElement/redux/tasks/tasksAsyncThunk";
+
+} from "../features/tasks/redux/tasksAsyncThunk";
 import {INITIAL} from "../helpers/api";
-import {changeFilter, initEditTask, editTask} from "../logicalElement/redux/tasks/tasksSlice";
+import {changeFilter, initEditTask} from "../features/tasks/redux/tasksSlice";
 
-import {TASKS_FILTER_CATEGORY, TASKS_FILTER_STATE} from "../logicalElement/redux/tasks/tasksConst";
+import {TASKS_FILTER_CATEGORY, TASKS_FILTER_STATE} from "../features/tasks/tasksConst";
 
 
-// Components
-import ProgressBar from "../visualElement/components/tasks/ProgressBar";
+
 
 
 // Container
 import TaskThumbnail from "../visualElement/container/tasks/TaskThumbnail";
+import useEditTask from "../features/tasks/hooks/useEditTask";
 
 
 const TasksScreen = () => {
@@ -37,26 +37,30 @@ const TasksScreen = () => {
 
     const tasksStatus = useSelector(tasksStatusSelector)
     const taskValues = useSelector(tasksTasksSelector)
-    const taskTitles = useSelector(tasksTitleSelector)
+
     const tasksFilter = useSelector(tasksFilterSelector)
     const token = useSelector(selectToken)!
     const editable = useSelector(tasksEditableSelector)
-    console.log(taskValues)
 
+    const {state: {edits, errorTitle,initialTask}, addEdit, saveEdit, initEdit, editTaskSelected} = useEditTask()
+    useEffect(() => {
+        if (editable) {
+            editTaskSelected(taskValues[editable])
+        }
+        else{
+            initEdit()
+        }
+    }, [editable])
     useEffect(() => {
         if (tasksStatus == INITIAL) {
             dispatch(fetchTasks(token))
             dispatch(fetchDifficulties())
             dispatch(fetchCategories())
-            //ICI JE CHOISI LE ID DE LA TACHE QUI VA ETRE EDITE
-            dispatch(initEditTask(1))
-
-
         }
     }, [tasksStatus, dispatch])
 
     return (
-        <View>
+        <SafeAreaView>
             <Text>Example for the redux actions </Text>
 
             <Text>{tasksFilter.toUpperCase()}</Text>
@@ -70,17 +74,18 @@ const TasksScreen = () => {
                 onPress={() => dispatch(changeFilter(TASKS_FILTER_CATEGORY))}
             />
             <Text>EDIT TASK/UPDATE TASK </Text>
+            <Text> {errorTitle&&"deja une tache avec ce titre"} </Text>
             <Button
                 title="choix 1"
-                onPress={() => dispatch(editTask({title: "titre 1"}))}
+                onPress={() => addEdit({title: "titre 1"})}
             />
             <Button
                 title="choix 2"
-                onPress={() => dispatch(editTask({title: "titre 2"}))}
+                onPress={() => addEdit({title: "titre 2"})}
             />
             <Button
                 title="update task"
-                onPress={() => dispatch(updateTask({title: "test" + Math.floor(Math.random() * Math.floor(100))}))}
+                onPress={() => saveEdit()}
             />
             <Text>CREATE TASK</Text>
             <Button
@@ -112,7 +117,7 @@ const TasksScreen = () => {
                 }}
             />
 
-        </View>
+        </SafeAreaView>
     );
 };
 

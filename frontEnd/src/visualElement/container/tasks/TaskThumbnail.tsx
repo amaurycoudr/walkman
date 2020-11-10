@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import { View, StyleSheet } from 'react-native'
 
-import { editTask, initEditTask } from "../../../logicalElement/redux/tasks/tasksSlice";
+import { editTask, initEditTask } from "../../../features/tasks/redux/tasksSlice";
 
 // Components
 import Title from "../../components/tasks/Title";
@@ -10,7 +10,7 @@ import EditIcon from "../../components/tasks/EditIcon";
 import ProgressBar from "../../components/tasks/ProgressBar";
 
 // Type 
-import { taskType } from "../../../logicalElement/redux/tasks/tasksType"
+import { taskType } from "../../../features/tasks/tasksType"
 
 interface Props {
     task: taskType,

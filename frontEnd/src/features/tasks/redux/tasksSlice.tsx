@@ -1,12 +1,12 @@
 import {createSelector, createSlice} from "@reduxjs/toolkit";
 import {INITIAL} from "../../../helpers/api";
 import {RootState} from "../../store";
-import {TASKS_FILTER_STATE} from "./tasksConst";
+import {TASKS_FILTER_STATE} from "../tasksConst";
 import {createTask, fetchCategories, fetchDifficulties, fetchTasks, updateTask} from "./tasksAsyncThunk";
-import {tasksState, taskTypeApiResult} from "./tasksType";
+import {tasksState, taskTypeApiResult} from "../tasksType";
 import {
     changeFilterAction,
-    editTaskAction,
+
     focusTaskAction,
     initEditTaskAction,
     initFocusTaskAction,
@@ -26,7 +26,6 @@ const initialState: tasksState = {
     statesTask: [],
     taskFocus: null,
     taskEdit: null,
-    edit: {},
 }
 
 export const tasksSlice = createSlice({
@@ -34,7 +33,6 @@ export const tasksSlice = createSlice({
     initialState,
     reducers: {
         changeFilter: changeFilterAction,
-        editTask: editTaskAction,
         initEditTask: initEditTaskAction,
         focusTask: focusTaskAction,
         initFocusTask: initFocusTaskAction
@@ -70,7 +68,7 @@ export const tasksSlice = createSlice({
 
 })
 
-export const {changeFilter, editTask, initEditTask, focusTask, initFocusTask} = tasksSlice.actions
+export const {changeFilter, initEditTask, focusTask, initFocusTask} = tasksSlice.actions
 const tasksReducer = tasksSlice.reducer
 export default tasksReducer
 

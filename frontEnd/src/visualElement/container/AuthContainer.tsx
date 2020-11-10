@@ -6,7 +6,7 @@ import GetCodeContainer from "./GetCodeContainer";
 import SignInContainer from "./SignInContainer";
 import ErrorMessage from "../components/authScreen/ErrorMessage";
 
-import {AuthContext} from "../../logicalElement/contexts/AuthContext"
+import {AuthContext} from "../../features/token/contexts/AuthContext"
 
 const switchRender = (container:"SignUpContainer"|"SignInContainer"|"GetCodeContainer") => {
     

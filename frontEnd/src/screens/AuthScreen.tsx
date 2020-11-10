@@ -4,7 +4,7 @@ import React, {useState,useContext} from "react";
 import AuthContainer from "../visualElement/container/AuthContainer";
 
 //context
-import {AuthProvider} from "../logicalElement/contexts/AuthContext";
+import {AuthProvider} from "../features/token/contexts/AuthContext";
 
 
 const AuthScreen = () => {

@@ -7,7 +7,7 @@ import EmailInput from "../components/authScreen/EmailInput"
 import AuthNavigation from "../components/authScreen/AuthNavigation"
 import AuthButton from "../components/authScreen/AuthButton"
 
-import {AuthContext} from "../../logicalElement/contexts/AuthContext";
+import {AuthContext} from "../../features/token/contexts/AuthContext";
 
 
 const getCodeContainer:FC = () => {

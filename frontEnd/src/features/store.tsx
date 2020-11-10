@@ -1,7 +1,7 @@
-import tokenReducer from "./redux/token/tokenSlice";
+import tokenReducer from "./token/redux/tokenSlice";
 import {configureStore} from "@reduxjs/toolkit";
-import tasksReducer from "./redux/tasks/tasksSlice";
-import {tasksState} from "./redux/tasks/tasksType";
+import tasksReducer from "./tasks/redux/tasksSlice";
+
 
 const store= configureStore({
     reducer:{

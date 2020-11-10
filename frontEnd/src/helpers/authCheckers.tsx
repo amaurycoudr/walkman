@@ -13,7 +13,7 @@ export const mailCorrect = (mail : string) : boolean => {
 };
 
 export const phoneCorrect = (phone : string) : boolean => {
-        var re = /^336|7[1-9]{8}$/;
+        const re = /^336|7[1-9]{8}$/;
         return re.test(phone);
 }
 

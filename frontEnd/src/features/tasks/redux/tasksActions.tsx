@@ -1,6 +1,6 @@
 import {CaseReducer, PayloadAction} from "@reduxjs/toolkit";
-import {editTaskType, tasksDictType, tasksState, taskType, taskTypeApiResult} from "./tasksType";
-import {filterType} from "./tasksType";
+import { tasksDictType, tasksState, taskType, taskTypeApiResult} from "../tasksType";
+import {filterType} from "../tasksType";
 import {FAILED, LOADING, SUCCEEDED} from "../../../helpers/api";
 
 export const changeFilterAction: CaseReducer<tasksState, PayloadAction<filterType>> = (state, action) => {
@@ -8,25 +8,19 @@ export const changeFilterAction: CaseReducer<tasksState, PayloadAction<filterTyp
         ...state, filter: action.payload
     })
 }
-export const editTaskAction: CaseReducer<tasksState, PayloadAction<editTaskType>> = (state, action) => {
-    return ({
-        ...state, edit: Object.assign({...state.edit}, action.payload)
-        //...state, edit: {...state.edit, ...action.payload} :)
-    })
-}
 export const initEditTaskAction: CaseReducer<tasksState, PayloadAction<number | null>> = (state, action) => {
     return ({
-        ...state, edit: {}, taskEdit: action.payload
+        ...state,taskEdit: action.payload
     })
 }
 export const focusTaskAction: CaseReducer<tasksState, PayloadAction<number>> = (state, action) => {
     return ({
-        ...state, edit: {}, taskEdit: null, taskFocus: action.payload
+        ...state,  taskEdit: null, taskFocus: action.payload
     })
 }
 export const initFocusTaskAction: CaseReducer<tasksState> = (state) => {
     return ({
-        ...state, edit: {}, taskEdit: null, taskFocus: null,
+        ...state, taskEdit: null, taskFocus: null,
     })
 }
 //action without Action at the end => Action that handle side effect (API Call)
