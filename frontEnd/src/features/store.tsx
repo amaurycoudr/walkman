@@ -4,7 +4,7 @@ import tasksReducer from "./tasks/redux/tasksSlice";
 import {persistStore, persistReducer} from 'redux-persist'
 import AsyncStorage from '@react-native-community/async-storage';
 import thunk from "redux-thunk";
-import logger from 'redux-logger';
+import logger from "redux-logger";
 
 
 const reducers = combineReducers({
