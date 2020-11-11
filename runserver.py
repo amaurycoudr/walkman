@@ -12,7 +12,9 @@ print('ngrok launched')
 
 # Get the public url
 stream = os.popen("curl --silent --show-error http://127.0.0.1:4040/api/tunnels")
+print(f'stream : {stream}')
 data = stream.read()
+print(data)
 public_url = json.loads(data)["tunnels"][1]['public_url']
 
 # Write the url in the file frontEnd/backend_url.json
