@@ -10,15 +10,15 @@ import {createNavigator} from "react-navigation";
 // Screens
 import SettingsScreen from "./src/screens/SettingsScreen";
 import TasksScreen from "./src/screens/TasksScreen";
-import TaskScreen from "./src/screens/TaskScreen";
 import CreationTaskScreen from "./src/screens/CreationTaskScreen";
 import DashboardScreen from "./src/screens/DashboardScreen";
 import AuthScreen from "./src/screens/AuthScreen";
 
 //Redux
 
-import store from "./src/features/store";
+import store, {persist} from "./src/features/store";
 import {selectToken} from "./src/features/token/redux/tokenSlice";
+import {PersistGate} from "redux-persist/integration/react";
 
 
 // Navigation
@@ -29,7 +29,6 @@ const TaskNavigation = () => {
     return (
         <StackTask.Navigator initialRouteName="Tasks">
             <StackTask.Screen name="Tasks" component={TasksScreen}/>
-            <StackTask.Screen name="Task" component={TaskScreen}/>
             <StackTask.Screen name="CreationTask" component={CreationTaskScreen}/>
         </StackTask.Navigator>
 
@@ -62,7 +61,11 @@ const AppNav = () => {
 
 const App = () => {
     return (
-        <Provider store={store}><AppNav/></Provider>
+        <Provider store={store}>
+            <PersistGate loading={null} persistor={persist}>
+                <AppNav/>
+            </PersistGate>
+        </Provider>
     )
 }
 
