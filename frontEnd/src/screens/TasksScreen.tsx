@@ -42,7 +42,7 @@ const TasksScreen = () => {
     const token = useSelector(selectToken)!
     const editable = useSelector(tasksEditableSelector)
 
-    const {state: {elements, errorTitle,initialTask}, addElement, saveTaskEdition, initTaskState, editTaskSelected} = useEditTask()
+    const {state: {elements, errorTitle,initialTask}, addElement, saveTaskEdition, initTaskState, editTaskSelected,createNewTask} = useEditTask()
     useEffect(() => {
         if (editable) {
             editTaskSelected(taskValues[editable])
@@ -89,15 +89,19 @@ const TasksScreen = () => {
             />
             <Text>CREATE TASK</Text>
             <Button
-                title="create task"
-                onPress={() => dispatch(createTask({
+                title="Add element of the new task"
+                onPress={() => addElement({
                     description: `description plu s ${Math.random() * 100}`,
                     title: `le titre au hasard ${Math.random() * 100}`,
                     category: 1,
                     difficulty: 1,
                     repeat: 100,
                     frequency: 13
-                }))}
+                })}
+            />
+            <Button
+                title="create the task"
+                onPress={() => createNewTask()}
             />
 
 

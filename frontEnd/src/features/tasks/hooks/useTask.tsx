@@ -25,7 +25,7 @@ const reducer: Reducer<StateType, ActionType> = (state, action) => {
                 ...state,
                 elements: Object.assign({...state.elements}, action.payload),
                 errorTitle: action.payload.title ?
-                    !titleIsValid(action.payload.title, state.taskTitles, state.initialTask!.title)
+                    !titleIsValid(action.payload.title, state.taskTitles, state.initialTask ? state.initialTask.title : null)
                     : false
             }
         case "initTaskState":
@@ -87,6 +87,6 @@ export default () => {
         initTaskState: initTaskState(dispatch),
         addElement: addElement(dispatch),
         editTaskSelected: selectTaskForEdition(dispatch),
-        createNewTask:createNewTask(dispatch)
+        createNewTask: createNewTask(dispatch)
     })
 }
