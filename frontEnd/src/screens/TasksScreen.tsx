@@ -1,15 +1,16 @@
 
-import React, {useEffect} from "react";
-import {View, Text, Button, ScrollView, FlatList} from "react-native";
-import {useDispatch, useSelector} from "react-redux";
+import React, { useEffect } from "react";
+import { View, Text, Button, ScrollView, FlatList } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import {
     tasksEditableSelector,
     tasksFilterSelector,
 
     tasksStatusSelector, tasksTasksSelector,
-    tasksTitleSelector
+    tasksTitleSelector,
+    tasksEditSelector
 } from "../logicalElement/redux/tasks/tasksSlice";
-import {selectToken} from "../logicalElement/redux/token/tokenSlice";
+import { selectToken } from "../logicalElement/redux/token/tokenSlice";
 
 import {
     createTask,
@@ -37,22 +38,24 @@ const TasksScreen = () => {
 
     const tasksStatus = useSelector(tasksStatusSelector)
     const taskValues = useSelector(tasksTasksSelector)
-    const tasksFilter =useSelector(tasksFilterSelector)
+    const tasksFilter = useSelector(tasksFilterSelector)
     const token = useSelector(selectToken)!
-    const editable =useSelector(tasksEditableSelector)
+    const editable = useSelector(tasksEditableSelector)
+
+    const edit = useSelector(tasksEditSelector).edit // TO DO create another selector
 
 
-        useEffect(() => {
-            if (tasksStatus == INITIAL) {
-                dispatch(fetchTasks(token))
-                dispatch(fetchDifficulties())
-                dispatch(fetchCategories())
-                //ICI JE CHOISI LE ID DE LA TACHE QUI VA ETRE EDITE
-                dispatch(initEditTask(1))
+    useEffect(() => {
+        if (tasksStatus == INITIAL) {
+            dispatch(fetchTasks(token))
+            dispatch(fetchDifficulties())
+            dispatch(fetchCategories())
+            //ICI JE CHOISI LE ID DE LA TACHE QUI VA ETRE EDITE
+            dispatch(initEditTask(null))
 
 
-            }
-        }, [tasksStatus, dispatch])
+        }
+    }, [tasksStatus, dispatch])
 
     return (
         <View>
@@ -79,7 +82,7 @@ const TasksScreen = () => {
             />
             <Button
                 title="update task"
-                onPress={() => dispatch(updateTask({title: "tits,;lsmcsldre 2"}))}
+                onPress={() => dispatch(updateTask({ title: "tits,;lsmcsldre 2" }))}
             />
             <Text>CREATE TASK</Text>
             <Button
@@ -100,12 +103,22 @@ const TasksScreen = () => {
             <FlatList
                 data={Object.keys(taskValues)}
                 keyExtractor={(item) => item}
-                renderItem={({ item, index }) => {
+                renderItem={({ item }) => {
                     return (
                         <TaskThumbnail
                             task={taskValues[item]}
-                            isEditable={editable === parseInt(item) }
+                            isEditable={editable === null}
+                            isEditing={editable === parseInt(item)}
                             initEdit={() => dispatch(initEditTask(parseInt(item)))}
+                            editTask={(edit) => dispatch(editTask({ edit }))}
+                            cancelEdit={() => {
+                                dispatch(initEditTask(null))
+                            }
+                            }
+                            sendEdit={() => {
+                                dispatch(updateTask(edit))
+                                dispatch(initEditTask(null))
+                            }}
                         />
                     )
                 }}

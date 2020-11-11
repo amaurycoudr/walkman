@@ -1,7 +1,7 @@
-import {CaseReducer, PayloadAction} from "@reduxjs/toolkit";
-import {editTaskType, tasksDictType, tasksState, taskType, taskTypeApiResult} from "./tasksType";
-import {filterType} from "./tasksType";
-import {FAILED, LOADING, SUCCEEDED} from "../../../helpers/api";
+import { CaseReducer, PayloadAction } from "@reduxjs/toolkit";
+import { editTaskType, tasksDictType, tasksState, taskType, taskTypeApiResult } from "./tasksType";
+import { filterType } from "./tasksType";
+import { FAILED, LOADING, SUCCEEDED } from "../../../helpers/api";
 
 export const changeFilterAction: CaseReducer<tasksState, PayloadAction<filterType>> = (state, action) => {
     return ({
@@ -10,7 +10,7 @@ export const changeFilterAction: CaseReducer<tasksState, PayloadAction<filterTyp
 }
 export const editTaskAction: CaseReducer<tasksState, PayloadAction<editTaskType>> = (state, action) => {
     return ({
-        ...state, edit: Object.assign({...state.edit}, action.payload)
+        ...state, edit: Object.assign({ ...state.edit }, action.payload)
         //...state, edit: {...state.edit, ...action.payload} :)
     })
 }

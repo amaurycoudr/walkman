@@ -8,14 +8,15 @@ interface Props {
     size: number,
     color: string,
     handlePress: Function,
-    args?: Array<any>
+    disabled?: boolean,
 }
 
-const IconAction: FC<Props> = ({ iconName, size, color, handlePress }) => {
+const IconAction: FC<Props> = ({ iconName, size, color, handlePress, disabled }) => {
     return (
         <View>
             <TouchableOpacity
                 onPress={() => handlePress()}
+                disabled={disabled}
             >
 
                 <IconActionLess
