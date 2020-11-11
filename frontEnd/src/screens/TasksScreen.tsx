@@ -28,7 +28,7 @@ import {TASKS_FILTER_CATEGORY, TASKS_FILTER_STATE} from "../features/tasks/tasks
 
 // Container
 import TaskThumbnail from "../visualElement/container/tasks/TaskThumbnail";
-import useEditTask from "../features/tasks/hooks/useEditTask";
+import useEditTask from "../features/tasks/hooks/useTask";
 
 
 const TasksScreen = () => {
@@ -42,13 +42,13 @@ const TasksScreen = () => {
     const token = useSelector(selectToken)!
     const editable = useSelector(tasksEditableSelector)
 
-    const {state: {edits, errorTitle,initialTask}, addEdit, saveEdit, initEdit, editTaskSelected} = useEditTask()
+    const {state: {elements, errorTitle,initialTask}, addElement, saveTaskEdition, initTaskState, editTaskSelected} = useEditTask()
     useEffect(() => {
         if (editable) {
             editTaskSelected(taskValues[editable])
         }
         else{
-            initEdit()
+            initTaskState()
         }
     }, [editable])
     useEffect(() => {
@@ -77,15 +77,15 @@ const TasksScreen = () => {
             <Text> {errorTitle&&"deja une tache avec ce titre"} </Text>
             <Button
                 title="choix 1"
-                onPress={() => addEdit({title: "titre 1"})}
+                onPress={() => addElement({title: "titre 1"+Math.random()})}
             />
             <Button
                 title="choix 2"
-                onPress={() => addEdit({title: "titre 2"})}
+                onPress={() => addElement({title: "titre 2"})}
             />
             <Button
                 title="update task"
-                onPress={() => saveEdit()}
+                onPress={() => saveTaskEdition()}
             />
             <Text>CREATE TASK</Text>
             <Button
