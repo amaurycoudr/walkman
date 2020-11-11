@@ -29,6 +29,7 @@ import {TASKS_FILTER_CATEGORY, TASKS_FILTER_STATE} from "../features/tasks/tasks
 // Container
 import TaskThumbnail from "../visualElement/container/tasks/TaskThumbnail";
 import useEditTask from "../features/tasks/hooks/useTask";
+import {stateSelector} from "../features/store";
 
 
 const TasksScreen = () => {
