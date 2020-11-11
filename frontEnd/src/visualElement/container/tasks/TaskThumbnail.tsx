@@ -1,6 +1,7 @@
 import React, { FC } from 'react'
 import { View, StyleSheet } from 'react-native'
 
+import { editTask, initEditTask } from "../../../features/tasks/redux/tasksSlice";
 
 // Components
 import Title from "../../components/tasks/Title";
@@ -11,7 +12,7 @@ import CancelEdit from "../../components/tasks/CancelEdit";
 import SendEdit from "../../components/tasks/SendEdit";
 
 // Type 
-import { taskType } from "../../../logicalElement/redux/tasks/tasksType"
+import { taskType } from "../../../features/tasks/tasksType"
 
 interface Props {
     task: taskType,

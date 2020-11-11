@@ -4,7 +4,7 @@ import { View } from 'react-native'
 
 import CodeInput from "../components/authScreen/CodeInput"
 
-import {AuthContext} from "../../logicalElement/contexts/AuthContext";
+import {AuthContext} from "../../features/token/contexts/AuthContext";
 
 import ErrorMessage from "../components/authScreen/ErrorMessage";
 import AuthButton from "../components/authScreen/AuthButton";

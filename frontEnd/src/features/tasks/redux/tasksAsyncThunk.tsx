@@ -1,7 +1,7 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {BASE_URL} from "../../../helpers/api";
 import axios from "axios";
-import {category, difficulty, editTaskType, taskType, taskTypeApiResult} from "./tasksType";
+import {category, difficulty, editTaskType, taskType, taskTypeApiResult} from "../tasksType";
 import {RootState} from "../../store";
 
 export const fetchTasks = createAsyncThunk('tasks/fetchTasks', async (token: string) => {
@@ -21,6 +21,8 @@ export const updateTask = createAsyncThunk<taskTypeApiResult | undefined,
     async (edit, thunkApi) => {
         const token = thunkApi.getState().token
         const id = thunkApi.getState().tasks.taskEdit
+        console.log(id)
+        console.log(edit)
         try {
             const tasksUrl = `${BASE_URL}tasks/${id}/`
             const result = await axios.patch(tasksUrl, edit, {headers: {authorization: `Token ${token}`}})

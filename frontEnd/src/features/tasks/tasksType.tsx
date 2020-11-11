@@ -6,7 +6,7 @@ export interface taskTypeApiResult {
     begin: string,
     category: number,
     difficulty: number,
-    done? : number|null,
+    done: number | null,
     duration: number,
     frequency: number,
     id: number,
@@ -14,17 +14,18 @@ export interface taskTypeApiResult {
     repeat: number,
     thumbnail: string | null,
 }
+
 export interface taskType {
     title: string,
     category: number,
     difficulty: number,
     repeat: number,
     frequency: number,
-    begin?: string|null,
-    duration?: number|null,
-
-    done? : number|null,
-    description?: string|null,
+    begin?: string | null,
+    duration?: number | null,
+    id?: number,
+    done?: number | null,
+    description?: string | null,
     lastBegin?: string | null,
     thumbnail?: string | null,
 }
@@ -35,7 +36,7 @@ export interface editTaskType {
     begin?: string,
     category?: number,
     difficulty?: number,
-    done? : number|null,
+    done?: number | null,
     duration?: number,
     frequency?: number,
     lastBegin?: string | null,
@@ -43,29 +44,33 @@ export interface editTaskType {
     thumbnail?: string | null,
 }
 
+//type for the difficulties of a task
 export type difficulty = {
     label: string,
     point: number
 }
-
+//type for the categories of a task
 export type category = {
     title: string,
     color: string,
     icon: string,
     id: number,
 }
-
+//type for the states of a task
 export type statesTask = {
     label: string,
 }
 
-
+//type of the dict of task
 export type filterType = typeof TASKS_FILTER_CATEGORY | typeof TASKS_FILTER_STATE
-export interface  tasksDictType{
-    [id:string]:taskType,
+
+export interface tasksDictType {
+    [id: string]: taskType,
 
 
 }
+
+//type for store.tasks
 export type tasksState = {
     statesTask: statesTask[]
     tasksDict: tasksDictType,
@@ -75,6 +80,5 @@ export type tasksState = {
     status: string,
     taskFocus: null | number,
     taskEdit: null | number,
-    edit: editTaskType,
 }
 

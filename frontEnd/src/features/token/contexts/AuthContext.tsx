@@ -4,12 +4,12 @@ import {useNavigation} from '@react-navigation/native';
 
 import usePseudo from "../hooks/usePseudo";
 
-import {setToken} from "../redux/token/tokenSlice";
+import {setToken} from "../redux/tokenSlice";
 
 
-import {signUpValid, pseudoValid, setFormatPhone, signInValid} from "../../helpers/authCheckers";
+import {signUpValid, pseudoValid, setFormatPhone, signInValid} from "../../../helpers/authCheckers";
 import {useDispatch} from "react-redux";
-import {BASE_URL} from "../../helpers/api";
+import {BASE_URL} from "../../../helpers/api";
 
 // Typescript
 type StateType = {

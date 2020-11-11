@@ -17,8 +17,8 @@ import AuthScreen from "./src/screens/AuthScreen";
 
 //Redux
 
-import store from "./src/logicalElement/store";
-import {selectToken} from "./src/logicalElement/redux/token/tokenSlice";
+import store from "./src/features/store";
+import {selectToken} from "./src/features/token/redux/tokenSlice";
 
 
 // Navigation
