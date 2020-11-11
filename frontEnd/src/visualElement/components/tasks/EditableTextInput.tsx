@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react'
 import { View, Text, TextInput, StyleProp, ViewStyle, TextStyle, StyleSheet } from 'react-native'
 
 interface Props {
-    field : "title" | "description",
+    field: "title" | "description",
     initialValue: string,
     isEdited: Function,
     isEditable: boolean,
@@ -19,15 +19,15 @@ const EditableTextInput: FC<Props> = ({ field, initialValue, isEdited, isEditabl
 
     const handleChangeText = (newValue: string) => {
         setValue(newValue);
-        isEdited({[field] : newValue});
+        isEdited({ [field]: newValue });
     };
 
     return (
         <View>
             {
-                isEditing ?
+                !isEditing ?
                     <Text
-                        onPress={() => isEditable ? setIsEditing(false) : null}
+                        onPress={() => isEditable ? setIsEditing(true) : null}
                         style={[styleText]}
                     >
                         {value}
@@ -36,7 +36,7 @@ const EditableTextInput: FC<Props> = ({ field, initialValue, isEdited, isEditabl
                     <TextInput
                         value={value}
                         onChangeText={newValue => handleChangeText(newValue)}
-                        onBlur={() => setIsEditing(true)}
+                        onBlur={() => setIsEditing(false)}
                         autoCapitalize="none"
                         autoCorrect={false}
                         style={[styleInput, styles.input]}
