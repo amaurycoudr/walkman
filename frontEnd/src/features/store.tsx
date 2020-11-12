@@ -20,11 +20,10 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, reducers)
 
 const store = configureStore({
-    reducer: persistedReducer,
-    middleware: [thunk, logger]
+    reducer: reducers,
+
 
 });
-export const persist = persistStore(store)
+
 export type RootState = ReturnType<typeof store.getState>
 export default store;
-export const stateSelector = (state: RootState) => state
