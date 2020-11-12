@@ -1,6 +1,6 @@
-import React, {useEffect} from "react";
-import {View, Text, Button, ScrollView, FlatList, SafeAreaView} from "react-native";
-import {useDispatch, useSelector} from "react-redux";
+import React, { useEffect } from "react";
+import { View, Text, Button, ScrollView, FlatList, SafeAreaView } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import {
     tasksEditableSelector,
     tasksFilterSelector,
@@ -8,7 +8,7 @@ import {
     tasksStatusSelector, tasksTasksSelector,
 
 } from "../features/tasks/redux/tasksSlice";
-import {selectToken} from "../features/token/redux/tokenSlice";
+import { selectToken } from "../features/token/redux/tokenSlice";
 
 import {
     createTask,
@@ -17,19 +17,19 @@ import {
     fetchTasks,
 
 } from "../features/tasks/redux/tasksAsyncThunk";
-import {INITIAL} from "../helpers/api";
-import {changeFilter, initEditTask} from "../features/tasks/redux/tasksSlice";
+import { INITIAL } from "../helpers/api";
+import { changeFilter, initEditTask } from "../features/tasks/redux/tasksSlice";
 
-import {TASKS_FILTER_CATEGORY, TASKS_FILTER_STATE} from "../features/tasks/tasksConst";
+import { TASKS_FILTER_CATEGORY, TASKS_FILTER_STATE } from "../features/tasks/tasksConst";
 
 
 
 
 
 // Container
-import TaskThumbnail from "../visualElement/container/tasks/TaskThumbnail";
+import TaskThumbnail from "../visualElement/tasks/container/TaskThumbnail";
 import useEditTask from "../features/tasks/hooks/useTask";
-import {stateSelector} from "../features/store";
+import { stateSelector } from "../features/store";
 
 
 const TasksScreen = () => {
@@ -43,22 +43,26 @@ const TasksScreen = () => {
     const token = useSelector(selectToken)!
     const editable = useSelector(tasksEditableSelector)
 
-    const {state: {elements, errorTitle,initialTask}, addElement, saveTaskEdition, initTaskState, editTaskSelected,createNewTask} = useEditTask()
+    const { state: { elements, errorTitle, initialTask }, addElement, saveTaskEdition, initTaskState, editTaskSelected, createNewTask } = useEditTask()
     useEffect(() => {
         if (editable) {
             editTaskSelected(taskValues[editable])
         }
-        else{
+        else {
             initTaskState()
         }
     }, [editable])
     useEffect(() => {
-        if (tasksStatus == INITIAL) {
+        console.log(tasksStatus)
+        if (tasksStatus == INITIAL || true) {
+            console.log("ask for fetching")
             dispatch(fetchTasks(token))
             dispatch(fetchDifficulties())
             dispatch(fetchCategories())
         }
     }, [tasksStatus, dispatch])
+
+    console.log(taskValues)
 
     return (
         <SafeAreaView>
@@ -75,14 +79,14 @@ const TasksScreen = () => {
                 onPress={() => dispatch(changeFilter(TASKS_FILTER_CATEGORY))}
             />
             <Text>EDIT TASK/UPDATE TASK </Text>
-            <Text> {errorTitle&&"deja une tache avec ce titre"} </Text>
+            <Text> {errorTitle && "deja une tache avec ce titre"} </Text>
             <Button
                 title="choix 1"
-                onPress={() => addElement({title: "titre 1"+Math.random()})}
+                onPress={() => addElement({ title: "titre 1" + Math.random() })}
             />
             <Button
                 title="choix 2"
-                onPress={() => addElement({title: "titre 2"})}
+                onPress={() => addElement({ title: "titre 2" })}
             />
             <Button
                 title="update task"
@@ -110,13 +114,17 @@ const TasksScreen = () => {
             <FlatList
                 data={Object.values(taskValues)}
                 keyExtractor={(item) => item.title}
-                renderItem={({item, index}) => {
-
+                renderItem={({ item, index }) => {
                     return (
                         <TaskThumbnail
                             task={item}
-                            isEditable={editable === item.id}
+                            edits={item.id == editable ? elements : null}
+                            isEditable={editable === null}
+                            isEditing={editable === item.id}
                             initEdit={() => dispatch(initEditTask(item.id!))}
+                            editTask={addElement}
+                            cancelEdit={() => dispatch(initEditTask(null))}
+                            sendEdit={saveTaskEdition}
                         />
                     )
                 }}

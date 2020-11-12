@@ -1,7 +1,7 @@
 import React, {useState,useContext} from "react";
 
 // components
-import AuthContainer from "../visualElement/container/AuthContainer";
+import AuthContainer from "../visualElement/auth/container/AuthContainer";
 
 //context
 import {AuthProvider} from "../features/token/contexts/AuthContext";

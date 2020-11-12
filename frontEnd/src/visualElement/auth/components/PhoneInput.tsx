@@ -1,7 +1,7 @@
 import React, {FC} from 'react'
 import { View, TextInput } from 'react-native'
 
-import globalStyles from "../../styles/global";
+import globalStyles from "../styles/global";
 
 import ErrorMessage from "./ErrorMessage";
 

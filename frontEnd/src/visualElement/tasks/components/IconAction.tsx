@@ -26,6 +26,7 @@ const IconAction: FC<Props> = ({ iconName, size, color, handlePress, disabled })
                 />
             </TouchableOpacity>
         </View>
+        
 
     )
 };

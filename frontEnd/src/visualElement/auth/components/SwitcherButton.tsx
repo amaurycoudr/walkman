@@ -1,7 +1,7 @@
 import React, {FC} from 'react'
 import { View, Text, TouchableOpacity,StyleSheet } from 'react-native'
 
-import globalStyles from "../../styles/global";
+import globalStyles from "../styles/global";
 
 const SwitcherButton:FC<{text:string,changer:Function,selected:boolean}> = ({text,changer,selected}) => {
     return (

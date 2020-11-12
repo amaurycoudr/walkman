@@ -15,7 +15,6 @@ interface Props {
 const EditableTextInput: FC<Props> = ({ field, initialValue, isEdited, isEditable, styleText, styleInput }) => {
 
     const [value, setValue] = useState<string>(initialValue);
-    const [isEditing, setIsEditing] = useState<boolean>(true);
 
     const handleChangeText = (newValue: string) => {
         setValue(newValue);
@@ -25,9 +24,8 @@ const EditableTextInput: FC<Props> = ({ field, initialValue, isEdited, isEditabl
     return (
         <View>
             {
-                !isEditing ?
+                !isEditable ?
                     <Text
-                        onPress={() => isEditable ? setIsEditing(true) : null}
                         style={[styleText]}
                     >
                         {value}
@@ -36,7 +34,6 @@ const EditableTextInput: FC<Props> = ({ field, initialValue, isEdited, isEditabl
                     <TextInput
                         value={value}
                         onChangeText={newValue => handleChangeText(newValue)}
-                        onBlur={() => setIsEditing(false)}
                         autoCapitalize="none"
                         autoCorrect={false}
                         style={[styleInput, styles.input]}

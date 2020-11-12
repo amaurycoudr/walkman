@@ -1,7 +1,7 @@
 import React, {FC} from 'react'
 import { View, Text, TouchableOpacity } from 'react-native'
 
-import globalStyles from "../../styles/global";
+import globalStyles from "../styles/global";
 
 const AuthButton:FC<{text:string,changer:Function,args:any[],loading:boolean}> = ({text,changer,args,loading}) => {
     return (

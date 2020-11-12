@@ -6,7 +6,7 @@ import Slider from '@react-native-community/slider';
 interface Props {
     isEditable: boolean,
     value: number,
-    setValue: Function,
+    setValue?: Function,
     field: string,
     isEdited: Function,
     min: number,
@@ -24,8 +24,7 @@ const EditableSlider: FC<Props> = ({ isEditable, value, setValue, field, isEdite
             <Slider
                 disabled={!isEditable}
                 value={value}
-                onValueChange={val => setValue(val)}
-                onSlidingComplete={newValue => isEdited({ [field]: newValue })}
+                onValueChange={val=>isEdited({ [field] : val})}
                 minimumValue={min}
                 maximumValue={max}
                 step={step}
