@@ -4,7 +4,7 @@ import tasksReducer from "./tasks/redux/tasksSlice";
 import {persistStore, persistReducer} from 'redux-persist'
 import AsyncStorage from '@react-native-community/async-storage';
 import thunk from "redux-thunk";
-import logger from 'redux-logger';
+import logger from "redux-logger";
 
 
 const reducers = combineReducers({
@@ -20,11 +20,10 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, reducers)
 
 const store = configureStore({
-    reducer: persistedReducer,
-    middleware: [thunk, logger]
+    reducer: reducers,
+
 
 });
-export const persist = persistStore(store)
+
 export type RootState = ReturnType<typeof store.getState>
 export default store;
-export const stateSelector = (state: RootState) => state
