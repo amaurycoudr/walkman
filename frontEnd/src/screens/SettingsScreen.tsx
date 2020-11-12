@@ -1,11 +1,17 @@
 import React from "react";
-import { View, Text } from "react-native";
+import {View, Text, Button, SafeAreaView} from "react-native";
+import {useDispatch} from "react-redux";
+import {logOut} from "../features/token/redux/tokenSlice";
 
 const SettingsScreen = () => {
+    const dispatch=useDispatch();
     return (
-        <View>
+        <SafeAreaView>
+            <Button title="ceci est le bouton enfaite" onPress={()=>dispatch(logOut())}>
+
+            </Button>
             <Text>Settings Screen </Text>
-        </View>
+        </SafeAreaView>
     );
 };
 
