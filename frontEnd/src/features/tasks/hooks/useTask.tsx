@@ -1,9 +1,12 @@
-import {Dispatch, Reducer, useReducer} from "react";
-import {editTaskType, taskType} from "../tasksType";
+import {Dispatch, Reducer, useEffect, useReducer} from "react";
+import {editTaskType, filterType, taskType} from "../tasksType";
 import {useDispatch, useSelector} from "react-redux";
-import {createTask, updateTask} from "../redux/tasksAsyncThunk";
-import {tasksTitleSelector} from "../redux/tasksSlice";
+import {createTask, fetchCategories, fetchDifficulties, fetchTasks, updateTask} from "../redux/tasksAsyncThunk";
+import {tasksEditableSelector, tasksStatusSelector, tasksTasksSelector, tasksTitleSelector} from "../redux/tasksSlice";
 import {taskIsValid, titleIsValid} from "../taskVerification";
+import {selectToken} from "../../token/redux/tokenSlice";
+import {INITIAL} from "../../../helpers/api";
+import {changeFilter, initEditTask} from "../redux/tasksSlice";
 
 type ActionType =
     | { type: 'addElement'; payload: editTaskType }
@@ -31,7 +34,7 @@ const reducer: Reducer<StateType, ActionType> = (state, action) => {
         case "initTaskState":
             return init(action.payload)
         case "selectTaskForEdition":
-            return Object.assign(init(action.payload.titles), {initialTask: action.payload.taskForEdit})
+            return {...init(action.payload.titles),initialTask: action.payload.taskForEdit}
 
 
     }
@@ -49,7 +52,14 @@ const initialState = {
     taskTitles: [],
 } as StateType
 export default () => {
+    //redux selector
+    const tasksStatus = useSelector(tasksStatusSelector)
+    const token = useSelector(selectToken)!
+    const taskValues = useSelector(tasksTasksSelector)
     const taskTitles = useSelector(tasksTitleSelector)
+
+
+
     const [state, dispatch] = useReducer(reducer, initialState)
     const reduxDispatch = useDispatch()
     const addElement = (dispatch: Dispatch<ActionType>) => {
@@ -58,8 +68,12 @@ export default () => {
         })
 
     }
+    // action to init the task state => editable=null
     const initTaskState = (dispatch: Dispatch<ActionType>) => {
-        return (() => dispatch({type: 'initTaskState', payload: taskTitles}))
+        return (() => {
+            reduxDispatch(initEditTask(null))
+            dispatch({type: 'initTaskState', payload: taskTitles})
+        })
     }
     const saveTaskEdition = (dispatch: Dispatch<ActionType>) => {
         return (() => {
@@ -75,18 +89,36 @@ export default () => {
             }
         })
     }
+    // action to select a task for the edition
     const selectTaskForEdition = (dispatch: Dispatch<ActionType>) => {
-        return ((task: taskType) => dispatch({
-            type: "selectTaskForEdition",
-            payload: {taskForEdit: task, titles: taskTitles}
-        }))
+        return ((taskId: number) => {
+            reduxDispatch(initEditTask(taskId))
+            dispatch({
+                type: "selectTaskForEdition",
+                payload: {taskForEdit: taskValues[taskId], titles: taskTitles}
+            })
+        })
     }
+    const boundChangeFilter=(filter:filterType)=>{
+        reduxDispatch(changeFilter(filter))
+    }
+
+
+
+    useEffect(() => {
+        if (tasksStatus == INITIAL) {
+            reduxDispatch(fetchTasks(token))
+            reduxDispatch(fetchDifficulties())
+            reduxDispatch(fetchCategories())
+        }
+    }, [tasksStatus])
     return ({
         state,
         saveTaskEdition: saveTaskEdition(dispatch),
         initTaskState: initTaskState(dispatch),
         addElement: addElement(dispatch),
-        editTaskSelected: selectTaskForEdition(dispatch),
-        createNewTask: createNewTask(dispatch)
+        selectTaskForEdition: selectTaskForEdition(dispatch),
+        createNewTask: createNewTask(dispatch),
+        boundChangeFilter,
     })
 }
