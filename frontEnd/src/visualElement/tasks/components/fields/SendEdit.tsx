@@ -1,7 +1,7 @@
 import React, {FC} from 'react'
 import { View, Text } from 'react-native'
 
-import IconAction from "./IconAction";
+import IconAction from "../IconAction";
 
 interface Props {
     send: Function

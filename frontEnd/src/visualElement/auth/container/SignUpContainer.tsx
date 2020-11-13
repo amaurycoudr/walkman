@@ -1,14 +1,14 @@
 import React, {useContext,FC} from 'react'
 import { View, Text } from 'react-native'
 
-import {AuthContext} from "../../features/token/contexts/AuthContext";
+import {AuthContext} from "../../../features/token/contexts/AuthContext";
 
-import PseudoInput from "../components/authScreen/PseudoInput"
-import Switcher from "../components/authScreen/Switcher"
-import PhoneInput from "../components/authScreen/PhoneInput"
-import EmailInput from "../components/authScreen/EmailInput"
-import AuthNavigation from "../components/authScreen/AuthNavigation"
-import AuthButton from "../components/authScreen/AuthButton"
+import PseudoInput from "../components/PseudoInput"
+import Switcher from "../components/Switcher"
+import PhoneInput from "../components/PhoneInput"
+import EmailInput from "../components/EmailInput"
+import AuthNavigation from "../components/AuthNavigation"
+import AuthButton from "../components/AuthButton"
 
 
 const SignUpContainer:FC = () => {

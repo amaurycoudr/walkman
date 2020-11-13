@@ -1,30 +1,19 @@
-import React, {useEffect} from "react";
-import {View, Text, Button, FlatList, SafeAreaView} from "react-native";
+import React from "react";
+import {Text, Button, FlatList, SafeAreaView} from "react-native";
 import {useDispatch, useSelector} from "react-redux";
+
 import {
     tasksEditableSelector,
     tasksFilterSelector,
-
-    tasksStatusSelector, tasksTasksSelector,
+    tasksTasksSelector,
 
 } from "../features/tasks/redux/tasksSlice";
-import {selectToken} from "../features/token/redux/tokenSlice";
-
-import {
-    createTask,
-    fetchCategories,
-    fetchDifficulties,
-    fetchTasks,
-
-} from "../features/tasks/redux/tasksAsyncThunk";
-import {INITIAL} from "../helpers/api";
-import {changeFilter, } from "../features/tasks/redux/tasksSlice";
 
 import {TASKS_FILTER_CATEGORY, TASKS_FILTER_STATE} from "../features/tasks/tasksConst";
 
 
 // Container
-import TaskThumbnail from "../visualElement/container/tasks/TaskThumbnail";
+import TaskThumbnail from "../visualElement/tasks/container/TaskThumbnail";
 import useEditTask from "../features/tasks/hooks/useTask";
 
 
@@ -37,6 +26,7 @@ const TasksScreen = () => {
     const tasksFilter = useSelector(tasksFilterSelector)
     const editable = useSelector(tasksEditableSelector)
 
+
     const {
         state: {
             elements,
@@ -46,8 +36,12 @@ const TasksScreen = () => {
         saveTaskEdition,
         createNewTask,
         selectTaskForEdition,
-        initTaskState
+        initTaskState,
+        boundChangeFilter
     } = useEditTask()
+
+
+    console.log(taskValues)
 
     return (
         <SafeAreaView>
@@ -70,17 +64,19 @@ const TasksScreen = () => {
 
             <Button
                 title="state filter"
-                onPress={() => dispatch(changeFilter(TASKS_FILTER_STATE))}
+                onPress={() => boundChangeFilter(TASKS_FILTER_STATE)}
             />
             <Button
                 title="category filter"
-                onPress={() => dispatch(changeFilter(TASKS_FILTER_CATEGORY))}
+                onPress={() => boundChangeFilter(TASKS_FILTER_CATEGORY)}
             />
             <Text>EDIT TASK/UPDATE TASK </Text>
             <Text> {errorTitle && "deja une tache avec ce titre"} </Text>
             <Button
                 title="choix 1"
+
                 onPress={() => addElement({title: "titre 1" + Math.random()})}
+
             />
             <Button
                 title="choix 2"
@@ -113,13 +109,16 @@ const TasksScreen = () => {
                 data={Object.values(taskValues)}
                 keyExtractor={(item) => item.title}
                 renderItem={({item, index}) => {
-
                     return (
                         <TaskThumbnail
                             task={item}
+                            edits={item.id == editable ? elements : null}
+                            isEditable={editable === null}
                             isEditing={editable === item.id}
-                            isEditable={editable == null}
                             initEdit={() => selectTaskForEdition(item.id!)}
+                            editTask={addElement}
+                            cancelEdit={() => initTaskState()}
+                            sendEdit={saveTaskEdition}
                         />
                     )
                 }}

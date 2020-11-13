@@ -78,6 +78,7 @@ export default () => {
     const saveTaskEdition = (dispatch: Dispatch<ActionType>) => {
         return (() => {
             reduxDispatch(updateTask(state.elements))
+            reduxDispatch(initEditTask(null))
             dispatch({type: 'initTaskState', payload: taskTitles})
         })
     }

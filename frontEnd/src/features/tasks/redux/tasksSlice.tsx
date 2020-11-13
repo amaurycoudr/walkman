@@ -80,7 +80,6 @@ export const tasksDifficultiesSelector = (state :RootState)=> state.tasks.diffic
 export const tasksEditableSelector = (state :RootState)=> state.tasks.taskEdit
 export const tasksCategoriesSelector = (state :RootState)=> state.tasks.categories
 export const tasksTasksSelector = (state :RootState)=> state.tasks.tasksDict
-
 export const tasksTitleSelector = (state: RootState) => {
     const result=[] as string[];
     Object.values(state.tasks.tasksDict).forEach(

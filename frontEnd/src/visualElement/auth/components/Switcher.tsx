@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native'
 
 import SwitcherButton from "./SwitcherButton";
 
-import globalStyles from "../../styles/global"
+import globalStyles from "../styles/global"
 
 const Switcher:FC<{mean:"email"|"phone",changeMean:Function}> = ({mean,changeMean}) => {
     return (

@@ -3,7 +3,7 @@ import { View, TextInput } from 'react-native'
 
 import ErorMessage from "./ErrorMessage";
 
-import globalStyles from "../../styles/global";
+import globalStyles from "../styles/global";
 
 const EmailInput:FC<{identificationChange:Function,identificationIsValid:boolean,identification:string}> = ({identificationChange,identificationIsValid,identification}) => {
     return (
