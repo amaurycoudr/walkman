@@ -41,7 +41,7 @@ const TasksScreen = () => {
     } = useEditTask()
 
 
-    console.log(taskValues)
+
 
     return (
         <SafeAreaView>

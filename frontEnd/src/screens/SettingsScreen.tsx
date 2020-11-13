@@ -1,13 +1,20 @@
 import React from "react";
-import {View, Text, Button, SafeAreaView} from "react-native";
+import {Text, Button, SafeAreaView} from "react-native";
 import {useDispatch} from "react-redux";
-import {logOut} from "../features/token/redux/tokenSlice";
+import {initTokenState} from "../features/token/redux/tokenSlice";
+import {initTaskState} from "../features/tasks/redux/tasksSlice";
+
 
 const SettingsScreen = () => {
-    const dispatch=useDispatch();
+    const dispatch = useDispatch();
+    const logOut = () => {
+        dispatch(initTokenState())
+        dispatch(initTaskState())
+
+    }
     return (
         <SafeAreaView>
-            <Button title="ceci est le bouton enfaite" onPress={()=>dispatch(logOut())}>
+            <Button title="log log log out out out" onPress={logOut}>
 
             </Button>
             <Text>Settings Screen </Text>

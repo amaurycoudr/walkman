@@ -4,7 +4,8 @@ import {useNavigation} from '@react-navigation/native';
 
 import usePseudo from "../hooks/usePseudo";
 
-import {setToken} from "../redux/tokenSlice";
+import {setToken,initTokenState} from "../redux/tokenSlice";
+import {initTaskState} from "../../tasks/redux/tasksSlice";
 
 
 import {signUpValid, pseudoValid, setFormatPhone, signInValid} from "../../../helpers/authCheckers";
@@ -102,6 +103,7 @@ const user_url = BASE_URL + 'users'
 
 
 export const AuthContext = createContext<ContextType<StateType> | undefined>(undefined);
+
 
 export const AuthProvider: React.FC = ({children}) => {
 

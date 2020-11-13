@@ -1,8 +1,8 @@
 // thib : 2fbefd1d425499b20b061dd11e18bd60264b1030
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "../../store";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {RootState} from "../../store";
 
-const initialState=null as string | null
+const initialState = null as string | null
 
 export const tokenSlice = createSlice(
     {
@@ -12,13 +12,13 @@ export const tokenSlice = createSlice(
             setToken: (state, action: PayloadAction<string>) => {
                 return action.payload
             },
-            logOut:(state) => {
+            initTokenState: (state) => {
                 return initialState
             }
         },
     }
 );
 export const selectToken = (state: RootState) => state.token
-export const { setToken,logOut } = tokenSlice.actions
+export const {setToken, initTokenState} = tokenSlice.actions
 const tokenReducer = tokenSlice.reducer
 export default tokenReducer
