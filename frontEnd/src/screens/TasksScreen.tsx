@@ -5,7 +5,7 @@ import {
     tasksEditableSelector,
     tasksFilterSelector,
 
-    tasksStatusSelector, tasksTasksSelector,
+    tasksStatusSelector, tasksTasksSelector, tasksCategoriesSelector, tasksDifficultiesSelector
 
 } from "../features/tasks/redux/tasksSlice";
 import { selectToken } from "../features/token/redux/tokenSlice";
@@ -42,26 +42,34 @@ const TasksScreen = () => {
     const token = useSelector(selectToken)!
     const editable = useSelector(tasksEditableSelector)
 
+
+
     const { state: { elements, errorTitle, initialTask }, addElement, saveTaskEdition, initTaskState, editTaskSelected, createNewTask } = useEditTask()
+    console.log("new elements")
+    console.log(elements)
     useEffect(() => {
         if (editable) {
             editTaskSelected(taskValues[editable])
         }
         else {
+            console.log("useEffect initTaskState")
             initTaskState()
         }
     }, [editable])
     useEffect(() => {
-        console.log(tasksStatus)
-        if (tasksStatus == INITIAL || true) {
-            console.log("ask for fetching")
+        if (tasksStatus == INITIAL) {
             dispatch(fetchTasks(token))
             dispatch(fetchDifficulties())
             dispatch(fetchCategories())
         }
     }, [tasksStatus, dispatch])
 
-    console.log(taskValues)
+
+    const categories = useSelector(tasksCategoriesSelector);
+    const difficulties = useSelector(tasksDifficultiesSelector);
+
+
+
 
     return (
         <SafeAreaView>
@@ -109,25 +117,44 @@ const TasksScreen = () => {
             />
 
 
-            <Text>TASK THUMBNAIL</Text>
-            <FlatList
-                data={Object.values(taskValues)}
-                keyExtractor={(item) => item.title}
-                renderItem={({ item, index }) => {
-                    return (
-                        <TaskThumbnail
-                            task={item}
-                            edits={item.id == editable ? elements : null}
-                            isEditable={editable === null}
-                            isEditing={editable === item.id}
-                            initEdit={() => dispatch(initEditTask(item.id!))}
-                            editTask={addElement}
-                            cancelEdit={() => dispatch(initEditTask(null))}
-                            sendEdit={saveTaskEdition}
-                        />
-                    )
-                }}
-            />
+            {
+                categories.length > 0 && difficulties.length > 0 ?
+                    <View>
+                        <Text>TASK THUMBNAIL</Text>
+                        <View>
+                            <FlatList
+                                data={Object.values(taskValues)}
+                                keyExtractor={(item) => item.title}
+                                renderItem={({ item, index }) => {
+                                    return (
+                                        <TaskThumbnail
+                                            task={item}
+                                            edits={item.id == editable ? elements : null}
+                                            cate={categories.find(el => el.id === item.category)!}
+                                            difficulty={difficulties.find(el => el.id === item.difficulty)!}
+                                            isEditable={editable === null}
+                                            isEditing={editable === item.id}
+                                            initEdit={() => dispatch(initEditTask(item.id!))} // pour l'instant redux mais par la suite useTask 
+                                            editTask={addElement}
+                                            cancelEdit={() => {
+                                                dispatch(initEditTask(null))
+                                                console.log("cancel")
+                                            }}
+                                            sendEdit={() => {
+                                                saveTaskEdition()
+                                                dispatch(initEditTask(null))
+                                            }}
+                                        />
+                                    )
+                                }}
+                            />
+                        </View>
+
+                    </View>
+
+                    :
+                    null
+            }
 
         </SafeAreaView>
     );

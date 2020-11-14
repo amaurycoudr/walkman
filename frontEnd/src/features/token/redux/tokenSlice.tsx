@@ -6,7 +6,9 @@ import { RootState } from "../../store";
 export const tokenSlice = createSlice(
     {
         name: 'token',
-        initialState: null as string | null,
+        //initialState: null as string | null,
+        initialState: "ba19953fce61d6e57fb2e44ede032c2f315276b4" as string | null,
+        
         reducers: {
             setToken: (state, action: PayloadAction<string>) => {
                 return action.payload

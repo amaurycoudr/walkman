@@ -10,7 +10,7 @@ export default function usePseudo() {
 
     useEffect(() => {
         const url = BASE_URL+"users/signup/";
-        console.log(url)
+        //console.log(url)
         axios.get(url)
         .then(result => {setPseudo(result.data)})
     },[]);
