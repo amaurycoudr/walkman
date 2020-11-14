@@ -1,7 +1,9 @@
+
 import {createSlice} from "@reduxjs/toolkit";
 import {RootState} from "../../store";
 import {initialTaskState} from "../tasksConst";
 import {createTask, fetchCategories, fetchDifficulties, fetchTasks, updateTask} from "./tasksAsyncThunk";
+
 import {
     addTask,
     addTasksFetch,
@@ -13,7 +15,6 @@ import {
     initFocusTaskAction,
     initTaskStateAction
 } from "./tasksActions";
-
 
 export const tasksSlice = createSlice({
     name: 'tasks',
@@ -36,13 +37,13 @@ export const tasksSlice = createSlice({
 
         //fetchCategories
         builder.addCase(fetchCategories.fulfilled, ((state, action) => {
-                state.categories = action.payload!
-            })
+            state.categories = action.payload!
+        })
         )
         //fetchDifficulties
         builder.addCase(fetchDifficulties.fulfilled, ((state, action) => {
-                state.difficulties = action.payload!
-            })
+            state.difficulties = action.payload!
+        })
         )
 
         //updateTask
@@ -56,7 +57,7 @@ export const tasksSlice = createSlice({
 
 })
 
-export const {changeFilter, initEditTask, focusTask, initFocusTask, initTaskState} = tasksSlice.actions
+export const { changeFilter, initEditTask, focusTask, initFocusTask, initTaskState } = tasksSlice.actions
 const tasksReducer = tasksSlice.reducer
 export default tasksReducer
 

@@ -1,11 +1,12 @@
 import React from "react";
-import {Text, Button, FlatList, SafeAreaView} from "react-native";
+import {Text,View, Button, FlatList, SafeAreaView} from "react-native";
 import {useDispatch, useSelector} from "react-redux";
 
 import {
     tasksEditableSelector,
     tasksFilterSelector,
-    tasksTasksSelector,
+
+    tasksStatusSelector, tasksTasksSelector, tasksCategoriesSelector, tasksDifficultiesSelector
 
 } from "../features/tasks/redux/tasksSlice";
 
@@ -26,6 +27,9 @@ const TasksScreen = () => {
     const tasksFilter = useSelector(tasksFilterSelector)
     const editable = useSelector(tasksEditableSelector)
 
+    const categories = useSelector(tasksCategoriesSelector);
+    const difficulties = useSelector(tasksDifficultiesSelector)
+
 
     const {
         state: {
@@ -45,7 +49,7 @@ const TasksScreen = () => {
 
     return (
         <SafeAreaView>
-            <Text>Example for the redux actions </Text>
+            {/* <Text>Example for the redux actions </Text>
 
             <Text>{tasksFilter.toUpperCase()}</Text>
 
@@ -101,28 +105,46 @@ const TasksScreen = () => {
             <Button
                 title="create the task"
                 onPress={() => createNewTask()}
-            />
+            /> */}
 
 
-            <Text>TASK THUMBNAIL</Text>
-            <FlatList
-                data={Object.values(taskValues)}
-                keyExtractor={(item) => item.title}
-                renderItem={({item, index}) => {
-                    return (
-                        <TaskThumbnail
-                            task={item}
-                            edits={item.id == editable ? elements : null}
-                            isEditable={editable === null}
-                            isEditing={editable === item.id}
-                            initEdit={() => selectTaskForEdition(item.id!)}
-                            editTask={addElement}
-                            cancelEdit={() => initTaskState()}
-                            sendEdit={saveTaskEdition}
-                        />
-                    )
-                }}
-            />
+            {
+                categories.length > 0 && difficulties.length > 0 && Object.values(taskValues).length > 0 ?
+                    <View>
+                        <Text>TASK THUMBNAIL</Text>
+                        <View>
+                            <FlatList
+                                data={Object.values(taskValues)}
+                                keyExtractor={(item) => item.title}
+                                renderItem={({ item, index }) => {
+                                    return (
+                                        <TaskThumbnail
+                                            task={item}
+                                            edits={item.id == editable ? elements : null}
+                                            cate={categories.find(el => el.id === item.category)!}
+                                            difficulty={difficulties.find(el => el.id === item.difficulty)!}
+                                            isEditable={editable === null}
+                                            isEditing={editable === item.id}
+                                            initEdit={() => selectTaskForEdition(item.id!)}
+                                            editTask={addElement}
+                                            cancelEdit={() => {
+                                                selectTaskForEdition(null!)
+                                            }}
+                                            sendEdit={() => {
+                                                saveTaskEdition()
+                                                selectTaskForEdition(null!)
+                                            }}
+                                        />
+                                    )
+                                }}
+                            />
+                        </View>
+
+                    </View>
+
+                    :
+                    Object.values(taskValues).length == 0 ? <Text>Vous n'avez pas de tâches</Text> : null
+            }
 
         </SafeAreaView>
     );

@@ -1,4 +1,5 @@
 import React, { FC, useState } from 'react'
+import { useSelector } from "react-redux"
 import { View, StyleSheet } from 'react-native'
 
 
@@ -11,13 +12,19 @@ import CancelEdit from "../components/fields/CancelEdit";
 import SendEdit from "../components/fields/SendEdit";
 import Duration from "../components/fields/Duration";
 import EditableSlider from "../components/EditableSlider";
+import Category from '../components/fields/Category';
 
 // Type 
-import { taskType, editTaskType } from "../../../features/tasks/tasksType"
+import { taskType, editTaskType, category, difficulty } from "../../../features/tasks/tasksType"
+
+import Difficulty from '../components/fields/Difficulty';
+
 
 interface Props {
     task: taskType,
     edits: editTaskType | null,
+    cate: category,
+    difficulty: difficulty,
     isEditable: boolean,
     isEditing: boolean,
     initEdit: Function,
@@ -28,11 +35,14 @@ interface Props {
 
 
 
-const TaskThumbnail: FC<Props> = ({ task, edits, isEditable, isEditing, initEdit, editTask, cancelEdit, sendEdit }) => {
+const TaskThumbnail: FC<Props> = ({ task, edits, cate, difficulty, isEditable, isEditing, initEdit, editTask, cancelEdit, sendEdit }) => {
 
     const [sliderField, setSliderField] = useState<"frequency" | "duration" | null>(null)
 
+
     return (
+
+
         <View style={styles.root}>
 
             <EditIcon
@@ -42,7 +52,7 @@ const TaskThumbnail: FC<Props> = ({ task, edits, isEditable, isEditing, initEdit
 
 
             <Title
-                value={task.title}
+                value={edits ? edits.title ? edits.title : task.title : task.title}
                 editTitle={editTask}
                 isEditable={isEditing}
             />
@@ -68,10 +78,19 @@ const TaskThumbnail: FC<Props> = ({ task, edits, isEditable, isEditing, initEdit
                     null
             }
 
+            <Category
+                iconName={cate.icon}
+                color={cate.color}
+            />
+
+            <Difficulty
+                iconName={difficulty.icon}
+                color="black"
+            />
+
             {
                 sliderField ?
                     <EditableSlider
-                        isEditable={true}
                         value={task[sliderField]!}
                         field={sliderField}
                         isEdited={editTask}
@@ -86,7 +105,10 @@ const TaskThumbnail: FC<Props> = ({ task, edits, isEditable, isEditing, initEdit
                 isEditing ?
                     <View>
                         <CancelEdit
-                            cancel={cancelEdit}
+                            cancel={() => {
+                                cancelEdit()
+                                setSliderField(null)
+                            }}
                         />
                         <SendEdit
                             send={sendEdit}

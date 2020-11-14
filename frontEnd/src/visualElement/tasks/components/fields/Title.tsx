@@ -15,7 +15,7 @@ const Title: FC<Props> = ({ value, editTitle, isEditable, style }) => {
         <View>
             <EditableTextInput
                 field="title"
-                initialValue={value}
+                value={value}
                 isEditable={isEditable}
                 isEdited={editTitle}
             />

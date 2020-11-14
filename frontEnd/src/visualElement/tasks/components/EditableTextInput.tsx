@@ -3,7 +3,7 @@ import { View, Text, TextInput, StyleProp, ViewStyle, TextStyle, StyleSheet } fr
 
 interface Props {
     field: "title" | "description",
-    initialValue: string,
+    value: string,
     isEdited: Function,
     isEditable: boolean,
     styleText?: StyleProp<TextStyle>,
@@ -12,12 +12,12 @@ interface Props {
 
 
 
-const EditableTextInput: FC<Props> = ({ field, initialValue, isEdited, isEditable, styleText, styleInput }) => {
+const EditableTextInput: FC<Props> = ({ field, value, isEdited, isEditable, styleText, styleInput }) => {
 
-    const [value, setValue] = useState<string>(initialValue);
+    //const [value, setValue] = useState<string>(initialValue);
 
     const handleChangeText = (newValue: string) => {
-        setValue(newValue);
+        //setValue(newValue);
         isEdited({ [field]: newValue });
     };
 
