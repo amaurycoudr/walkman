@@ -39,10 +39,6 @@ const TaskThumbnail: FC<Props> = ({ task, edits, cate, difficulty, isEditable, i
 
     const [sliderField, setSliderField] = useState<"frequency" | "duration" | null>(null)
 
-    console.log("thumbnail")
-    console.log(edits)
-
-
 
     return (
 
@@ -109,7 +105,10 @@ const TaskThumbnail: FC<Props> = ({ task, edits, cate, difficulty, isEditable, i
                 isEditing ?
                     <View>
                         <CancelEdit
-                            cancel={cancelEdit}
+                            cancel={() => {
+                                cancelEdit()
+                                setSliderField(null)
+                            }}
                         />
                         <SendEdit
                             send={sendEdit}

@@ -49,7 +49,7 @@ const TasksScreen = () => {
 
     return (
         <SafeAreaView>
-            <Text>Example for the redux actions </Text>
+            {/* <Text>Example for the redux actions </Text>
 
             <Text>{tasksFilter.toUpperCase()}</Text>
 
@@ -105,11 +105,11 @@ const TasksScreen = () => {
             <Button
                 title="create the task"
                 onPress={() => createNewTask()}
-            />
+            /> */}
 
 
             {
-                categories.length > 0 && difficulties.length > 0 ?
+                categories.length > 0 && difficulties.length > 0 && Object.values(taskValues).length > 0 ?
                     <View>
                         <Text>TASK THUMBNAIL</Text>
                         <View>
@@ -129,7 +129,6 @@ const TasksScreen = () => {
                                             editTask={addElement}
                                             cancelEdit={() => {
                                                 selectTaskForEdition(null!)
-                                                console.log("cancel")
                                             }}
                                             sendEdit={() => {
                                                 saveTaskEdition()
@@ -144,7 +143,7 @@ const TasksScreen = () => {
                     </View>
 
                     :
-                    null
+                    Object.values(taskValues).length == 0 ? <Text>Vous n'avez pas de tâches</Text> : null
             }
 
         </SafeAreaView>

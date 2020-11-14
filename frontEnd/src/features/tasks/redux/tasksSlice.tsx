@@ -1,9 +1,23 @@
-import {createSelector, createSlice} from "@reduxjs/toolkit";
-import {INITIAL} from "../../../helpers/api";
-import {RootState} from "../../store";
-import {TASKS_FILTER_STATE} from "../tasksConst";
-import {createTask, fetchCategories, fetchDifficulties, fetchTasks, updateTask} from "./tasksAsyncThunk";
-import {tasksState, taskTypeApiResult} from "../tasksType";
+import { createSelector, createSlice } from "@reduxjs/toolkit";
+import { INITIAL } from "../../../helpers/api";
+import { RootState } from "../../store";
+import { TASKS_FILTER_STATE } from "../tasksConst";
+import { createTask, fetchCategories, fetchDifficulties, fetchTasks, updateTask } from "./tasksAsyncThunk";
+import { tasksState, taskTypeApiResult } from "../tasksType";
+
+
+export const initialTaskState: tasksState = {
+    tasksDict: {},
+    status: INITIAL,
+    filter: TASKS_FILTER_STATE,
+    categories: [],
+    difficulties: [],
+    statesTask: [],
+    taskFocus: null,
+    taskEdit: null,
+}
+
+
 import {
     changeFilterAction,
 
@@ -18,16 +32,7 @@ import {
 } from "./tasksActions";
 
 
-export const initialTaskState: tasksState = {
-    tasksDict: {},
-    status: INITIAL,
-    filter: TASKS_FILTER_STATE,
-    categories: [],
-    difficulties: [],
-    statesTask: [],
-    taskFocus: null,
-    taskEdit: null,
-}
+
 
 export const tasksSlice = createSlice({
     name: 'tasks',
@@ -50,13 +55,13 @@ export const tasksSlice = createSlice({
 
         //fetchCategories
         builder.addCase(fetchCategories.fulfilled, ((state, action) => {
-                state.categories = action.payload!
-            })
+            state.categories = action.payload!
+        })
         )
         //fetchDifficulties
         builder.addCase(fetchDifficulties.fulfilled, ((state, action) => {
-                state.difficulties = action.payload!
-            })
+            state.difficulties = action.payload!
+        })
         )
 
         //updateTask
@@ -70,7 +75,7 @@ export const tasksSlice = createSlice({
 
 })
 
-export const {changeFilter, initEditTask, focusTask, initFocusTask, initTaskState} = tasksSlice.actions
+export const { changeFilter, initEditTask, focusTask, initFocusTask, initTaskState } = tasksSlice.actions
 const tasksReducer = tasksSlice.reducer
 export default tasksReducer
 
