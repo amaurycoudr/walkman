@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
-import { View, Text, Button, ScrollView, FlatList, SafeAreaView } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import {Text,View, Button, FlatList, SafeAreaView} from "react-native";
+import {useDispatch, useSelector} from "react-redux";
+
 import {
     tasksEditableSelector,
     tasksFilterSelector,
@@ -8,22 +9,8 @@ import {
     tasksStatusSelector, tasksTasksSelector, tasksCategoriesSelector, tasksDifficultiesSelector
 
 } from "../features/tasks/redux/tasksSlice";
-import { selectToken } from "../features/token/redux/tokenSlice";
 
-import {
-    createTask,
-    fetchCategories,
-    fetchDifficulties,
-    fetchTasks,
-
-} from "../features/tasks/redux/tasksAsyncThunk";
-import { INITIAL } from "../helpers/api";
-import { changeFilter, initEditTask } from "../features/tasks/redux/tasksSlice";
-
-import { TASKS_FILTER_CATEGORY, TASKS_FILTER_STATE } from "../features/tasks/tasksConst";
-
-
-
+import {TASKS_FILTER_CATEGORY, TASKS_FILTER_STATE} from "../features/tasks/tasksConst";
 
 
 // Container
@@ -35,38 +22,27 @@ const TasksScreen = () => {
 
     const dispatch = useDispatch()
 
-    const tasksStatus = useSelector(tasksStatusSelector)
     const taskValues = useSelector(tasksTasksSelector)
 
     const tasksFilter = useSelector(tasksFilterSelector)
-    const token = useSelector(selectToken)!
     const editable = useSelector(tasksEditableSelector)
 
-
-
-    const { state: { elements, errorTitle, initialTask }, addElement, saveTaskEdition, initTaskState, editTaskSelected, createNewTask } = useEditTask()
-    console.log("new elements")
-    console.log(elements)
-    useEffect(() => {
-        if (editable) {
-            editTaskSelected(taskValues[editable])
-        }
-        else {
-            console.log("useEffect initTaskState")
-            initTaskState()
-        }
-    }, [editable])
-    useEffect(() => {
-        if (tasksStatus == INITIAL) {
-            dispatch(fetchTasks(token))
-            dispatch(fetchDifficulties())
-            dispatch(fetchCategories())
-        }
-    }, [tasksStatus, dispatch])
-
-
     const categories = useSelector(tasksCategoriesSelector);
-    const difficulties = useSelector(tasksDifficultiesSelector);
+    const difficulties = useSelector(tasksDifficultiesSelector)
+
+
+    const {
+        state: {
+            elements,
+            errorTitle,
+        },
+        addElement,
+        saveTaskEdition,
+        createNewTask,
+        selectTaskForEdition,
+        initTaskState,
+        boundChangeFilter
+    } = useEditTask()
 
 
 
@@ -78,22 +54,37 @@ const TasksScreen = () => {
             <Text>{tasksFilter.toUpperCase()}</Text>
 
             <Button
+                title="test purpose"
+                onPress={() => selectTaskForEdition(3)}
+            />
+            <Button
+                title="test purpose"
+                onPress={() => selectTaskForEdition(4)}
+            />
+            <Button
+                title="test purpose"
+                onPress={() => initTaskState()}
+            />
+
+            <Button
                 title="state filter"
-                onPress={() => dispatch(changeFilter(TASKS_FILTER_STATE))}
+                onPress={() => boundChangeFilter(TASKS_FILTER_STATE)}
             />
             <Button
                 title="category filter"
-                onPress={() => dispatch(changeFilter(TASKS_FILTER_CATEGORY))}
+                onPress={() => boundChangeFilter(TASKS_FILTER_CATEGORY)}
             />
             <Text>EDIT TASK/UPDATE TASK </Text>
             <Text> {errorTitle && "deja une tache avec ce titre"} </Text>
             <Button
                 title="choix 1"
-                onPress={() => addElement({ title: "titre 1" + Math.random() })}
+
+                onPress={() => addElement({title: "titre 1" + Math.random()})}
+
             />
             <Button
                 title="choix 2"
-                onPress={() => addElement({ title: "titre 2" })}
+                onPress={() => addElement({title: "titre 2"})}
             />
             <Button
                 title="update task"
@@ -134,15 +125,15 @@ const TasksScreen = () => {
                                             difficulty={difficulties.find(el => el.id === item.difficulty)!}
                                             isEditable={editable === null}
                                             isEditing={editable === item.id}
-                                            initEdit={() => dispatch(initEditTask(item.id!))} // pour l'instant redux mais par la suite useTask 
+                                            initEdit={() => selectTaskForEdition(item.id!)}
                                             editTask={addElement}
                                             cancelEdit={() => {
-                                                dispatch(initEditTask(null))
+                                                selectTaskForEdition(null!)
                                                 console.log("cancel")
                                             }}
                                             sendEdit={() => {
                                                 saveTaskEdition()
-                                                dispatch(initEditTask(null))
+                                                selectTaskForEdition(null!)
                                             }}
                                         />
                                     )

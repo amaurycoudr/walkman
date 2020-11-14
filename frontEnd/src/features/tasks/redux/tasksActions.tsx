@@ -2,6 +2,7 @@ import {CaseReducer, PayloadAction} from "@reduxjs/toolkit";
 import { tasksDictType, tasksState, taskType, taskTypeApiResult} from "../tasksType";
 import {filterType} from "../tasksType";
 import {FAILED, LOADING, SUCCEEDED} from "../../../helpers/api";
+import {initialTaskState} from "./tasksSlice";
 
 export const changeFilterAction: CaseReducer<tasksState, PayloadAction<filterType>> = (state, action) => {
     return ({
@@ -22,6 +23,9 @@ export const initFocusTaskAction: CaseReducer<tasksState> = (state) => {
     return ({
         ...state, taskEdit: null, taskFocus: null,
     })
+}
+export const initTaskStateAction: CaseReducer<tasksState> = (state) => {
+    return initialTaskState;
 }
 //action without Action at the end => Action that handle side effect (API Call)
 export const addTasksFetch: CaseReducer<tasksState, PayloadAction<taskTypeApiResult[] | undefined>> = (state, action) => {

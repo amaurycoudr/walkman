@@ -14,16 +14,17 @@ const reducers = combineReducers({
 
 const persistConfig = {
     key: 'root',
-    storage: AsyncStorage
-}
+    storage: AsyncStorage,
+    whitelist: ['token']
+    }
 
 const persistedReducer = persistReducer(persistConfig, reducers)
 
 const store = configureStore({
-    reducer: reducers,
-
+    reducer: persistedReducer,
+    middleware: [thunk, logger]
 
 });
-
+export const persist = persistStore(store)
 export type RootState = ReturnType<typeof store.getState>
 export default store;

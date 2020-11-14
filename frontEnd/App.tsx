@@ -62,9 +62,9 @@ const AppNav = () => {
 const App = () => {
     return (
         <Provider store={store}>
-
-            <AppNav/>
-
+            <PersistGate loading={null} persistor={persist}>
+                <AppNav/>
+            </PersistGate>
         </Provider>
     )
 }
