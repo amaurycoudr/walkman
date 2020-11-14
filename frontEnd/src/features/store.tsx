@@ -7,16 +7,20 @@ import thunk from "redux-thunk";
 import logger from "redux-logger";
 
 
+const tasksConfig = {
+    key: 'tasks',
+    storage: AsyncStorage,
+    whitelist: ['tasksDict','difficulties','categories']
+}
 const reducers = combineReducers({
     token: tokenReducer,
-    tasks: tasksReducer,
+    tasks: persistReducer(tasksConfig, tasksReducer),
 })
-
 const persistConfig = {
     key: 'root',
     storage: AsyncStorage,
-    whitelist: ['token']
-    }
+    blacklist: ['tasks']
+}
 
 const persistedReducer = persistReducer(persistConfig, reducers)
 

@@ -1,33 +1,19 @@
-import {createSelector, createSlice} from "@reduxjs/toolkit";
-import {INITIAL} from "../../../helpers/api";
+import {createSlice} from "@reduxjs/toolkit";
 import {RootState} from "../../store";
-import {TASKS_FILTER_STATE} from "../tasksConst";
+import {initialTaskState} from "../tasksConst";
 import {createTask, fetchCategories, fetchDifficulties, fetchTasks, updateTask} from "./tasksAsyncThunk";
-import {tasksState, taskTypeApiResult} from "../tasksType";
 import {
-    changeFilterAction,
-
-    focusTaskAction,
-    initEditTaskAction,
-    initFocusTaskAction,
-    initTaskStateAction,
+    addTask,
     addTasksFetch,
     apiCallFailed,
     apiCallLoading,
-    addTask
+    changeFilterAction,
+    focusTaskAction,
+    initEditTaskAction,
+    initFocusTaskAction,
+    initTaskStateAction
 } from "./tasksActions";
 
-
-export const initialTaskState: tasksState = {
-    tasksDict: {},
-    status: INITIAL,
-    filter: TASKS_FILTER_STATE,
-    categories: [],
-    difficulties: [],
-    statesTask: [],
-    taskFocus: null,
-    taskEdit: null,
-}
 
 export const tasksSlice = createSlice({
     name: 'tasks',

@@ -2,7 +2,7 @@ import {CaseReducer, PayloadAction} from "@reduxjs/toolkit";
 import { tasksDictType, tasksState, taskType, taskTypeApiResult} from "../tasksType";
 import {filterType} from "../tasksType";
 import {FAILED, LOADING, SUCCEEDED} from "../../../helpers/api";
-import {initialTaskState} from "./tasksSlice";
+import {initialTaskState} from "../tasksConst";
 
 export const changeFilterAction: CaseReducer<tasksState, PayloadAction<filterType>> = (state, action) => {
     return ({
