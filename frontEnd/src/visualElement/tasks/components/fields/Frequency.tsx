@@ -5,15 +5,16 @@ import EditableSlider from "../EditableSlider";
 
 interface Props {
     value: number,
-    setSliderField: Function
+    setSliderField: Function,
+    isEditable : boolean
 }
 
-const Frequency: FC<Props> = ({ value, setSliderField }) => {
+const Frequency: FC<Props> = ({ value, setSliderField, isEditable }) => {
 
 
     return (
         <View>
-            <Text onPress={() => setSliderField("frequency")}>Fréquence : {value}</Text>
+            <Text onPress={() => isEditable ? setSliderField("frequency") : null}>Fréquence : {value}</Text>
         </View>
     )
 }

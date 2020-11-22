@@ -14,10 +14,9 @@ interface Props {
 
 const EditableTextInput: FC<Props> = ({ field, value, isEdited, isEditable, styleText, styleInput }) => {
 
-    //const [value, setValue] = useState<string>(initialValue);
+
 
     const handleChangeText = (newValue: string) => {
-        //setValue(newValue);
         isEdited({ [field]: newValue });
     };
 

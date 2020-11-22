@@ -52,14 +52,15 @@ const TaskThumbnail: FC<Props> = ({ task, edits, cate, difficulty, isEditable, i
 
 
             <Title
-                value={edits ? edits.title ? edits.title : task.title : task.title}
+                value={edits ? "title" in edits ? edits.title! : task.title : task.title}
                 editTitle={editTask}
                 isEditable={isEditing}
             />
 
             <Frequency
-                value={edits ? edits.frequency ? edits.frequency : task.frequency : task.frequency}
+                value={edits ? "frequency" in edits ? edits.frequency! : task.frequency : task.frequency}
                 setSliderField={setSliderField}
+                isEditable={isEditing}
             />
 
             <ProgressBar
@@ -71,8 +72,9 @@ const TaskThumbnail: FC<Props> = ({ task, edits, cate, difficulty, isEditable, i
             {
                 task.duration ?
                     <Duration
-                        value={edits ? edits.duration ? edits.duration : task.duration : task.duration}
+                        value={edits ? "duration" in edits ? edits.duration! : task.duration : task.duration}
                         setSliderField={setSliderField}
+                        isEditable={isEditing}
                     />
                     :
                     null

@@ -5,10 +5,11 @@ import IconActionLess from "../IconActionLess";
 
 interface Props {
     value : number,
-    setSliderField: Function
+    setSliderField: Function,
+    isEditable: boolean
 }
 
-const Duration:FC<Props> = ({value,setSliderField}) => {
+const Duration:FC<Props> = ({value,setSliderField, isEditable}) => {
     return (
         <View>
             <IconActionLess
@@ -16,7 +17,7 @@ const Duration:FC<Props> = ({value,setSliderField}) => {
             size={15}
             color="green"
             />
-            <Text onPress={() => setSliderField("duration")}>Durée : {value} minutes</Text>
+            <Text onPress={() => isEditable ? setSliderField("duration") : null}>Durée : {value} minutes</Text>
         </View>
     )
 }
