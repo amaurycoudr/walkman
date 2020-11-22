@@ -1,12 +1,12 @@
-import {Dispatch, Reducer, useEffect, useReducer} from "react";
-import {editTaskType, filterType, taskType} from "../tasksType";
-import {useDispatch, useSelector} from "react-redux";
-import {createTask, fetchCategories, fetchDifficulties, fetchTasks, updateTask} from "../redux/tasksAsyncThunk";
-import {tasksStatusSelector, tasksTasksSelector, tasksTitleSelector} from "../redux/tasksSlice";
-import {taskIsValid, titleIsValid} from "../taskVerification";
-import {selectToken} from "../../token/redux/tokenSlice";
-import {INITIAL} from "../../../helpers/api";
-import {changeFilter, initEditTask} from "../redux/tasksSlice";
+import { Dispatch, Reducer, useEffect, useReducer } from "react";
+import { editTaskType, filterType, taskType } from "../tasksType";
+import { useDispatch, useSelector } from "react-redux";
+import { createTask, fetchCategories, fetchDifficulties, fetchTasks, updateTask } from "../redux/tasksAsyncThunk";
+import { tasksStatusSelector, tasksTasksSelector, tasksTitleSelector } from "../redux/tasksSlice";
+import { taskIsValid, titleIsValid } from "../taskVerification";
+import { selectToken } from "../../token/redux/tokenSlice";
+import { INITIAL } from "../../../helpers/api";
+import { changeFilter, initEditTask } from "../redux/tasksSlice";
 
 type ActionType =
     | { type: 'addElement'; payload: editTaskType }
@@ -23,10 +23,10 @@ type StateType = {
 
 const reducer: Reducer<StateType, ActionType> = (state, action) => {
     switch (action.type) {
-        case 'addElement' :
+        case 'addElement':
             return {
                 ...state,
-                elements: Object.assign({...state.elements}, action.payload),
+                elements: Object.assign({ ...state.elements }, action.payload),
                 errorTitle: action.payload.title ?
                     !titleIsValid(action.payload.title, state.taskTitles, state.initialTask ? state.initialTask.title : null)
                     : false
@@ -34,7 +34,7 @@ const reducer: Reducer<StateType, ActionType> = (state, action) => {
         case "initTaskState":
             return init(action.payload)
         case "selectTaskForEdition":
-            return {...init(action.payload.titles), initialTask: action.payload.taskForEdit}
+            return { ...init(action.payload.titles), initialTask: action.payload.taskForEdit }
 
 
     }
@@ -63,7 +63,7 @@ export default () => {
     const reduxDispatch = useDispatch()
     const addElement = (dispatch: Dispatch<ActionType>) => {
         return ((edit: editTaskType) => {
-            dispatch({type: 'addElement', payload: edit})
+            dispatch({ type: 'addElement', payload: edit })
         })
 
     }
@@ -71,21 +71,21 @@ export default () => {
     const initTaskState = (dispatch: Dispatch<ActionType>) => {
         return (() => {
             reduxDispatch(initEditTask(null))
-            dispatch({type: 'initTaskState', payload: taskTitles})
+            dispatch({ type: 'initTaskState', payload: taskTitles })
         })
     }
     const saveTaskEdition = (dispatch: Dispatch<ActionType>) => {
         return (() => {
             reduxDispatch(updateTask(state.elements))
             reduxDispatch(initEditTask(null))
-            dispatch({type: 'initTaskState', payload: taskTitles})
+            dispatch({ type: 'initTaskState', payload: taskTitles })
         })
     }
     const createNewTask = (dispatch: Dispatch<ActionType>) => {
         return (() => {
             if (taskIsValid(state.elements)) {
                 reduxDispatch(createTask(state.elements as taskType))
-                dispatch({type: 'initTaskState', payload: taskTitles})
+                dispatch({ type: 'initTaskState', payload: taskTitles })
             }
         })
     }
@@ -95,7 +95,7 @@ export default () => {
             reduxDispatch(initEditTask(taskId))
             dispatch({
                 type: "selectTaskForEdition",
-                payload: {taskForEdit: taskValues[taskId], titles: taskTitles}
+                payload: { taskForEdit: taskValues[taskId], titles: taskTitles }
             })
         })
     }
