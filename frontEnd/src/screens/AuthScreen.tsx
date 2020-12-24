@@ -1,16 +1,13 @@
 import React, {useState,useContext} from "react";
 
 // components
-import AuthContainer from "../components/authScreen/AuthContainer";
+import AuthContainer from "../visualElement/auth/container/AuthContainer";
 
 //context
-import {AuthProvider} from "../contexts/AuthContext";
-
-
+import {AuthProvider} from "../features/token/contexts/AuthContext";
 
 
 const AuthScreen = () => {
-
     return(
         <AuthProvider>
             <AuthContainer />
