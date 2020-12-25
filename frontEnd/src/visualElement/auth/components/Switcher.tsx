@@ -1,32 +1,27 @@
 import React, {FC} from 'react'
-import { View, StyleSheet } from 'react-native'
+import {View} from 'react-native'
 
 import SwitcherButton from "./SwitcherButton";
+import {Borders, Buttons, Colors, Positions} from "../../../styles/Index";
 
-import globalStyles from "../styles/global"
 
-const Switcher:FC<{mean:"email"|"phone",changeMean:Function}> = ({mean,changeMean}) => {
+const Switcher: FC<{ mean: "email" | "phone", changeMean: Function }> = ({mean, changeMean}) => {
     return (
-        <View style={{...styles.root,...globalStyles.margin5}}>
-            <SwitcherButton 
-            text="phone"
-            changer={changeMean}
-            selected={mean==="phone"}
+        <View
+            style={{...Colors.white_background,...Positions.flex_row, ...Buttons.switcher_size, ...Borders.border_shadow,...Borders.border_radius_20}}>
+            <SwitcherButton
+                text="Telephone"
+                changer={() => changeMean("phone")}
+                selected={mean === "phone"}
             />
-            <SwitcherButton 
-            text="email"
-            changer={changeMean}
-            selected={mean==="email"}
+            <SwitcherButton
+                text="Email"
+                changer={() => changeMean("email")}
+                selected={mean === "email"}
             />
         </View>
     )
 }
 
-const styles = StyleSheet.create({
-    root : {
-        flexDirection : "row",
-        justifyContent : "space-between"
-    },
-})
 
 export default Switcher;
