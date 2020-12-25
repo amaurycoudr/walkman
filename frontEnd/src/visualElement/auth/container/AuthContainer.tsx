@@ -7,6 +7,7 @@ import SignInContainer from "./SignInContainer";
 import ErrorMessage from "../components/ErrorMessage";
 
 import {AuthContext} from "../../../features/token/contexts/AuthContext"
+import {green_0} from "../../../styles/colors";
 
 const switchRender = (container:"SignUpContainer"|"SignInContainer"|"GetCodeContainer") => {
     
@@ -38,6 +39,7 @@ export default function AuthContainer() {
 const styles = StyleSheet.create({
     root : {
         flex : 1,
+        backgroundColor:green_0,
         flexDirection : "column",
         justifyContent : "center",
         alignItems : "center"
