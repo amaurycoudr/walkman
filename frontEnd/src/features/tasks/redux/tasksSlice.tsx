@@ -61,8 +61,6 @@ export const { changeFilter, initEditTask, focusTask, initFocusTask, initTaskSta
 const tasksReducer = tasksSlice.reducer
 export default tasksReducer
 
-
-export const tasksSelector = (state: RootState) => state.tasks
 export const tasksStatusSelector = (state: RootState) => state.tasks.status
 export const tasksFilterSelector = (state: RootState) => state.tasks.filter
 export const tasksDifficultiesSelector = (state: RootState) => state.tasks.difficulties

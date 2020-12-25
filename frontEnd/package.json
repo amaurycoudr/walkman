@@ -8,6 +8,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@expo-google-fonts/lato": "^0.1.0",
     "@react-native-community/async-storage": "^1.12.1",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-native-community/slider": "^3.0.3",
@@ -20,6 +21,7 @@
     "@types/redux-logger": "^3.0.8",
     "axios": "^0.20.0",
     "expo": "~39.0.2",
+    "expo-font": "^8.3.0",
     "expo-status-bar": "~1.0.2",
     "react": "16.13.1",
     "react-dom": "16.13.1",
@@ -44,5 +46,10 @@
     "@types/react-native": "~0.63.2",
     "typescript": "~3.9.5"
   },
-  "private": true
+  "private": true,
+  "rnpm": {
+    "assets": [
+      "assets/fonts/Lato"
+    ]
+  }
 }
