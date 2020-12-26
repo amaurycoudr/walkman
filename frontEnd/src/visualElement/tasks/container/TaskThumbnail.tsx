@@ -13,6 +13,7 @@ import SendEdit from "../components/fields/SendEdit";
 import Duration from "../components/fields/Duration";
 import EditableSlider from "../components/EditableSlider";
 import Category from '../components/fields/Category';
+import {Spacer} from "../../Spacer"
 
 // Type 
 import { taskType, editTaskType, category, difficulty } from "../../../features/tasks/tasksType"
@@ -45,11 +46,12 @@ const TaskThumbnail: FC<Props> = ({ task, edits, cate, difficulty, isEditable, i
 
         <View style={styles.root}>
 
+            <Spacer.Column nbSpace={15} />
+
             <EditIcon
                 initEdit={initEdit}
                 disabled={!isEditable}
             />
-
 
             <Title
                 value={edits ? "title" in edits ? edits.title! : task.title : task.title}
