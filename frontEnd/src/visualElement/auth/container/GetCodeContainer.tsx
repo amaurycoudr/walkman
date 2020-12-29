@@ -10,6 +10,7 @@ import AuthButton from "../components/AuthButton"
 import {AuthContext} from "../../../features/token/contexts/AuthContext";
 import {StyleSheet} from "react-native";
 import {Colors} from "../../../styles/Index";
+import {MEAN_MAIL} from "../../../features/token/AuthConst";
 
 
 const getCodeContainer: FC = () => {
@@ -20,7 +21,7 @@ const getCodeContainer: FC = () => {
     return (
         <View>
             <Switcher mean={mean} changeMean={changeMean}/>
-            {mean === "phone" ?
+            {mean === MEAN_MAIL ?
                 <PhoneInput
                     identificationChange={identificationChange}
                     identification={identification}

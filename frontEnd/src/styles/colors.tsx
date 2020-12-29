@@ -22,6 +22,9 @@ export const blue_text = {
 export const green_3_background = {
     backgroundColor: green_3
 }
+export const green_2_background = {
+    backgroundColor: green_2
+}
 export const white_background = {
     backgroundColor: white_custom,
 }
