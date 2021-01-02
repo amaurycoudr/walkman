@@ -74,7 +74,7 @@ const initialState: StateType = {
 const reducer: Reducer<StateType, ActionType> = (state, action) => {
     switch (action.type) {
         case 'setMean' :
-            return {...state, mean: action.payload}
+            return {...state, mean: action.payload,identification: ""}
         case 'setIdentification' :
             return {...state, identification: action.payload}
         case 'setPseudo' :
@@ -156,6 +156,7 @@ export const AuthProvider: React.FC = ({children}) => {
             return
         }
         const url = user_url + "/signup/?type=" + mean
+
         let data = {
             [mean]: identification,
             name: pseudo
@@ -230,9 +231,11 @@ export const AuthProvider: React.FC = ({children}) => {
             dispatch({type: "setErrorMessage", payload: "Il semblerait que vous ayez déjà reçu un code de connexion."})
             return
         }
+        console.log("ON EST LAAAA")
+        console.log(otp)
         let data = {
             [mean]: identification,
-            otp: parseInt(otp)
+            otp: otp
         }
         dispatch({type: "setLoading", payload: true})
         axios.post(url, data)

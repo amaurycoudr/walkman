@@ -189,6 +189,8 @@ class SignInView(viewsets.ViewSet):
                 confirm that the user is signup
         """
         user, count_type = retrieve_user(request)
+        print(user, count_type)
+        print(request.data["otp"])
         otp = OneTimePassword.objects.get(user=user)
         key = base64.b32encode(return_value(user.name).encode())
         code = HOTP(key)

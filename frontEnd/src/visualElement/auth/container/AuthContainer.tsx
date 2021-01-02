@@ -1,59 +1,53 @@
-import React, {RefObject, useContext, useEffect, useRef} from "react";
-import {View, StyleSheet, StatusBar, ScrollView, Dimensions} from "react-native";
+import React, {useContext} from "react";
+import {View, StyleSheet, Image} from "react-native";
 
 import SignUpContainer from "./SignUpContainer";
 import GetCodeContainer from "./GetCodeContainer";
 import SignInContainer from "./SignInContainer";
-import ErrorMessage from "../components/ErrorMessage";
 
 import {AuthContext} from "../../../features/token/contexts/AuthContext"
-import {blue, green_0} from "../../../styles/colors";
+
 import {Borders, Colors, Dimension, Positions} from "../../../styles/Index";
-import {AUTH_WIDTH} from "../../../styles/dimension";
-import {GET_CODE_CONTAINER, SIGN_IN_CONTAINER, SIGN_UP_CONTAINER} from "../../../features/token/AuthConst";
+
+import TransitionScrollView from "../../components/TransitionScrollView";
+import Titles from "../components/Titles";
+import {CONTAINER_WIDTH, PX_HEIGHT_CONVERSION,} from "../../../styles/dimension";
+import {Spacer} from "../../components/Spacer";
+import "../../../img/auth.png";
+import {AUTH_CONTAINERS} from "../../../helpers/consts/AuthConst";
 
 export default function AuthContainer() {
 
-    const {container, errorMessage} = useContext(AuthContext)!;
-    const scrollView: RefObject<ScrollView> = useRef(null)
-    useEffect(() => {
-        if (scrollView.current) {
-            if (container === SIGN_UP_CONTAINER) {
-                scrollView.current.scrollTo({x: AUTH_WIDTH * 0})
-            }
-            if (container === GET_CODE_CONTAINER) {
-                scrollView.current.scrollTo({x: AUTH_WIDTH * 1})
-            }
-            if (container === SIGN_IN_CONTAINER) {
-                scrollView.current.scrollTo({x: AUTH_WIDTH * 2})
-            }
-        }
-    }, [container])
+    const {container} = useContext(AuthContext)!;
     return (
         <View style={styles.root}>
+            <Image source={require("../../../img/auth.png")} style={styles.image}/>
             <View
-                style={{...styles.scrollView}}
+                style={{...styles.globalElement}}
             >
+                <Titles
+                    means={AUTH_CONTAINERS}
+                    mean={container}
+                />
+                <Spacer.Row nbSpace={10 * PX_HEIGHT_CONVERSION}/>
 
-
-                <ScrollView
-                    ref={scrollView}
-                    horizontal={true}
-                    pagingEnabled={true}
-                    showsHorizontalScrollIndicator={false}
-                    scrollEnabled={false}
+                <View
+                    style={{...styles.scrollView}}
                 >
-                    <View style={styles.scrollViewElements}>
-                        <SignUpContainer/>
-                    </View>
-                    <View style={styles.scrollViewElements}>
-                        <GetCodeContainer/>
-                    </View>
-                    <View style={styles.scrollViewElements}>
-                        <SignInContainer/>
-                    </View>
-                </ScrollView>
+                    <TransitionScrollView width={CONTAINER_WIDTH} items={AUTH_CONTAINERS} currentItem={container}>
+                        <View style={styles.scrollViewElements}>
+                            <SignUpContainer/>
+                        </View>
+                        <View style={styles.scrollViewElements}>
+                            <GetCodeContainer/>
+                        </View>
+                        <View style={styles.scrollViewElements}>
+                            <SignInContainer/>
+                        </View>
+                    </TransitionScrollView>
+                </View>
             </View>
+
         </View>
     )
 };
@@ -61,19 +55,26 @@ export default function AuthContainer() {
 const styles = StyleSheet.create({
     root: {
         flex: 1,
-        backgroundColor: green_0,
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center"
+        ...Colors.green_0_background,
+        ...Positions.flex_column,
+        ...Positions.items_center
+    },
+    image: {
+        ...Positions.img_position_absolute,
+        ...Positions.auth_img,
+        ...Dimension.auth_img_size,
     },
     scrollView: {
-        width: Dimension.AUTH_WIDTH,
-        height: 500,
+        ...Dimension.auth_container_size,
         ...Borders.border_shadow,
         ...Borders.border_radius_30,
         ...Colors.white_background
     },
     scrollViewElements: {
-        width: Dimension.AUTH_WIDTH
+        ...Dimension.auth_container_size
+    },
+    globalElement: {
+        ...Positions.auth_container,
+        ...Positions.items_center
     }
 });

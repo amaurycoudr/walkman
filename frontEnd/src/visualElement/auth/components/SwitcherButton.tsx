@@ -1,5 +1,5 @@
 import React, {FC} from 'react'
-import {Text, TouchableOpacity, StyleSheet} from 'react-native'
+import {Text, TouchableOpacity} from 'react-native'
 import {Borders, Dimension, Colors, Positions, Typography} from "../../../styles/Index";
 
 
@@ -14,7 +14,7 @@ const SwitcherButton: FC<{ text: string, changer: Function, selected: boolean }>
         ...viewColor,
         ...Borders.border_radius_20,
         ...Dimension.switcher_button_size,
-        ...Positions.center
+        ...Positions.content_items_center
     }
     return (
 
