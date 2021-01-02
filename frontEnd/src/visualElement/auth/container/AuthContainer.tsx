@@ -1,5 +1,5 @@
 import React, {useContext} from "react";
-import {View, StyleSheet, Image} from "react-native";
+import {View, StyleSheet, Image, Text} from "react-native";
 
 import SignUpContainer from "./SignUpContainer";
 import GetCodeContainer from "./GetCodeContainer";
@@ -15,6 +15,7 @@ import {CONTAINER_WIDTH, PX_HEIGHT_CONVERSION,} from "../../../styles/dimension"
 import {Spacer} from "../../components/Spacer";
 import "../../../img/auth.png";
 import {AUTH_CONTAINERS} from "../../../helpers/consts/AuthConst";
+import {useTranslation} from "react-i18next";
 
 export default function AuthContainer() {
 
@@ -25,6 +26,7 @@ export default function AuthContainer() {
             <View
                 style={{...styles.globalElement}}
             >
+
                 <Titles
                     means={AUTH_CONTAINERS}
                     mean={container}

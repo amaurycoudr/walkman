@@ -6,10 +6,12 @@ import AuthButton from "../components/AuthButton"
 
 import {AuthContext} from "../../../features/token/contexts/AuthContext";
 import SwitcherInput from "../components/SwitcherInput";
+import {SIGN_UP_CONTAINER} from "../../../helpers/consts/AuthConst";
+import {useTranslation} from "react-i18next";
 
 
 const getCodeContainer: FC = () => {
-
+    const {t}=useTranslation()
     const {
         mean,
         changeMean,
@@ -19,7 +21,7 @@ const getCodeContainer: FC = () => {
         authNavigation,
         getCode,
         loading
-         } = useContext(AuthContext)!;
+    } = useContext(AuthContext)!;
 
 
     return (
@@ -32,8 +34,8 @@ const getCodeContainer: FC = () => {
                 mean={mean}
             />
 
-            <AuthButton text="Recevoir mon code" changer={getCode} args={[mean, identification]} loading={loading}/>
-            <AuthNavigation message="Pas encore de compte ? " linkName="S'inscrire" container="SignUpContainer"
+            <AuthButton text={t('authScreen:btnGetCode')} changer={getCode} args={[mean, identification]} loading={loading}/>
+            <AuthNavigation message={t('authScreen:textSignUp')} linkName={t('authScreen:linkSignUp')} container={SIGN_UP_CONTAINER}
                             changeContainer={authNavigation}/>
         </View>
     )

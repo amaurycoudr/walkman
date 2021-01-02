@@ -6,17 +6,17 @@ import {AuthContext} from "../../../features/token/contexts/AuthContext";
 import PseudoInput from "../components/PseudoInput"
 import AuthNavigation from "../components/AuthNavigation"
 import AuthButton from "../components/AuthButton"
-import {GET_CODE_CONTAINER, SIGN_IN_CONTAINER} from "../../../features/token/AuthConst";
+
 import SwitcherInput from "../components/SwitcherInput";
-
-
+import {GET_CODE_CONTAINER, SIGN_IN_CONTAINER} from "../../../helpers/consts/AuthConst";
+import {useTranslation} from "react-i18next";
 
 
 const SignUpContainer: FC = () => {
-
+    const {t} = useTranslation()
     const {pseudo, pseudoChange, pseudoIsValid, mean, changeMean, identificationChange, identification, identificationIsValid, signUp, authNavigation, loading} = useContext(AuthContext)!
     return (
-        <View >
+        <View>
             <PseudoInput
                 pseudoChange={pseudoChange}
                 pseudo={pseudo}
@@ -30,12 +30,24 @@ const SignUpContainer: FC = () => {
                 identificationIsValid={identificationIsValid}
                 mean={mean}
             />
-            <AuthButton text="S'inscrire" changer={signUp} args={[pseudo, mean, identification]} loading={loading}/>
+            <AuthButton
+                text={t('authScreen:btnSignUp')}
+                changer={signUp}
+                args={[pseudo, mean, identification]}
+                loading={loading}/>
 
-            <AuthNavigation message="Déjà un compte ? " linkName="Recevoir mon code" changeContainer={authNavigation}
-                            container={GET_CODE_CONTAINER}/>
-            <AuthNavigation message="Déjà reçu un code ? " linkName="Se connecter" changeContainer={authNavigation}
-                            container={SIGN_IN_CONTAINER}/>
+            <AuthNavigation
+                message={t('authScreen:textAlreadyCount')}
+                linkName={t('authScreen:linkAlreadyCount')}
+                changeContainer={authNavigation}
+                container={GET_CODE_CONTAINER}
+            />
+            <AuthNavigation
+                message={t('authScreen:textAlreadyCode')}
+                linkName={t('authScreen:linkAlreadyCode')}
+                changeContainer={authNavigation}
+                container={SIGN_IN_CONTAINER}
+            />
 
         </View>
     )

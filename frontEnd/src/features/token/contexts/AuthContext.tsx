@@ -10,7 +10,7 @@ import {setToken} from "../redux/tokenSlice";
 import {pseudoValid, setFormatPhone, signInValid, signUpValid} from "../../../helpers/authCheckers";
 import {useDispatch} from "react-redux";
 import {BASE_URL} from "../../../helpers/api";
-import {GET_CODE_CONTAINER, MEAN_MAIL, MEAN_PHONE, SIGN_IN_CONTAINER, SIGN_UP_CONTAINER} from "../AuthConst";
+import {GET_CODE_CONTAINER, MEAN_MAIL, MEAN_PHONE, SIGN_IN_CONTAINER, SIGN_UP_CONTAINER} from "../../../helpers/consts/AuthConst";
 
 // Typescript
 export type Container= typeof SIGN_IN_CONTAINER | typeof SIGN_UP_CONTAINER | typeof GET_CODE_CONTAINER
