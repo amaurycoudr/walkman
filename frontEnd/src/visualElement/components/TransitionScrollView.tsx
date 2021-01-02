@@ -1,32 +1,40 @@
-import React, {FC, RefObject, useEffect, useRef} from "react";
-import {ScrollView} from "react-native";
+import React, {FC, RefObject, useEffect, useRef, useState} from "react";
+import {Animated, ScrollView, View} from "react-native";
 import {CONTAINER_WIDTH} from "../../styles/dimension";
+import {Positions} from "../../styles/Index";
 
 type TransitionScrollViewProps = {
     items: string[],
     currentItem: string,
-    width:number
+    width: number,
+    speed:number
 }
-const TransitionScrollView: FC<TransitionScrollViewProps> = ({items, currentItem,width, children}) => {
-    const scrollView: RefObject<ScrollView> = useRef(null)
+const TransitionScrollView: FC<TransitionScrollViewProps> = ({items, currentItem, width,speed, children}) => {
+    const view: RefObject<View> = useRef(null)
+    const [leftAnimation] = useState(new Animated.Value(0))
     useEffect(() => {
         const index = items.indexOf(currentItem)
-        if(scrollView.current){
-            scrollView.current.scrollTo({x: width * index})
-        }
+        Animated.timing(leftAnimation, {
+            toValue: -index * width,
+            duration: speed,
+            useNativeDriver: false
+        }).start();
     }, [currentItem])
 
-    return (
-        <ScrollView
 
-            ref={scrollView}
-            horizontal={true}
-            pagingEnabled={true}
-            showsHorizontalScrollIndicator={false}
-            scrollEnabled={false}
-        >
-            {children}
-        </ScrollView>
+    const leftStyle = {
+        left: leftAnimation
+    }
+    return (
+        <View style={{overflow:"hidden"}}>
+            <Animated.View
+                style={{...Positions.flex_row, ...leftStyle}}
+                ref={view}
+
+            >
+                {children}
+            </Animated.View>
+        </View>
     )
 
 }

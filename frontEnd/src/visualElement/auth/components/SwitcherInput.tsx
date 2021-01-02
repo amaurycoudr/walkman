@@ -6,7 +6,7 @@ import PhoneInput from "./PhoneInput";
 import EmailInput from "./EmailInput";
 import React, {FC} from "react";
 import {Mean} from "../../../features/token/contexts/AuthContext";
-import {MEANS} from "../../../helpers/consts/AuthConst";
+import {MEANS, SPEED_TRANSITION_SWITCHER} from "../../../helpers/consts/AuthConst";
 
 type Props = {
     identificationIsValid: boolean,
@@ -29,7 +29,7 @@ const SwitcherInput: FC<Props> = (
 
             <Switcher mean={mean} changeMean={changeMean}/>
 
-            <TransitionScrollView width={CONTAINER_WIDTH} items={MEANS} currentItem={mean}>
+            <TransitionScrollView speed={SPEED_TRANSITION_SWITCHER} width={CONTAINER_WIDTH} items={MEANS} currentItem={mean}>
                 <View style={{width: CONTAINER_WIDTH}}>
                     <PhoneInput
                         identificationChange={identificationChange}

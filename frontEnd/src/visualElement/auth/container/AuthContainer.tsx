@@ -1,5 +1,5 @@
 import React, {useContext} from "react";
-import {View, StyleSheet, Image, Text} from "react-native";
+import {View, StyleSheet, Image} from "react-native";
 
 import SignUpContainer from "./SignUpContainer";
 import GetCodeContainer from "./GetCodeContainer";
@@ -15,7 +15,7 @@ import {CONTAINER_WIDTH, PX_HEIGHT_CONVERSION,} from "../../../styles/dimension"
 import {Spacer} from "../../components/Spacer";
 import "../../../img/auth.png";
 import {AUTH_CONTAINERS} from "../../../helpers/consts/AuthConst";
-import {useTranslation} from "react-i18next";
+
 
 export default function AuthContainer() {
 
@@ -36,7 +36,8 @@ export default function AuthContainer() {
                 <View
                     style={{...styles.scrollView}}
                 >
-                    <TransitionScrollView width={CONTAINER_WIDTH} items={AUTH_CONTAINERS} currentItem={container}>
+                    <TransitionScrollView speed={600} width={CONTAINER_WIDTH} items={AUTH_CONTAINERS}
+                                          currentItem={container}>
                         <View style={styles.scrollViewElements}>
                             <SignUpContainer/>
                         </View>

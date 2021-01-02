@@ -10,11 +10,17 @@ import {setToken} from "../redux/tokenSlice";
 import {pseudoValid, setFormatPhone, signInValid, signUpValid} from "../../../helpers/authCheckers";
 import {useDispatch} from "react-redux";
 import {BASE_URL} from "../../../helpers/api";
-import {GET_CODE_CONTAINER, MEAN_MAIL, MEAN_PHONE, SIGN_IN_CONTAINER, SIGN_UP_CONTAINER} from "../../../helpers/consts/AuthConst";
+import {
+    GET_CODE_CONTAINER,
+    MEAN_MAIL,
+    MEAN_PHONE,
+    SIGN_IN_CONTAINER,
+    SIGN_UP_CONTAINER
+} from "../../../helpers/consts/AuthConst";
 
 // Typescript
-export type Container= typeof SIGN_IN_CONTAINER | typeof SIGN_UP_CONTAINER | typeof GET_CODE_CONTAINER
-export type Mean=typeof  MEAN_PHONE|typeof MEAN_MAIL
+export type Container = typeof SIGN_IN_CONTAINER | typeof SIGN_UP_CONTAINER | typeof GET_CODE_CONTAINER
+export type Mean = typeof MEAN_PHONE | typeof MEAN_MAIL
 type StateType = {
     mean: Mean,
     identification: string,
@@ -54,7 +60,7 @@ type ActionType =
     | { type: 'reset'; payload: StateType }
     | { type: 'setErrorMessage'; payload: string }
     | { type: 'setLoading'; payload: boolean }
-    | { type: 'setContainer'; payload: Container};
+    | { type: 'setContainer'; payload: Container };
 
 
 const initialState: StateType = {
@@ -74,7 +80,7 @@ const initialState: StateType = {
 const reducer: Reducer<StateType, ActionType> = (state, action) => {
     switch (action.type) {
         case 'setMean' :
-            return {...state, mean: action.payload,identification: ""}
+            return {...state, mean: action.payload, identification: ""}
         case 'setIdentification' :
             return {...state, identification: action.payload}
         case 'setPseudo' :
@@ -180,7 +186,9 @@ export const AuthProvider: React.FC = ({children}) => {
                             })
                             return
                     }
-                })
+                }).catch((e) => {
+            console.log(e)
+        })
     };
 
 
@@ -217,7 +225,9 @@ export const AuthProvider: React.FC = ({children}) => {
                             return
                     }
                 }
-            )
+            ).catch((e) => {
+            console.log(e)
+        })
 
     };
 
@@ -263,7 +273,9 @@ export const AuthProvider: React.FC = ({children}) => {
                         }
                         break;
                 }
-            })
+            }).catch((e) => {
+            console.log(e)
+        })
     };
 
     const authNavigation = (dispatch: React.Dispatch<ActionType>) => (container: Container) => {

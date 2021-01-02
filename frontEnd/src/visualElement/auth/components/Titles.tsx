@@ -28,7 +28,7 @@ const Titles: FC<Props> = ({mean, means}) => {
         t('authScreen:titleSignUp'), t('authScreen:titleGetCode'), t('authScreen:titleSignIn')]
     return (
         <View style={ViewStyle}>
-            <TransitionScrollView width={SCREEN_WIDTH} items={means} currentItem={mean}>
+            <TransitionScrollView speed={600} width={SCREEN_WIDTH} items={means} currentItem={mean}>
 
                 {AUTH_TITLES.map((item, index) =>
                     (
