@@ -8,9 +8,10 @@ import {useTranslation} from "react-i18next";
 
 type Props = {
     mean: string,
-    means: string[]
+    means: string[],
+    titles:string[]
 }
-const Titles: FC<Props> = ({mean, means}) => {
+const Titles: FC<Props> = ({mean, means,titles,}) => {
     const {t} = useTranslation()
     const ViewStyle = {
         width: SCREEN_WIDTH,
@@ -25,12 +26,12 @@ const Titles: FC<Props> = ({mean, means}) => {
         ...Colors.white_text
     }
     const AUTH_TITLES = [
-        t('authScreen:titleSignUp'), t('authScreen:titleGetCode'), t('authScreen:titleSignIn')]
+        t('authScreen:titleGetCode'),t('authScreen:titleSignUp'),  t('authScreen:titleSignIn')]
     return (
         <View style={ViewStyle}>
             <TransitionScrollView speed={600} width={SCREEN_WIDTH} items={means} currentItem={mean}>
 
-                {AUTH_TITLES.map((item, index) =>
+                {titles.map((item, index) =>
                     (
                         <Text key={index}
                               style={TextStyle}>

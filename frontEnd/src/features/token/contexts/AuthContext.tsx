@@ -241,8 +241,7 @@ export const AuthProvider: React.FC = ({children}) => {
             dispatch({type: "setErrorMessage", payload: "Il semblerait que vous ayez déjà reçu un code de connexion."})
             return
         }
-        console.log("ON EST LAAAA")
-        console.log(otp)
+
         let data = {
             [mean]: identification,
             otp: otp

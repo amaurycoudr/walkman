@@ -4,20 +4,25 @@ import {Dimensions, ImageStyle, ViewStyle} from "react-native";
 export const SCREEN_WIDTH = Dimensions.get("screen").width;
 export const SCREEN_HEIGHT = Dimensions.get("screen").height;
 
-//CONVERSION WITH FIGMA FRAME 375*875
+//CONVERSION WITH FIGMA FRAME 375*812
 export const PX_WIDTH_CONVERSION = SCREEN_WIDTH / 375;
 export const PX_HEIGHT_CONVERSION = SCREEN_HEIGHT / 812;
+export const RATIO=375/812
+
+export const PX_WIDTH_MAX = 1100 / 812;
+export const PX_HEIGHT_MAX = 1100 / 812;
 
 //AUTH PX ELEMENTS
-export const SWITCHER_INPUT_WIDTH = 320 * PX_WIDTH_CONVERSION;
-export const SWITCHER_INPUT_HEIGHT = 70 * PX_HEIGHT_CONVERSION
-export const CONTAINER_WIDTH = 347 * PX_WIDTH_CONVERSION;
-export const CONTAINER_AUTH_HEIGHT = 500 * PX_HEIGHT_CONVERSION;
 export const AUTH_TOP_HEIGHT = 233 * PX_HEIGHT_CONVERSION;
-export const AUTH_SPACER_TITLE_CONTAINER = 10 * PX_HEIGHT_CONVERSION;
 export const AUTH_IMG_SIZE = 260 * PX_HEIGHT_CONVERSION;
 export const AUTH_IMG_RATIO = 1500 / 1014
-export const AUTH_TITLE_SIZE = 50 * PX_HEIGHT_CONVERSION;
+export const SWITCHER_INPUT_WIDTH = 320 * (SCREEN_HEIGHT>1100?PX_WIDTH_MAX:PX_WIDTH_CONVERSION);
+export const CONTAINER_WIDTH = 347 * (SCREEN_HEIGHT>1100?PX_WIDTH_MAX:PX_WIDTH_CONVERSION);
+
+export const SWITCHER_INPUT_HEIGHT = 70 * (SCREEN_HEIGHT>1100?PX_HEIGHT_MAX:PX_HEIGHT_CONVERSION)
+export const CONTAINER_AUTH_HEIGHT = 500 * (SCREEN_HEIGHT>1100?PX_HEIGHT_MAX:PX_HEIGHT_CONVERSION);
+export const AUTH_SPACER_TITLE_CONTAINER = 10 * (SCREEN_HEIGHT>1100?PX_HEIGHT_MAX:PX_HEIGHT_CONVERSION);
+export const BIG_TITLE_SIZE = 50 * (SCREEN_HEIGHT>1100?PX_HEIGHT_MAX:PX_HEIGHT_CONVERSION);
 
 
 export const switcher_size = {
@@ -33,10 +38,10 @@ export const auth_container_size = {
     height: CONTAINER_AUTH_HEIGHT,
 }
 export const title_height = {
-    height: AUTH_TITLE_SIZE,
+    height: BIG_TITLE_SIZE,
 }
 export const title_lineHeight = {
-    lineHeight: AUTH_TITLE_SIZE
+    lineHeight: BIG_TITLE_SIZE
 }
 export const auth_img_size: ImageStyle = {
     width: AUTH_IMG_RATIO * AUTH_IMG_SIZE,

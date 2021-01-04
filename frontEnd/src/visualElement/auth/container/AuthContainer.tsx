@@ -1,5 +1,5 @@
 import React, {useContext} from "react";
-import {View, StyleSheet, Image} from "react-native";
+import {View, StyleSheet, Image, KeyboardAvoidingView} from "react-native";
 
 import SignUpContainer from "./SignUpContainer";
 import GetCodeContainer from "./GetCodeContainer";
@@ -14,12 +14,35 @@ import Titles from "../components/Titles";
 import {CONTAINER_WIDTH, PX_HEIGHT_CONVERSION,} from "../../../styles/dimension";
 import {Spacer} from "../../components/Spacer";
 import "../../../img/auth.png";
-import {AUTH_CONTAINERS} from "../../../helpers/consts/AuthConst";
+import {
+    GET_CODE_CONTAINER,
+    SIGN_IN_CONTAINER,
+    SIGN_UP_CONTAINER
+} from "../../../helpers/consts/AuthConst";
+import {useTranslation} from "react-i18next";
 
 
 export default function AuthContainer() {
-
+    const {t} = useTranslation()
     const {container} = useContext(AuthContext)!;
+    //change the position of one of this elements on the array to change Container position on the screen
+    const containers = [
+        [SIGN_UP_CONTAINER, <SignUpContainer/>, t('authScreen:titleSignUp')],
+        [SIGN_IN_CONTAINER, <SignInContainer/>, t('authScreen:titleSignIn')],
+        [GET_CODE_CONTAINER, <GetCodeContainer/>, t('authScreen:titleGetCode')],
+    ]
+    const auth_titles = containers.map(value => value[2]) as string[]
+    const auth_containers = containers.map(value => value[0]) as string[]
+    const auth_components = containers.map(value => value[1]) as JSX.Element[]
+
+    const renderAuthComponents = (item: JSX.Element) => {
+
+        return (
+            <KeyboardAvoidingView style={styles.scrollViewElements}>
+                {item}
+            </KeyboardAvoidingView>
+        )
+    }
     return (
         <View style={styles.root}>
             <Image source={require("../../../img/auth.png")} style={styles.image}/>
@@ -28,25 +51,22 @@ export default function AuthContainer() {
             >
 
                 <Titles
-                    means={AUTH_CONTAINERS}
+                    means={auth_containers}
                     mean={container}
+                    titles={auth_titles}
                 />
                 <Spacer.Row nbSpace={10 * PX_HEIGHT_CONVERSION}/>
 
                 <View
                     style={{...styles.scrollView}}
                 >
-                    <TransitionScrollView speed={600} width={CONTAINER_WIDTH} items={AUTH_CONTAINERS}
-                                          currentItem={container}>
-                        <View style={styles.scrollViewElements}>
-                            <SignUpContainer/>
-                        </View>
-                        <View style={styles.scrollViewElements}>
-                            <GetCodeContainer/>
-                        </View>
-                        <View style={styles.scrollViewElements}>
-                            <SignInContainer/>
-                        </View>
+                    <TransitionScrollView
+                        speed={600}
+                        width={CONTAINER_WIDTH}
+                        items={auth_containers}
+                        currentItem={container}
+                    >
+                        {auth_components.map(value => renderAuthComponents(value))}
                     </TransitionScrollView>
                 </View>
             </View>

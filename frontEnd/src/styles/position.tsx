@@ -1,5 +1,5 @@
 import {ImageStyle, TextStyle, ViewStyle} from "react-native";
-import {AUTH_IMG_SIZE, AUTH_SPACER_TITLE_CONTAINER, AUTH_TITLE_SIZE, AUTH_TOP_HEIGHT} from "./dimension";
+import {AUTH_IMG_SIZE, AUTH_SPACER_TITLE_CONTAINER, BIG_TITLE_SIZE, AUTH_TOP_HEIGHT} from "./dimension";
 
 export const flex_row:ViewStyle = {
     flexDirection: 'row'
@@ -24,7 +24,7 @@ export const items_center:ViewStyle={
     alignItems: "center",
 }
 export const auth_img:ImageStyle={
-    top:(AUTH_TOP_HEIGHT-AUTH_IMG_SIZE+AUTH_TITLE_SIZE+AUTH_SPACER_TITLE_CONTAINER),
+    top:(AUTH_TOP_HEIGHT-AUTH_IMG_SIZE+BIG_TITLE_SIZE+AUTH_SPACER_TITLE_CONTAINER),
 }
 export const auth_container={
     top:AUTH_TOP_HEIGHT
