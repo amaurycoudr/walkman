@@ -1,20 +1,28 @@
-import React, {useReducer, createContext, Reducer} from "react";
+import React, {createContext, Reducer, useReducer} from "react";
 import axios from "axios";
 import {useNavigation} from '@react-navigation/native';
 
 import usePseudo from "../hooks/usePseudo";
 
-import {setToken,initTokenState} from "../redux/tokenSlice";
-import {initTaskState} from "../../tasks/redux/tasksSlice";
+import {setToken} from "../redux/tokenSlice";
 
 
-import {signUpValid, pseudoValid, setFormatPhone, signInValid} from "../../../helpers/authCheckers";
+import {pseudoValid, setFormatPhone, signInValid, signUpValid} from "../../../helpers/authCheckers";
 import {useDispatch} from "react-redux";
 import {BASE_URL} from "../../../helpers/api";
+import {
+    GET_CODE_CONTAINER,
+    MEAN_MAIL,
+    MEAN_PHONE,
+    SIGN_IN_CONTAINER,
+    SIGN_UP_CONTAINER
+} from "../../../helpers/consts/AuthConst";
 
 // Typescript
+export type Container = typeof SIGN_IN_CONTAINER | typeof SIGN_UP_CONTAINER | typeof GET_CODE_CONTAINER
+export type Mean = typeof MEAN_PHONE | typeof MEAN_MAIL
 type StateType = {
-    mean: "phone" | "email",
+    mean: Mean,
     identification: string,
     pseudo: string,
     pseudoIsValid: boolean,
@@ -22,7 +30,7 @@ type StateType = {
     errorMessage: string,
     code: string,
     passwordAttempt: number,
-    container: "SignUpContainer" | "SignInContainer" | "GetCodeContainer",
+    container: Container,
     loading: boolean,
 };
 
@@ -30,7 +38,7 @@ type StateType = {
 type ContextType<T> = {
     [P in keyof T]: T[P];
 } & {
-    changeMean: (mean: "phone" | "email") => void,
+    changeMean: (mean: Mean) => void,
     identificationChange: (identification: string) => void,
     codeChange: (password: string) => void,
     pseudoChange: (value: string) => void,
@@ -39,11 +47,11 @@ type ContextType<T> = {
     signIn: (identification: string, otp: string, mean: string, passwordAttempt: number) => void,
     reset: () => void,
     errorMessageChange: (errorMessage: string) => void,
-    authNavigation: (container: "SignUpContainer" | "SignInContainer" | "GetCodeContainer") => void,
+    authNavigation: (container: Container) => void,
 }
 
 type ActionType =
-    | { type: 'setMean'; payload: "phone" | "email" }
+    | { type: 'setMean'; payload: Mean }
     | { type: 'setIdentification'; payload: string }
     | { type: 'setPseudo'; payload: string }
     | { type: 'setPseudoIsValid'; payload: boolean }
@@ -52,11 +60,11 @@ type ActionType =
     | { type: 'reset'; payload: StateType }
     | { type: 'setErrorMessage'; payload: string }
     | { type: 'setLoading'; payload: boolean }
-    | { type: 'setContainer'; payload: "SignUpContainer" | "SignInContainer" | "GetCodeContainer" };
+    | { type: 'setContainer'; payload: Container };
 
 
 const initialState: StateType = {
-    mean: "phone",
+    mean: MEAN_PHONE,
     identification: "",
     pseudo: "",
     pseudoIsValid: true,
@@ -64,7 +72,7 @@ const initialState: StateType = {
     errorMessage: "",
     code: "",
     passwordAttempt: 3,
-    container: "SignUpContainer",
+    container: SIGN_UP_CONTAINER,
     loading: false
 
 };
@@ -72,7 +80,7 @@ const initialState: StateType = {
 const reducer: Reducer<StateType, ActionType> = (state, action) => {
     switch (action.type) {
         case 'setMean' :
-            return {...state, mean: action.payload}
+            return {...state, mean: action.payload, identification: ""}
         case 'setIdentification' :
             return {...state, identification: action.payload}
         case 'setPseudo' :
@@ -116,7 +124,7 @@ export const AuthProvider: React.FC = ({children}) => {
     const [state, dispatch] = useReducer(reducer, initialState, init);
 
 
-    const changeMean = (dispatch: React.Dispatch<ActionType>) => (mean: "phone" | "email") => {
+    const changeMean = (dispatch: React.Dispatch<ActionType>) => (mean: Mean) => {
         dispatch({type: "setMean", payload: mean})
     }
 
@@ -154,6 +162,7 @@ export const AuthProvider: React.FC = ({children}) => {
             return
         }
         const url = user_url + "/signup/?type=" + mean
+
         let data = {
             [mean]: identification,
             name: pseudo
@@ -164,7 +173,7 @@ export const AuthProvider: React.FC = ({children}) => {
             .then(
                 (result) => {
                     dispatch({type: "setLoading", payload: false})
-                    dispatch({type: "setContainer", payload: "SignInContainer"})
+                    dispatch({type: "setContainer", payload: SIGN_IN_CONTAINER})
                     dispatch({type: "setErrorMessage", payload: ""})
                 },
                 (error) => {
@@ -177,7 +186,9 @@ export const AuthProvider: React.FC = ({children}) => {
                             })
                             return
                     }
-                })
+                }).catch((e) => {
+            console.log(e)
+        })
     };
 
 
@@ -200,7 +211,7 @@ export const AuthProvider: React.FC = ({children}) => {
                 (result) => {
                     dispatch({type: "setLoading", payload: false})
                     dispatch({type: "setErrorMessage", payload: ""})
-                    dispatch({type: "setContainer", payload: "SignInContainer"})
+                    dispatch({type: "setContainer", payload: SIGN_IN_CONTAINER})
                 },
                 (error) => {
                     dispatch({type: "setLoading", payload: false})
@@ -214,7 +225,9 @@ export const AuthProvider: React.FC = ({children}) => {
                             return
                     }
                 }
-            )
+            ).catch((e) => {
+            console.log(e)
+        })
 
     };
 
@@ -228,9 +241,10 @@ export const AuthProvider: React.FC = ({children}) => {
             dispatch({type: "setErrorMessage", payload: "Il semblerait que vous ayez déjà reçu un code de connexion."})
             return
         }
+
         let data = {
             [mean]: identification,
-            otp: parseInt(otp)
+            otp: otp
         }
         dispatch({type: "setLoading", payload: true})
         axios.post(url, data)
@@ -258,10 +272,12 @@ export const AuthProvider: React.FC = ({children}) => {
                         }
                         break;
                 }
-            })
+            }).catch((e) => {
+            console.log(e)
+        })
     };
 
-    const authNavigation = (dispatch: React.Dispatch<ActionType>) => (container: "SignUpContainer" | "SignInContainer" | "GetCodeContainer") => {
+    const authNavigation = (dispatch: React.Dispatch<ActionType>) => (container: Container) => {
         dispatch({type: "setErrorMessage", payload: ""})
         dispatch({type: "setContainer", payload: container})
     }

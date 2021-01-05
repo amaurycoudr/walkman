@@ -13,12 +13,13 @@ import SendEdit from "../components/fields/SendEdit";
 import Duration from "../components/fields/Duration";
 import EditableSlider from "../components/EditableSlider";
 import Category from '../components/fields/Category';
-import {Spacer} from "../../Spacer"
+
 
 // Type 
 import { taskType, editTaskType, category, difficulty } from "../../../features/tasks/tasksType"
 
 import Difficulty from '../components/fields/Difficulty';
+import {Spacer} from "../../components/Spacer";
 
 
 interface Props {

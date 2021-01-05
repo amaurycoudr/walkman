@@ -15,10 +15,11 @@ import DashboardScreen from "./src/screens/DashboardScreen";
 import AuthScreen from "./src/screens/AuthScreen";
 
 //Redux
-
 import store, {persist} from "./src/features/store";
 import {selectToken} from "./src/features/token/redux/tokenSlice";
 import {PersistGate} from "redux-persist/integration/react";
+
+//Fonts
 import {
     useFonts,
     Lato_900Black_Italic,
@@ -32,7 +33,13 @@ import {
     Lato_100Thin_Italic,
     Lato_900Black
 } from "@expo-google-fonts/lato";
+
 import {AppLoading} from "expo";
+
+//Languages
+import './src/helpers/localization/initI18next'
+import {useTranslation} from "react-i18next";
+declare const global: {HermesInternal: null | {}};
 
 
 // Navigation

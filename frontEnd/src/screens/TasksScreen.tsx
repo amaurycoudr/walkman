@@ -109,7 +109,7 @@ const TasksScreen = () => {
 
 
             {
-                categories.length > 0 && difficulties.length > 0 && Object.values(taskValues).length > 0 ?
+                categories && categories.length > 0 && difficulties.length > 0 && Object.values(taskValues).length > 0 ?
                     <View>
                         <Text>TASK THUMBNAIL</Text>
                         <View>
