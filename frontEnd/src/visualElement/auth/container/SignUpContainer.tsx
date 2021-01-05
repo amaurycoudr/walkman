@@ -9,6 +9,7 @@ import PhoneInput from "../components/PhoneInput"
 import EmailInput from "../components/EmailInput"
 import AuthNavigation from "../components/AuthNavigation"
 import AuthButton from "../components/AuthButton"
+import AuthInput from "../components/AuthInput"
 
 
 const SignUpContainer:FC = () => {
@@ -17,11 +18,17 @@ const SignUpContainer:FC = () => {
 
     return (
         <View>
-            <PseudoInput 
+            <AuthInput
+            field="pseudo" 
+            fieldChange={pseudoChange}
+            fieldValue={pseudo}
+            fieldIsValid={pseudoIsValid}
+            />
+            {/* <PseudoInput 
             pseudoChange={pseudoChange}
             pseudo={pseudo}
             pseudoIsValid={pseudoIsValid}
-            />
+            /> */}
 
             <Switcher 
             mean={mean}
