@@ -73,7 +73,11 @@ const AuthInput: FC<Props> = ({
           <InputVerticalIndicator
             color={inputConfig.errorMessage.length > 0 ? Colors.green_2 : "red"}
           />
-        ) : null}
+        ) : 
+        <InputVerticalIndicator
+            color={Colors.grey_dark}
+          />
+        }
         <Spacer.Column nbSpace={20*Dimension.PX_WIDTH_CONVERSION} />
         <TextInput
           value={fieldValue}
@@ -110,7 +114,7 @@ const styles = StyleSheet.create({
   },
   placeholder: {
     ...Typography.p_text,
-    color: Colors.grey_light,
+    color: Colors.grey_dark,
   },
 });
 
