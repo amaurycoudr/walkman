@@ -8,7 +8,6 @@ export const border_radius_30 = {
 }
 export const border_shadow = {
 
-
     shadowColor: black,
     shadowOffset: {width: 4, height: 4},
     shadowOpacity: 0.12,

@@ -35,10 +35,10 @@ export default function AuthContainer() {
     const auth_containers = containers.map(value => value[0]) as string[]
     const auth_components = containers.map(value => value[1]) as JSX.Element[]
 
-    const renderAuthComponents = (item: JSX.Element) => {
+    const renderAuthComponents = (item: JSX.Element, ind:number) => {
 
         return (
-            <KeyboardAvoidingView style={styles.scrollViewElements}>
+            <KeyboardAvoidingView style={styles.scrollViewElements} key={ind}>
                 {item}
             </KeyboardAvoidingView>
         )
@@ -66,7 +66,7 @@ export default function AuthContainer() {
                         items={auth_containers}
                         currentItem={container}
                     >
-                        {auth_components.map(value => renderAuthComponents(value))}
+                        {auth_components.map((value,ind) => renderAuthComponents(value,ind))}
                     </TransitionScrollView>
                 </View>
             </View>
