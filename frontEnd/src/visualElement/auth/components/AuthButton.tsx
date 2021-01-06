@@ -1,6 +1,6 @@
 import React, {FC} from 'react'
 import {Text, TouchableOpacity, View} from 'react-native'
-import {Colors, Typography} from "../../../styles/Index";
+import {Colors, Typography} from "../../../styles";
 import globalStyles from "../styles/global";
 
 

@@ -9,7 +9,7 @@ import {
   Colors,
   Positions,
   Typography,
-} from "../../../styles/Index";
+} from "../../../styles";
 
 const CodeInput: FC<{ codeChange: Function }> = ({ codeChange }) => {
   return (

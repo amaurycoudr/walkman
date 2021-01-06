@@ -7,11 +7,10 @@ import SignInContainer from "./SignInContainer";
 
 import {AuthContext} from "../../../features/token/contexts/AuthContext"
 
-import {Borders, Colors, Dimension, Positions} from "../../../styles/Index";
+import {Borders, Colors, Dimension, Positions} from "../../../styles";
 
 import TransitionScrollView from "../../components/TransitionScrollView";
 import Titles from "../components/Titles";
-import {CONTAINER_WIDTH, PX_HEIGHT_CONVERSION,} from "../../../styles/dimension";
 import {Spacer} from "../../components/Spacer";
 import "../../../img/auth.png";
 import {
@@ -55,14 +54,14 @@ export default function AuthContainer() {
                     mean={container}
                     titles={auth_titles}
                 />
-                <Spacer.Row nbSpace={10 * PX_HEIGHT_CONVERSION}/>
+                <Spacer.Row nbSpace={10 * Dimension.PX_HEIGHT_CONVERSION}/>
 
                 <View
                     style={{...styles.scrollView}}
                 >
                     <TransitionScrollView
                         speed={600}
-                        width={CONTAINER_WIDTH}
+                        width={Dimension.CONTAINER_WIDTH}
                         items={auth_containers}
                         currentItem={container}
                     >

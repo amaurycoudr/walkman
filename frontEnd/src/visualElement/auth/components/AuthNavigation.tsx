@@ -1,6 +1,6 @@
 import React, {FC} from 'react'
 import { View, Text, TouchableOpacity } from 'react-native'
-import {Colors, Positions,Typography} from "../../../styles/Index";
+import {Colors, Positions,Typography} from "../../../styles";
 import {Spacer} from "../../components/Spacer";
 
 const AuthNavigation:FC<{message:string,linkName:string,container:string,changeContainer:Function}> = ({message,linkName,container,changeContainer}) => {

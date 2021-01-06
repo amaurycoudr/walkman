@@ -1,7 +1,7 @@
 import Switcher from "./Switcher";
 import TransitionScrollView from "../../components/TransitionScrollView";
 import { View } from "react-native";
-import { CONTAINER_WIDTH } from "../../../styles/dimension";
+import { Dimension } from "../../../styles";
 import AuthInput from "./AuthInput"
 import React, { FC } from "react";
 import { Mean } from "../../../features/token/contexts/AuthContext";
@@ -32,8 +32,8 @@ const SwitcherInput: FC<Props> = (
 
             <Spacer.Row nbSpace={15} />
 
-            <TransitionScrollView speed={SPEED_TRANSITION_SWITCHER} width={CONTAINER_WIDTH} items={MEANS} currentItem={mean}>
-                <View style={{ width: CONTAINER_WIDTH }}>
+            <TransitionScrollView speed={SPEED_TRANSITION_SWITCHER} width={Dimension.CONTAINER_WIDTH} items={MEANS} currentItem={mean}>
+                <View style={{ width: Dimension.CONTAINER_WIDTH }}>
                     <AuthInput
                         field="phone"
                         fieldChange={identificationChange}
@@ -43,7 +43,7 @@ const SwitcherInput: FC<Props> = (
                     <Spacer.Row nbSpace={15} />
 
                 </View>
-                <View style={{ width: CONTAINER_WIDTH }}>
+                <View style={{ width: Dimension.CONTAINER_WIDTH }}>
                     <AuthInput
                         field="mail"
                         fieldChange={identificationChange}

@@ -7,7 +7,7 @@ import {
   Colors,
   Positions,
   Typography,
-} from "../../../styles/Index";
+} from "../../../styles";
 
 import ErrorMessage from "./ErrorMessage";
 import InputVerticalIndicator from "../../components/InputVerticalIndicator";

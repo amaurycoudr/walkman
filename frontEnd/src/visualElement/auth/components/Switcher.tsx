@@ -2,13 +2,11 @@ import React, {FC, useEffect, useState} from 'react'
 import {View, StyleSheet, Animated, TouchableOpacity} from 'react-native'
 
 import SwitcherButton from "./SwitcherButton";
-import {Borders, Dimension, Colors, Positions} from "../../../styles/Index";
+import {Borders, Dimension, Colors, Positions} from "../../../styles";
 
 import {Mean} from "../../../features/token/contexts/AuthContext";
 import {MEAN_MAIL, MEAN_PHONE, SPEED_TRANSITION_SWITCHER} from "../../../helpers/consts/AuthConst";
 import {useTranslation} from "react-i18next";
-import {green_2_background} from "../../../styles/colors";
-import {SWITCHER_INPUT_WIDTH} from "../../../styles/dimension";
 
 
 const Switcher: FC<{ mean: Mean, changeMean: Function }> = ({mean, changeMean}) => {
@@ -16,7 +14,7 @@ const Switcher: FC<{ mean: Mean, changeMean: Function }> = ({mean, changeMean}) 
     const [switcherPosition] = useState(new Animated.Value(0))
     useEffect(() => {
         Animated.timing(switcherPosition, {
-            toValue:mean===MEAN_MAIL?SWITCHER_INPUT_WIDTH/2:0,
+            toValue:mean===MEAN_MAIL?Dimension.SWITCHER_INPUT_WIDTH/2:0,
             duration: SPEED_TRANSITION_SWITCHER,
             useNativeDriver:false
         }).start();

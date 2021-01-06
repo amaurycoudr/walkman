@@ -4,14 +4,12 @@ import {
     StyleSheet,
     TouchableOpacity,
 } from 'react-native'
-import {Borders, Dimension, Colors, Positions, Typography} from "../../../styles/Index";
+import {Borders, Dimension, Colors, Positions, Typography} from "../../../styles";
 import {MEAN_MAIL, SPEED_TRANSITION_SWITCHER} from "../../../helpers/consts/AuthConst";
-import {SWITCHER_INPUT_WIDTH} from "../../../styles/dimension";
-import {grey_dark, white_custom} from "../../../styles/colors";
 
 
 const SwitcherButton: FC<{ text: string, changer: Function, selected: boolean }> = ({text, changer, selected}) => {
-    const colorRange = [grey_dark, white_custom]
+    const colorRange = [Colors.grey_dark, Colors.white_custom]
     const [switcherColor] = useState(new Animated.Value(0))
     useEffect(() => {
         Animated.timing(switcherColor, {
