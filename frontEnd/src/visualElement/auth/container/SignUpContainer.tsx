@@ -15,6 +15,9 @@ import {useTranslation} from "react-i18next";
 const SignUpContainer: FC = () => {
     const {t} = useTranslation()
     const {pseudo, pseudoChange, pseudoIsValid, mean, changeMean, identificationChange, identification, identificationIsValid, signUp, authNavigation, loading} = useContext(AuthContext)!
+    console.log(loading||!identificationIsValid||!pseudoIsValid)
+    console.log(!identificationIsValid,"!identificationIsValid")
+    console.log(!pseudoIsValid,"!pseudoIsValid")
     return (
         <View>
             <PseudoInput
@@ -34,7 +37,8 @@ const SignUpContainer: FC = () => {
                 text={t('authScreen:btnSignUp')}
                 changer={signUp}
                 args={[pseudo, mean, identification]}
-                loading={loading}/>
+                disabled={loading||!identificationIsValid||!pseudoIsValid}
+            />
 
             <AuthNavigation
                 message={t('authScreen:textAlreadyCount')}

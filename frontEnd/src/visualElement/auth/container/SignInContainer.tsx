@@ -25,8 +25,12 @@ const SignInContainer: FC = () => {
             <CodeInput code={code} codeChange={codeChange}/>
             {passwordAttempt < 3 ? <ErrorMessage
                 errorMessage={"Le code est invalide il vous reste " + passwordAttempt + " tentative(s)"}/> : null}
-            <AuthButton text={t('authScreen:btnSignIn')} changer={signIn} args={[identification, code, mean, passwordAttempt]}
-                        loading={loading}/>
+            <AuthButton
+                text={t('authScreen:btnSignIn')}
+                changer={signIn}
+                args={[identification, code, mean, passwordAttempt]}
+                disabled={loading}
+            />
              <AuthNavigation
                 message={t('authScreen:textAlreadyCount2')}
                 linkName={t('authScreen:linkAlreadyCount')}

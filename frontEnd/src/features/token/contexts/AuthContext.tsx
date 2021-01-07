@@ -7,7 +7,14 @@ import usePseudo from "../hooks/usePseudo";
 import {setToken} from "../redux/tokenSlice";
 
 
-import {pseudoValid, setFormatPhone, signInValid, signUpValid} from "../../../helpers/authCheckers";
+import {
+    mailCorrect,
+    phoneCorrect,
+    pseudoValid,
+    setFormatPhone,
+    signInValid,
+    signUpValid
+} from "../../../helpers/authCheckers";
 import {useDispatch} from "react-redux";
 import {BASE_URL} from "../../../helpers/api";
 import {
@@ -67,8 +74,8 @@ const initialState: StateType = {
     mean: MEAN_PHONE,
     identification: "",
     pseudo: "",
-    pseudoIsValid: true,
-    identificationIsValid: true,
+    pseudoIsValid: false,
+    identificationIsValid: false,
     errorMessage: "",
     code: "",
     passwordAttempt: 3,
@@ -82,7 +89,7 @@ const reducer: Reducer<StateType, ActionType> = (state, action) => {
         case 'setMean' :
             return {...state, mean: action.payload, identification: ""}
         case 'setIdentification' :
-            return {...state, identification: action.payload}
+            return {...state, identification: action.payload,identificationIsValid:state.mean===MEAN_MAIL?mailCorrect(action.payload):phoneCorrect(action.payload)}
         case 'setPseudo' :
             return {...state, pseudo: action.payload,}
         case 'setPseudoIsValid':
@@ -130,6 +137,7 @@ export const AuthProvider: React.FC = ({children}) => {
 
     const identificationChange = (dispatch: React.Dispatch<ActionType>) => (value: string) => {
         dispatch({type: "setIdentification", payload: value})
+
     }
 
     const pseudoChange = (dispatch: React.Dispatch<ActionType>) => (value: string) => {

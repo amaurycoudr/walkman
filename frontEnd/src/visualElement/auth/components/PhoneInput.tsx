@@ -16,7 +16,7 @@ const PhoneInput:FC<{identificationChange:Function,identificationIsValid:boolean
             style={{...globalStyles.input,...globalStyles.margin5}}
             />
 
-            {identificationIsValid ? null : <ErrorMessage errorMessage="Veuillez entrer un numéro de téléphone valide." />}
+            {identification.length===0 ?null: identificationIsValid ? null : <ErrorMessage errorMessage="Veuillez entrer un numéro de téléphone valide." />}
         </View>
     )
 }

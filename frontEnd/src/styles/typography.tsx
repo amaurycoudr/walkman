@@ -1,4 +1,4 @@
-import {BIG_TITLE_SIZE} from "./dimension";
+import {BIG_TITLE_SIZE, PX_CONVERSION, PX_HEIGHT_CONVERSION} from "./dimension";
 
 export type TypoType =
     | 'Lato_100Thin_Italic'
@@ -17,7 +17,7 @@ export const p_text = {
     fontFamily: 'Lato_300Light'
 }
 export const title_text = {
-    fontSize: 25,
+    fontSize: 25*PX_CONVERSION,
     fontFamily: 'Lato_900Black'
 }
 export const big_title_text={

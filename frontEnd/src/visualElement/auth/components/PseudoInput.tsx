@@ -6,6 +6,7 @@ import globalStyles from "../styles/global";
 import ErrorMessage from "./ErrorMessage";
 
 const PseudoInput:FC<{pseudoChange:Function,pseudoIsValid:boolean,pseudo:string}> = ({pseudoChange,pseudoIsValid,pseudo}) => {
+    console.log(pseudo.length)
     return (
         <View>
             <TextInput
@@ -16,7 +17,7 @@ const PseudoInput:FC<{pseudoChange:Function,pseudoIsValid:boolean,pseudo:string}
             autoCapitalize="none"
             autoCorrect={false} 
             />
-            {pseudoIsValid ? null : <ErrorMessage errorMessage="Le pseudo est déjà utilisé. Veuillez en choisir un autre." />}
+            {pseudo.length===0 ?null: pseudoIsValid ? null : <ErrorMessage errorMessage="Le pseudo est déjà utilisé. Veuillez en choisir un autre." />}
         </View>
     )
 }

@@ -25,7 +25,9 @@ export const green_3_background = {
 export const green_2_background = {
     backgroundColor: green_2
 }
-
+export const green_1_background = {
+    backgroundColor: green_1
+}
 export const green_0_background = {
     backgroundColor: green_0
 }

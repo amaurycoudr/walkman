@@ -23,7 +23,9 @@ const getCodeContainer: FC = () => {
         loading
     } = useContext(AuthContext)!;
 
-
+    console.log(mean)
+    console.log(identificationIsValid)
+    console.log(identification)
     return (
         <View>
             <SwitcherInput
@@ -34,7 +36,7 @@ const getCodeContainer: FC = () => {
                 mean={mean}
             />
 
-            <AuthButton text={t('authScreen:btnGetCode')} changer={getCode} args={[mean, identification]} loading={loading}/>
+            <AuthButton text={t('authScreen:btnGetCode')} changer={getCode} args={[mean, identification]} disabled={loading}/>
             <AuthNavigation message={t('authScreen:textSignUp')} linkName={t('authScreen:linkSignUp')} container={SIGN_UP_CONTAINER}
                             changeContainer={authNavigation}/>
         </View>
