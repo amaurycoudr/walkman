@@ -22,7 +22,7 @@ const SignInContainer: FC = () => {
                 identificationIsValid={identificationIsValid}
                 mean={mean}
             />
-            <CodeInput code={code} codeChange={codeChange}/>
+            <CodeInput codeChange={codeChange}/>
             {passwordAttempt < 3 ? <ErrorMessage
                 errorMessage={"Le code est invalide il vous reste " + passwordAttempt + " tentative(s)"}/> : null}
             <AuthButton

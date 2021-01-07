@@ -1,7 +1,7 @@
 import React, {FC, RefObject, useEffect, useRef, useState} from "react";
 import {Animated, ScrollView, View} from "react-native";
 import {CONTAINER_WIDTH} from "../../styles/dimension";
-import {Positions} from "../../styles/Index";
+import {Positions} from "../../styles";
 
 type TransitionScrollViewProps = {
     items: string[],

@@ -7,6 +7,7 @@ export const grey_light = '#C4C4C4'
 export const grey_dark = '#727272'
 export const blue = '#006FBE'
 export const black = '#000000'
+export const red = '#E03E40'
 export const black_text = {
     color: black,
 }
@@ -15,6 +16,9 @@ export const white_text = {
 }
 export const grey_dark_text = {
     color: grey_dark
+}
+export const grey_light_text = {
+    color: grey_light
 }
 export const blue_text = {
     color: blue
