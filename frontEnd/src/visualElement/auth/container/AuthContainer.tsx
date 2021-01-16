@@ -1,5 +1,5 @@
 import React, {useContext} from "react";
-import {View, StyleSheet, Image, KeyboardAvoidingView} from "react-native";
+import {View, StyleSheet, Image} from "react-native";
 
 import SignUpContainer from "./SignUpContainer";
 import GetCodeContainer from "./GetCodeContainer";
@@ -19,7 +19,7 @@ import {
     SIGN_UP_CONTAINER
 } from "../../../helpers/consts/AuthConst";
 import {useTranslation} from "react-i18next";
-
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 
 export default function AuthContainer() {
     const {t} = useTranslation()
@@ -37,46 +37,57 @@ export default function AuthContainer() {
     const renderAuthComponents = (item: JSX.Element, index: number) => {
 
         return (
-            <KeyboardAvoidingView key={index} style={styles.scrollViewElements}>
+            <View
+
+                key={index}
+                style={styles.scrollViewElements}
+
+            >
                 {item}
-            </KeyboardAvoidingView>
+            </View>
         )
     }
     return (
-        <View style={styles.root}>
-            <Image source={require("../../../img/auth.png")} style={styles.image}/>
-            <View
-                style={{...styles.globalElement}}
-            >
 
-                <Titles
-                    means={auth_containers}
-                    mean={container}
-                    titles={auth_titles}
-                />
-                <Spacer.Row nbSpace={10 * Dimension.PX_HEIGHT_CONVERSION}/>
-
+        <KeyboardAwareScrollView
+            contentContainerStyle={{flexGrow: 1}}
+        >
+            <View style={styles.root}>
+                <Image source={require("../../../img/auth.png")} style={styles.image}/>
                 <View
-                    style={{...styles.scrollView}}
-                >
-                    <TransitionScrollView
-                        speed={600}
-                        width={Dimension.CONTAINER_WIDTH}
-                        items={auth_containers}
-                        currentItem={container}
-                    >
 
-                        {auth_components.map((value,index) => renderAuthComponents(value,index))}
-                    </TransitionScrollView>
+                    style={{...styles.globalElement}}
+                >
+
+                    <Titles
+                        means={auth_containers}
+                        mean={container}
+                        titles={auth_titles}
+                    />
+                    <Spacer.Row nbSpace={10 * Dimension.PX_CONVERSION}/>
+                    <View
+
+                        style={{...styles.scrollView}}
+                    >
+                        <TransitionScrollView
+                            speed={600}
+                            width={Dimension.CONTAINER_WIDTH}
+                            items={auth_containers}
+                            currentItem={container}
+                        >
+
+                            {auth_components.map((value, index) => renderAuthComponents(value, index))}
+                        </TransitionScrollView>
+                    </View>
                 </View>
             </View>
-
-        </View>
+        </KeyboardAwareScrollView>
     )
 };
 
 const styles = StyleSheet.create({
     root: {
+
         flex: 1,
         ...Colors.green_0_background,
         ...Positions.flex_column,
@@ -88,6 +99,7 @@ const styles = StyleSheet.create({
         ...Dimension.auth_img_size,
     },
     scrollView: {
+
         ...Dimension.auth_container_size,
         ...Borders.border_shadow,
         ...Borders.border_radius_30,

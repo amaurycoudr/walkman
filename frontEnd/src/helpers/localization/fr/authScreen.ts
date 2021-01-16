@@ -16,5 +16,8 @@ export default {
     btnGetCode:"Envoyer",
     btnSignIn:"Connexion",
     email:"Email",
-    phone:"Telephone"
+    phone:"Telephone",
+    errorMessagePseudo:"Le pseudo est déjà utilisé. Choisis en un autre",
+    errorMessageMail: "L'adresse mail ne semble pas valide",
+    errorMessagePhone:"Le numero de telephone ne semble pas valide",
 }

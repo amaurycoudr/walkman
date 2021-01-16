@@ -1,4 +1,4 @@
-import {BIG_TITLE_SIZE, PX_CONVERSION, PX_HEIGHT_CONVERSION} from "./dimension";
+import {BIG_TITLE_SIZE, PX_CONVERSION} from "./dimension";
 
 export type TypoType =
     | 'Lato_100Thin_Italic'

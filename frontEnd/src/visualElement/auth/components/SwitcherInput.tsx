@@ -5,7 +5,7 @@ import { Dimension } from "../../../styles";
 import AuthInput from "./AuthInput"
 import React, { FC } from "react";
 import { Mean } from "../../../features/token/contexts/AuthContext";
-import { MEANS, SPEED_TRANSITION_SWITCHER } from "../../../helpers/consts/AuthConst";
+import {MEAN_MAIL, MEAN_PHONE, MEANS, SPEED_TRANSITION_SWITCHER} from "../../../helpers/consts/AuthConst";
 
 import { Spacer } from "../../components/Spacer"
 
@@ -35,7 +35,7 @@ const SwitcherInput: FC<Props> = (
             <TransitionScrollView speed={SPEED_TRANSITION_SWITCHER} width={Dimension.CONTAINER_WIDTH} items={MEANS} currentItem={mean}>
                 <View style={{ width: Dimension.CONTAINER_WIDTH }}>
                     <AuthInput
-                        field="phone"
+                        field={MEAN_PHONE}
                         fieldChange={identificationChange}
                         fieldValue={identification}
                         fieldIsValid={identificationIsValid}
@@ -45,7 +45,7 @@ const SwitcherInput: FC<Props> = (
                 </View>
                 <View style={{ width: Dimension.CONTAINER_WIDTH }}>
                     <AuthInput
-                        field="mail"
+                        field={MEAN_MAIL}
                         fieldChange={identificationChange}
                         fieldValue={identification}
                         fieldIsValid={identificationIsValid}
