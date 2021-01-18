@@ -8,7 +8,7 @@ import {
   Dimension,
   Colors,
   Positions,
-  Typography,
+
 } from "../../../styles";
 
 const CodeInput: FC<{ codeChange: Function }> = ({ codeChange }) => {

@@ -5,7 +5,7 @@ import {
     TouchableOpacity,
 } from 'react-native'
 import {Borders, Dimension, Colors, Positions, Typography} from "../../../styles";
-import {MEAN_MAIL, SPEED_TRANSITION_SWITCHER} from "../../../helpers/consts/AuthConst";
+import { SPEED_TRANSITION_SWITCHER} from "../../../helpers/consts/AuthConst";
 
 
 const SwitcherButton: FC<{ text: string, changer: Function, selected: boolean }> = ({text, changer, selected}) => {

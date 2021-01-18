@@ -1,5 +1,5 @@
 import React, {FC, useEffect, useState} from 'react'
-import {View, StyleSheet, Animated, TouchableOpacity} from 'react-native'
+import {View, StyleSheet, Animated} from 'react-native'
 
 import SwitcherButton from "./SwitcherButton";
 import {Borders, Dimension, Colors, Positions} from "../../../styles";

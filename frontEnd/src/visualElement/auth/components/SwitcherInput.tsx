@@ -1,7 +1,7 @@
 import Switcher from "./Switcher";
 import TransitionScrollView from "../../components/TransitionScrollView";
 import {View} from "react-native";
-import {Dimension, Positions} from "../../../styles";
+import {Dimension} from "../../../styles";
 import AuthInput from "./AuthInput"
 import React, {FC} from "react";
 import {Mean} from "../../../features/token/contexts/AuthContext";
