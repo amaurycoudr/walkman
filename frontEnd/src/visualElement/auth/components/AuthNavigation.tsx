@@ -1,6 +1,6 @@
 import React, {FC} from 'react'
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native'
-import {AuthDimension, Colors, Dimension, Positions, Typography} from "../../../styles";
+import {AuthDimension, Colors, Positions, Typography} from "../../../styles";
 import {Spacer} from "../../components/Spacer";
 
 const AuthNavigation: FC<{ message: string, linkName: string, container: string, changeContainer: Function }> = ({
@@ -13,7 +13,7 @@ const AuthNavigation: FC<{ message: string, linkName: string, container: string,
     return (
         <View style={styles.view}>
             <Spacer.Column nbSpace={10}/>
-            <Text style={{...Colors.black_text, ...Typography.p_text}}>
+            <Text style={styles.text}>
                 {message}
             </Text>
             <TouchableOpacity
@@ -21,15 +21,23 @@ const AuthNavigation: FC<{ message: string, linkName: string, container: string,
                     changeContainer(container)
                 }}
             >
-                <Text style={{...Colors.blue_text, ...Typography.p_text}}>{linkName}</Text>
+                <Text style={styles.link}>
+                    {linkName}
+                </Text>
             </TouchableOpacity>
         </View>
     )
 }
 const styles = StyleSheet.create({
 
-    link: {},
-    text: {},
+    link: {
+        ...Colors.blue_text,
+        ...Typography.p_text
+    },
+    text: {
+        ...Colors.black_text,
+        ...Typography.p_text
+    },
     view: {
         ...Positions.flex_row,
         ...AuthDimension.auth_nav_width,
