@@ -26,7 +26,7 @@ const TransitionScrollView: FC<TransitionScrollViewProps> = ({items, currentItem
         left: leftAnimation
     }
     return (
-        <View style={{overflow:"hidden"}}>
+        <View style={{overflow:"hidden",width:width}}>
             <Animated.View
                 style={{...Positions.flex_row, ...leftStyle}}
                 ref={view}

@@ -47,6 +47,7 @@ const Switcher: FC<{ mean: Mean, changeMean: Function }> = ({mean, changeMean}) 
 }
 const styles = StyleSheet.create({
     viewStyle: {
+        alignSelf:"center",
         ...Colors.white_background,
         ...Positions.flex_row,
         ...Dimension.switcher_size,

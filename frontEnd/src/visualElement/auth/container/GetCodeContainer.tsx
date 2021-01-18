@@ -34,6 +34,7 @@ const getCodeContainer: FC = () => {
                 identificationChange={identificationChange}
                 identificationIsValid={identificationIsValid}
                 mean={mean}
+                spacerPx={41}
             />
 
             <AuthButton text={t('authScreen:btnGetCode')} changer={getCode} args={[mean, identification]} disabled={loading}/>

@@ -1,5 +1,5 @@
 import React, {useContext} from "react";
-import {View, StyleSheet, Image} from "react-native";
+import {Image, StyleSheet, View} from "react-native";
 
 import SignUpContainer from "./SignUpContainer";
 import GetCodeContainer from "./GetCodeContainer";
@@ -13,13 +13,10 @@ import TransitionScrollView from "../../components/TransitionScrollView";
 import Titles from "../components/Titles";
 import {Spacer} from "../../components/Spacer";
 import "../../../img/auth.png";
-import {
-    GET_CODE_CONTAINER,
-    SIGN_IN_CONTAINER,
-    SIGN_UP_CONTAINER
-} from "../../../helpers/consts/AuthConst";
+import {GET_CODE_CONTAINER, SIGN_IN_CONTAINER, SIGN_UP_CONTAINER} from "../../../helpers/consts/AuthConst";
 import {useTranslation} from "react-i18next";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
+import {auth_container_size, auth_img_size} from "../../../styles/auth_dimension";
 
 export default function AuthContainer() {
     const {t} = useTranslation()
@@ -38,10 +35,8 @@ export default function AuthContainer() {
 
         return (
             <View
-
                 key={index}
                 style={styles.scrollViewElements}
-
             >
                 {item}
             </View>
@@ -96,17 +91,17 @@ const styles = StyleSheet.create({
     image: {
         ...Positions.img_position_absolute,
         ...Positions.auth_img,
-        ...Dimension.auth_img_size,
+        ...auth_img_size,
     },
     scrollView: {
-
-        ...Dimension.auth_container_size,
+        ...auth_container_size,
         ...Borders.border_shadow,
         ...Borders.border_radius_30,
         ...Colors.white_background
     },
     scrollViewElements: {
-        ...Dimension.auth_container_size
+
+        ...auth_container_size
     },
     globalElement: {
         ...Positions.auth_container,

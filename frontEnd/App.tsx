@@ -4,7 +4,6 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Provider, useSelector} from "react-redux";
-import {createNavigator} from "react-navigation";
 
 
 // Screens
@@ -38,8 +37,6 @@ import {AppLoading} from "expo";
 
 //Languages
 import './src/helpers/localization/initI18next'
-import {useTranslation} from "react-i18next";
-declare const global: {HermesInternal: null | {}};
 
 
 // Navigation
@@ -103,7 +100,7 @@ const App = () => {
             </Provider>
         )
     } else {
-        return(<AppLoading/>)
+        return (<AppLoading/>)
     }
 }
 

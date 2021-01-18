@@ -1,13 +1,14 @@
 import Switcher from "./Switcher";
 import TransitionScrollView from "../../components/TransitionScrollView";
-import { View } from "react-native";
-import { Dimension } from "../../../styles";
+import {View} from "react-native";
+import {Dimension, Positions} from "../../../styles";
 import AuthInput from "./AuthInput"
-import React, { FC } from "react";
-import { Mean } from "../../../features/token/contexts/AuthContext";
+import React, {FC} from "react";
+import {Mean} from "../../../features/token/contexts/AuthContext";
 import {MEAN_MAIL, MEAN_PHONE, MEANS, SPEED_TRANSITION_SWITCHER} from "../../../helpers/consts/AuthConst";
 
-import { Spacer } from "../../components/Spacer"
+import {Spacer} from "../../components/Spacer"
+import {PX_CONVERSION} from "../../../styles/dimension";
 
 type Props = {
     identificationIsValid: boolean,
@@ -15,6 +16,7 @@ type Props = {
     identification: string,
     mean: Mean,
     changeMean: Function,
+    spacerPx:number,
 }
 const SwitcherInput: FC<Props> = (
     {
@@ -22,38 +24,42 @@ const SwitcherInput: FC<Props> = (
         identificationChange,
         identification,
         mean,
-        changeMean
+        changeMean,
+        spacerPx,
     }
 ) => {
     return (
-        <View>
+        <View style={{width: Dimension.CONTAINER_WIDTH}}>
 
-            <Switcher mean={mean} changeMean={changeMean} />
+            <Switcher mean={mean} changeMean={changeMean}/>
 
-            <Spacer.Row nbSpace={15} />
+            <Spacer.Row nbSpace={spacerPx * PX_CONVERSION}/>
 
-            <TransitionScrollView speed={SPEED_TRANSITION_SWITCHER} width={Dimension.CONTAINER_WIDTH} items={MEANS} currentItem={mean}>
-                <View style={{ width: Dimension.CONTAINER_WIDTH }}>
+            <TransitionScrollView speed={SPEED_TRANSITION_SWITCHER} width={Dimension.CONTAINER_WIDTH} items={MEANS}
+                                  currentItem={mean}>
+                <View style={{width: Dimension.CONTAINER_WIDTH}}>
+                    <View style={{alignSelf:"center"}}>
                     <AuthInput
                         field={MEAN_PHONE}
                         fieldChange={identificationChange}
                         fieldValue={identification}
                         fieldIsValid={identificationIsValid}
                     />
-                    <Spacer.Row nbSpace={15} />
-
+                    </View>
+                    <Spacer.Row nbSpace={spacerPx }/>
                 </View>
-                <View style={{ width: Dimension.CONTAINER_WIDTH }}>
+                <View style={{width: Dimension.CONTAINER_WIDTH}}>
+                    <View style={{alignSelf:"center"}}>
                     <AuthInput
                         field={MEAN_MAIL}
                         fieldChange={identificationChange}
                         fieldValue={identification}
                         fieldIsValid={identificationIsValid}
                     />
-                    <Spacer.Row nbSpace={15} />
+                    </View>
+                    <Spacer.Row nbSpace={spacerPx }/>
                 </View>
             </TransitionScrollView>
-
         </View>
     )
 }

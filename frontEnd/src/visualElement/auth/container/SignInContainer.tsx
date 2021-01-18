@@ -1,5 +1,5 @@
 import React, {useContext, FC} from 'react'
-import {View} from 'react-native'
+import {View,StyleSheet} from 'react-native'
 import CodeInput from "../components/CodeInput"
 import {AuthContext} from "../../../features/token/contexts/AuthContext";
 import ErrorMessage from "../components/ErrorMessage";
@@ -21,6 +21,7 @@ const SignInContainer: FC = () => {
                 identificationChange={identificationChange}
                 identificationIsValid={identificationIsValid}
                 mean={mean}
+                spacerPx={41}
             />
             <CodeInput codeChange={codeChange}/>
             {passwordAttempt < 3 ? <ErrorMessage
@@ -46,5 +47,6 @@ const SignInContainer: FC = () => {
         </View>
     )
 }
+
 
 export default SignInContainer;
