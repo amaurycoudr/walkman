@@ -2,8 +2,8 @@
 import {CONTAINER_HEIGHT, CONTAINER_WIDTH, PX_CONVERSION} from "./dimension";
 import {ImageStyle} from "react-native";
 
-export const AUTH_TOP_HEIGHT = 223 * PX_CONVERSION;
-export const AUTH_IMG_SIZE = 260 * PX_CONVERSION;
+export const AUTH_TOP_HEIGHT = 213 * PX_CONVERSION;
+export const AUTH_IMG_SIZE = 250 * PX_CONVERSION;
 export const AUTH_IMG_RATIO = 1500 / 1014
 export const AUTH_SPACER_TITLE_CONTAINER = 10 * PX_CONVERSION;
 

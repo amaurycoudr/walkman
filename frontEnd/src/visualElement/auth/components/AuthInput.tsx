@@ -1,5 +1,5 @@
-import React, {FC, RefObject, useRef} from "react";
-import {View, TextInput, StyleSheet, TouchableOpacity} from "react-native";
+import React, {FC, RefObject, useRef, useState} from "react";
+import {View, TextInput, StyleSheet, TouchableOpacity, Text} from "react-native";
 
 import {
     Borders,
@@ -36,16 +36,18 @@ const AuthInput: FC<Props> = ({
                                   fieldValue,
                               }) => {
         const {t} = useTranslation()
+        console.log(fieldIsValid, field)
+        const [showErrorMessage, setShowErrorMessage] = useState(false)
         const config: inputConfigType =
 
             field === MEAN_PHONE ? {
                     keyboard: "phone-pad",
-                    placeholder: "(+) 33 00 00 00 00",
+                    placeholder: " 0 00 00 00 00",
                     errorMessage: t('authScreen:errorMessagePhone')
                 }
                 : field === MEAN_MAIL ? {
                     keyboard: "email-address",
-                    placeholder: "Adresse mail",
+                    placeholder: "emailexample@mail.com",
                     errorMessage: t('authScreen:errorMessageMail')
                 }
 
@@ -70,7 +72,7 @@ const AuthInput: FC<Props> = ({
                     <Spacer.Column nbSpace={30 * Dimension.PX_CONVERSION}/>
                     {fieldValue.length > 0 ? (
                             <InputVerticalIndicator
-                                color={fieldValue.length === 0 || fieldIsValid ? Colors.green_2 : "red"}
+                                color={fieldValue.length === 0 || showErrorMessage ? "red" : Colors.green_2}
                             />
                         ) :
                         <InputVerticalIndicator
@@ -78,10 +80,24 @@ const AuthInput: FC<Props> = ({
                         />
                     }
                     <Spacer.Column nbSpace={20 * Dimension.PX_CONVERSION}/>
+                    {
+                        field === MEAN_PHONE &&
+                        <Text
+                            style={
+                                styles.text
+                            }
+                        >
+                            + 33
+                        </Text>
+
+                    }
                     <TextInput
                         returnKeyType={'done'}
                         ref={input}
                         value={fieldValue}
+                        onEndEditing={() => {
+                            setShowErrorMessage(!fieldIsValid)
+                        }}
                         onChangeText={(value) => fieldChange(value)}
                         keyboardType={config.keyboard}
                         placeholder={config.placeholder}
@@ -90,7 +106,7 @@ const AuthInput: FC<Props> = ({
                         autoCorrect={false}
                     />
                 </TouchableOpacity>
-                {fieldValue.length === 0 || fieldIsValid ? null : (
+                {showErrorMessage && (
                     <ErrorMessage errorMessage={config.errorMessage}/>
                 )}
             </View>
