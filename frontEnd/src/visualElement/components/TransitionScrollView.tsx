@@ -7,11 +7,21 @@ type TransitionScrollViewProps = {
     items: string[],
     currentItem: string,
     width: number,
-    speed:number
+    speed: number
 }
-const TransitionScrollView: FC<TransitionScrollViewProps> = ({items, currentItem, width,speed, children}) => {
+const TransitionScrollView: FC<TransitionScrollViewProps> = (
+    {
+        items,
+        currentItem,
+        width,
+        speed,
+        children
+    }) => {
+    //ref for the animation
     const view: RefObject<View> = useRef(null)
+    //value of lef for the view
     const [leftAnimation] = useState(new Animated.Value(0))
+    //useEffect that handle the animation
     useEffect(() => {
         const index = items.indexOf(currentItem)
         Animated.timing(leftAnimation, {
@@ -21,12 +31,12 @@ const TransitionScrollView: FC<TransitionScrollViewProps> = ({items, currentItem
         }).start();
     }, [currentItem])
 
-
     const leftStyle = {
         left: leftAnimation
     }
+
     return (
-        <View style={{overflow:"hidden",width:width}}>
+        <View style={{overflow: "hidden", width: width}}>
             <Animated.View
                 style={{...Positions.flex_row, ...leftStyle}}
                 ref={view}

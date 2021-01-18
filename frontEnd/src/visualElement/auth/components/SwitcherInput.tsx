@@ -8,7 +8,7 @@ import {Mean} from "../../../features/token/contexts/AuthContext";
 import {MEAN_MAIL, MEAN_PHONE, MEANS, SPEED_TRANSITION_SWITCHER} from "../../../helpers/consts/AuthConst";
 
 import {Spacer} from "../../components/Spacer"
-import {PX_CONVERSION} from "../../../styles/dimension";
+
 
 type Props = {
     identificationIsValid: boolean,
@@ -33,7 +33,7 @@ const SwitcherInput: FC<Props> = (
 
             <Switcher mean={mean} changeMean={changeMean}/>
 
-            <Spacer.Row nbSpace={spacerPx * PX_CONVERSION}/>
+            <Spacer.Row nbSpace={spacerPx }/>
 
             <TransitionScrollView speed={SPEED_TRANSITION_SWITCHER} width={Dimension.CONTAINER_WIDTH} items={MEANS}
                                   currentItem={mean}>

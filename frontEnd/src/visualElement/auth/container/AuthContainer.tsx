@@ -1,5 +1,5 @@
 import React, {useContext} from "react";
-import {Image, StyleSheet, View} from "react-native";
+import {Image, Platform, StyleSheet, View} from "react-native";
 
 import SignUpContainer from "./SignUpContainer";
 import GetCodeContainer from "./GetCodeContainer";
@@ -45,6 +45,7 @@ export default function AuthContainer() {
     return (
 
         <KeyboardAwareScrollView
+            enableOnAndroid={true}
             contentContainerStyle={{flexGrow: 1}}
         >
             <View style={styles.root}>
@@ -70,8 +71,9 @@ export default function AuthContainer() {
                             items={auth_containers}
                             currentItem={container}
                         >
-
-                            {auth_components.map((value, index) => renderAuthComponents(value, index))}
+                            {auth_components.map((value, index) =>
+                                renderAuthComponents(value, index))
+                            }
                         </TransitionScrollView>
                     </View>
                 </View>
@@ -82,7 +84,6 @@ export default function AuthContainer() {
 
 const styles = StyleSheet.create({
     root: {
-
         flex: 1,
         ...Colors.green_0_background,
         ...Positions.flex_column,
