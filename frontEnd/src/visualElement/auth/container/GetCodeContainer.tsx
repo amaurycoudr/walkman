@@ -25,9 +25,7 @@ const getCodeContainer: FC = () => {
         loading
     } = useContext(AuthContext)!;
 
-    console.log(mean)
-    console.log(identificationIsValid)
-    console.log(identification)
+
     return (
         <View style={{...Positions.items_center}}>
             <Spacer.Row nbSpace={AuthDimension.AUTH_SPACER_GET_CODE_TOP}/>
@@ -45,13 +43,13 @@ const getCodeContainer: FC = () => {
             <AuthNavigation
                 message={t('authScreen:textSignUp')}
                 linkName={t('authScreen:linkSignUp')}
-                container={SIGN_IN_CONTAINER}
+                container={SIGN_UP_CONTAINER}
                 changeContainer={authNavigation}/>
             <Spacer.Row nbSpace={AuthDimension.AUTH_SPACER_GET_CODE_BT_NAVIGATION}/>
             <AuthNavigation
                 message={t('authScreen:textAlreadyCode')}
                 linkName={t('authScreen:linkAlreadyCode')}
-                container={SIGN_UP_CONTAINER}
+                container={SIGN_IN_CONTAINER}
                 changeContainer={authNavigation}
             />
         </View>
