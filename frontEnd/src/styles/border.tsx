@@ -14,7 +14,7 @@ export const border_shadow = {
 
     shadowColor: black,
     shadowOffset: {width: 4, height: 4},
-    shadowOpacity: 0.12,
+    shadowOpacity: 0.06,
     shadowRadius: 4,
     elevation: 3
 

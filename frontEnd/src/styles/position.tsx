@@ -1,6 +1,6 @@
 import {ImageStyle, TextStyle, ViewStyle} from "react-native";
 import {BIG_TITLE_SIZE} from "./dimension";
-import {AUTH_IMG_SIZE, AUTH_SPACER_TITLE_CONTAINER, AUTH_TOP_HEIGHT} from "./auth_dimension";
+import {AUTH_IMG_SIZE, AUTH_SPACER_TITLE_CONTAINER, AUTH_TOP_HEIGHT} from "./auth";
 
 export const flex_row: ViewStyle = {
     flexDirection: 'row'

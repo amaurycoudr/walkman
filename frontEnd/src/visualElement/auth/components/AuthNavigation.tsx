@@ -2,6 +2,7 @@ import React, {FC} from 'react'
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native'
 import {AuthDimension, Colors, Positions, Typography} from "../../../styles";
 import {Spacer} from "../../components/Spacer";
+import {PX_CONVERSION} from "../../../styles/dimension";
 
 const AuthNavigation: FC<{ message: string, linkName: string, container: string, changeContainer: Function }> = ({
                                                                                                                      message,
@@ -12,7 +13,7 @@ const AuthNavigation: FC<{ message: string, linkName: string, container: string,
 
     return (
         <View style={styles.view}>
-            <Spacer.Column nbSpace={10}/>
+            <Spacer.Column nbSpace={10*PX_CONVERSION}/>
             <Text style={styles.text}>
                 {message}
             </Text>

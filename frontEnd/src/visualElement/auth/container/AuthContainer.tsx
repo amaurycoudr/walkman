@@ -16,7 +16,7 @@ import "../../../img/auth.png";
 import {GET_CODE_CONTAINER, SIGN_IN_CONTAINER, SIGN_UP_CONTAINER} from "../../../helpers/consts/AuthConst";
 import {useTranslation} from "react-i18next";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
-import {auth_container_size, auth_img_size} from "../../../styles/auth_dimension";
+import {auth_container_size, auth_img_size} from "../../../styles/auth";
 
 export default function AuthContainer() {
     const {t} = useTranslation()

@@ -20,4 +20,5 @@ export default {
     errorMessagePseudo: "This username is already use. Choose another",
     errorMessageMail: "Email address does not appear to be valid",
     errorMessagePhone: "The phone number does not appear to be valid",
+    singInMessage: "It may take a few minutes to send the code. Do not forget to check your spam",
 }

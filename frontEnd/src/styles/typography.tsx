@@ -13,11 +13,15 @@ export type TypoType =
     | 'Lato_900Black_Italic';
 
 export const p_text = {
-    fontSize: 14,
+    fontSize: 14*PX_CONVERSION,
     fontFamily: 'Lato_300Light'
 }
 export const title_text = {
     fontSize: 25*PX_CONVERSION,
+    fontFamily: 'Lato_900Black'
+}
+export const input_text = {
+    fontSize: 20*PX_CONVERSION,
     fontFamily: 'Lato_900Black'
 }
 export const big_title_text={

@@ -20,4 +20,5 @@ export default {
     errorMessagePseudo:"Le pseudo est déjà utilisé. Choisis en un autre",
     errorMessageMail: "L'adresse mail ne semble pas valide",
     errorMessagePhone:"Le numero de telephone ne semble pas valide",
+    singInMessage:"L’envoie du code peut prendre quelques minutes. N’oublié pas de verifiez dans vos spam",
 }

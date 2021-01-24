@@ -37,8 +37,12 @@ const getCodeContainer: FC = () => {
                 mean={mean}
                 spacerPx={AuthDimension.AUTH_SPACER_GET_CODE_SWITCHER}
             />
-            <AuthButton text={t('authScreen:btnGetCode')} changer={getCode} args={[mean, identification]}
-                        disabled={loading}/>
+            <AuthButton
+                text={t('authScreen:btnGetCode')}
+                changer={getCode}
+                args={[mean, identification]}
+                disabled={!identificationIsValid}
+            />
             <Spacer.Row nbSpace={AuthDimension.AUTH_SPACER_GET_CODE_NAVIGATION}/>
             <AuthNavigation
                 message={t('authScreen:textSignUp')}

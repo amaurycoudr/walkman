@@ -10,8 +10,7 @@ import {setToken} from "../redux/tokenSlice";
 import {
     mailCorrect,
     phoneCorrect,
-    pseudoValid,
-    setFormatPhone,
+    pseudoValid, setAPIFormatPhone, setFormatPhone,
     signInValid,
     signUpValid
 } from "../../../helpers/authCheckers";
@@ -89,7 +88,11 @@ const reducer: Reducer<StateType, ActionType> = (state, action) => {
         case 'setMean' :
             return {...state, mean: action.payload, identification: ""}
         case 'setIdentification' :
-            return {...state, identification: action.payload,identificationIsValid:state.mean===MEAN_MAIL?mailCorrect(action.payload):phoneCorrect(action.payload)}
+            return {
+                ...state,
+                identification: state.mean === MEAN_MAIL ? action.payload : setFormatPhone(state.identification, action.payload),
+                identificationIsValid: state.mean === MEAN_MAIL ? mailCorrect(action.payload) : phoneCorrect(setFormatPhone(state.identification, action.payload))
+            }
         case 'setPseudo' :
             return {...state, pseudo: action.payload,}
         case 'setPseudoIsValid':
@@ -161,10 +164,7 @@ export const AuthProvider: React.FC = ({children}) => {
 
 
     const signUp = (dispatch: React.Dispatch<ActionType>) => (pseudo: string, mean: string, identification: string) => {
-        if (mean === "phone") {
-            identification = setFormatPhone(identification);
-            dispatch({type: "setIdentification", payload: identification})
-        }
+
         if (!signUpValid(identification, pseudo, pseudos)) {
             dispatch({type: "setErrorMessage", payload: "Veuillez rentrer un pseudo et/ou un identifiant correct"})
             return
@@ -172,7 +172,7 @@ export const AuthProvider: React.FC = ({children}) => {
         const url = user_url + "/signup/?type=" + mean
 
         let data = {
-            [mean]: identification,
+            [mean]: mean === MEAN_PHONE ? setAPIFormatPhone(identification) : identification,
             name: pseudo
         }
 
@@ -201,10 +201,6 @@ export const AuthProvider: React.FC = ({children}) => {
 
 
     const getCode = (dispatch: React.Dispatch<ActionType>) => (mean: string, identification: string) => {
-        if (mean === "phone") {
-            identification = setFormatPhone(identification);
-            dispatch({type: "setIdentification", payload: identification})
-        }
         if (!signInValid(identification)) {
             dispatch({type: "setErrorMessage", payload: "Il semblerait que vous ayez déjà reçu un code de connexion."})
             return
@@ -213,7 +209,7 @@ export const AuthProvider: React.FC = ({children}) => {
 
         dispatch({type: "setLoading", payload: true})
         axios.post(url, {
-            [mean]: identification
+            [mean]: mean === MEAN_PHONE ? setAPIFormatPhone(identification) : identification,
         })
             .then(
                 (result) => {
@@ -241,17 +237,13 @@ export const AuthProvider: React.FC = ({children}) => {
 
     const signIn = (dispatch: React.Dispatch<ActionType>) => (identification: string, otp: string, mean: string, passwordAttempt: number) => {
         const url = user_url + "/signin/?type=" + mean;
-        if (mean === "phone") {
-            identification = setFormatPhone(identification);
-            dispatch({type: "setIdentification", payload: identification})
-        }
         if (!signInValid(identification)) {
             dispatch({type: "setErrorMessage", payload: "Il semblerait que vous ayez déjà reçu un code de connexion."})
             return
         }
 
         let data = {
-            [mean]: identification,
+            [mean]: mean === MEAN_PHONE ? setAPIFormatPhone(identification) : identification,
             otp: otp
         }
         dispatch({type: "setLoading", payload: true})

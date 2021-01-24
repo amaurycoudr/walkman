@@ -7,6 +7,12 @@ export const AUTH_IMG_SIZE = 250 * PX_CONVERSION;
 export const AUTH_IMG_RATIO = 1500 / 1014
 export const AUTH_SPACER_TITLE_CONTAINER = 10 * PX_CONVERSION;
 
+export const AUTH_CODE_WIDTH=40*PX_CONVERSION;
+export const AUTH_CODE_HEIGHT=60*PX_CONVERSION;
+
+export const AUTH_LEFT_INPUT_INDICATOR_ERROR_MESSAGE=30*PX_CONVERSION;
+export const AUTH_SPACER_INDICATOR=20*PX_CONVERSION;
+export const AUTH_BOTTOM_INPUT_ERROR_MESSAGE=3*PX_CONVERSION;
 
 export const AUTH_SPACER_SIGN_UP_TOP = 30 * PX_CONVERSION;
 export const AUTH_SPACER_SIGN_UP_SWITCHER = 37 * PX_CONVERSION;
@@ -31,4 +37,13 @@ export const auth_img_size: ImageStyle = {
 }
 export const auth_nav_width = {
     width: CONTAINER_WIDTH,
+}
+
+export const auth_error_message_position={
+    left:AUTH_LEFT_INPUT_INDICATOR_ERROR_MESSAGE,
+    bottom:AUTH_BOTTOM_INPUT_ERROR_MESSAGE
+}
+export const auth_code_input_size={
+    width:AUTH_CODE_WIDTH,
+    height:AUTH_CODE_HEIGHT
 }
