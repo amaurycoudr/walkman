@@ -8,8 +8,9 @@ import {AuthContext} from "../../../features/token/contexts/AuthContext";
 import SwitcherInput from "../components/SwitcherInput";
 import {SIGN_IN_CONTAINER, SIGN_UP_CONTAINER} from "../../../helpers/consts/AuthConst";
 import {useTranslation} from "react-i18next";
-import {AuthDimension, Positions} from "../../../styles";
+import {AuthDimension, Dimension, Positions} from "../../../styles";
 import {Spacer} from "../../components/Spacer";
+import ErrorMessage from "../components/ErrorMessage";
 
 
 const getCodeContainer: FC = () => {
@@ -21,7 +22,8 @@ const getCodeContainer: FC = () => {
         identification,
         identificationIsValid,
         authNavigation,
-        getCode
+        getCode,
+        errorMessage
     } = useContext(AuthContext)!;
 
 
@@ -42,7 +44,12 @@ const getCodeContainer: FC = () => {
                 args={[mean, identification]}
                 disabled={!identificationIsValid}
             />
-            <Spacer.Row nbSpace={AuthDimension.AUTH_SPACER_GET_CODE_NAVIGATION}/>
+            {errorMessage ?
+                <View>
+                    <ErrorMessage errorMessage={errorMessage}/>
+                    <Spacer.Row nbSpace={AuthDimension.AUTH_SPACER_GET_CODE_NAVIGATION-AuthDimension.AUTH_ERROR_MESSAGE_HEIGHT}/>
+                </View>
+                : <Spacer.Row nbSpace={AuthDimension.AUTH_SPACER_GET_CODE_NAVIGATION}/>}
             <AuthNavigation
                 message={t('authScreen:textSignUp')}
                 linkName={t('authScreen:linkSignUp')}
@@ -55,6 +62,7 @@ const getCodeContainer: FC = () => {
                 container={SIGN_IN_CONTAINER}
                 changeContainer={authNavigation}
             />
+
         </View>
     )
 

@@ -22,6 +22,7 @@ import {
     SIGN_UP_CONTAINER
 } from "../../../helpers/consts/AuthConst";
 import {userIsConnected} from "../../../helpers/netInfo";
+import {useTranslation} from "react-i18next";
 
 // Typescript
 export type Container = typeof SIGN_IN_CONTAINER | typeof SIGN_UP_CONTAINER | typeof GET_CODE_CONTAINER
@@ -34,7 +35,7 @@ type StateType = {
     identificationIsValid: boolean,
     errorMessage: string,
     code: string,
-    passwordAttempt: number,
+
     container: Container,
     loading: boolean,
     netConnexion: boolean,
@@ -50,7 +51,7 @@ type ContextType<T> = {
     pseudoChange: (value: string) => void,
     signUp: (pseudo: string, mean: string, identification: string) => void,
     getCode: (mean: string, identification: string) => void,
-    signIn: (identification: string, otp: string, mean: string, passwordAttempt: number) => void,
+    signIn: (identification: string, otp: string, mean: string) => void,
     reset: () => void,
 
     authNavigation: (container: Container) => void,
@@ -77,7 +78,6 @@ const initialState: StateType = {
     identificationIsValid: false,
     errorMessage: "",
     code: "",
-    passwordAttempt: 3,
     container: SIGN_UP_CONTAINER,
     loading: false,
     netConnexion: true
@@ -105,7 +105,7 @@ const reducer: Reducer<StateType, ActionType> = (state, action) => {
         case 'reset':
             return action.payload;
         case 'setContainer':
-            return {...state, container: action.payload}
+            return {...state, container: action.payload, errorMessage: ""}
         case 'setErrorMessage':
             return action.payload.netConnexion !== undefined ? {
                 ...state,
@@ -136,7 +136,7 @@ export const AuthProvider: React.FC = ({children}) => {
 
     const navigation = useNavigation();
 
-
+    const {t} = useTranslation()
     const dispatchRedux = useDispatch()
 
     const [pseudos, setPseudo] = useState([]);
@@ -183,7 +183,38 @@ export const AuthProvider: React.FC = ({children}) => {
     }
     const checkError = (error: any) => {
         return error && error.response && error.response.data && error.response.data.error
+    }
+    const handleErrorCode = (code: string, time = 0) => {
+        switch (code) {
+            case "1":
+                dispatch({
+                    type: "setErrorMessage",
+                    payload: {errorMessage: t('authScreen:errorMessageBadCode')}
 
+                })
+
+                break;
+            case "2":
+                dispatch({
+                    type: "setErrorMessage",
+                    payload: {errorMessage: t('authScreen:errorMessageAlreadyUse')}
+
+                })
+                break;
+            case "3":
+                dispatch({
+                    type: "setErrorMessage",
+                    payload: {errorMessage: t('authScreen:errorMessageNotSignUp')}
+                })
+                break;
+            case "4":
+                console.log(time)
+                const message = t('authScreen:errorMessageTime', {time: new Date(time * 1000).toISOString().substr(11, 8)})
+                dispatch({type: "setErrorMessage", payload: {errorMessage: message}})
+                break;
+            default:
+                checkConnexion()
+        }
     }
 
 
@@ -201,18 +232,10 @@ export const AuthProvider: React.FC = ({children}) => {
                 (result) => {
                     dispatch({type: "setLoading", payload: false})
                     dispatch({type: "setContainer", payload: SIGN_IN_CONTAINER})
-                    dispatch({type: "setErrorMessage", payload: {errorMessage: ""}})
                 }, (error) => {
                     dispatch({type: "setLoading", payload: false})
                     if (checkError(error)) {
-                        if (error.response.data.error === "2") {
-                            dispatch({
-                                type: "setErrorMessage",
-                                payload: {
-                                    errorMessage: "Il semblerait que votre compte existe déjà. Essayez de vous connecter"
-                                }
-                            })
-                        }
+                        handleErrorCode(error.response.data.error)
                     } else {
                         checkConnexion()
                     }
@@ -221,9 +244,7 @@ export const AuthProvider: React.FC = ({children}) => {
 
 
     const getCode = (dispatch: React.Dispatch<ActionType>) => (mean: string, identification: string) => {
-
         const url = user_url + "/getcode/?type=" + mean
-
         dispatch({type: "setLoading", payload: true})
         axios.post(url, {
             [mean]: mean === MEAN_PHONE ? setAPIFormatPhone(identification) : identification,
@@ -231,26 +252,12 @@ export const AuthProvider: React.FC = ({children}) => {
             .then(
                 (result) => {
                     dispatch({type: "setLoading", payload: false})
-                    dispatch({type: "setErrorMessage", payload: {errorMessage: ""}})
                     dispatch({type: "setContainer", payload: SIGN_IN_CONTAINER})
                 },
                 (error) => {
                     dispatch({type: "setLoading", payload: false})
                     if (checkError(error)) {
-                        switch (error.response.data.error) {
-                            case "3":
-                                dispatch({
-                                    type: "setErrorMessage",
-                                    payload: {errorMessage: "Vous n'êtes pas encore inscrit."}
-                                })
-                                break;
-                            case "4":
-                                const message = `vous pourrez recevoir un code dans ${error.response.data.time}s`
-                                dispatch({type: "setErrorMessage", payload: {errorMessage: message}})
-                                break;
-                            default:
-                                checkConnexion()
-                        }
+                        handleErrorCode(error.response.data.error, error.response.data.time)
                     } else {
                         checkConnexion()
                     }
@@ -259,7 +266,7 @@ export const AuthProvider: React.FC = ({children}) => {
 
     };
 
-    const signIn = (dispatch: React.Dispatch<ActionType>) => (identification: string, otp: string, mean: string, passwordAttempt: number) => {
+    const signIn = (dispatch: React.Dispatch<ActionType>) => (identification: string, otp: string, mean: string) => {
         const url = user_url + "/signin/?type=" + mean;
         let data = {
             [mean]: mean === MEAN_PHONE ? setAPIFormatPhone(identification) : identification,
@@ -268,31 +275,15 @@ export const AuthProvider: React.FC = ({children}) => {
         dispatch({type: "setLoading", payload: true})
         axios.post(url, data)
             .then(response => {
+
                 dispatch({type: "setLoading", payload: false})
                 dispatch({type: "reset", payload: init()})
-                dispatch({type: "setErrorMessage", payload: {errorMessage: ""}})
                 dispatchRedux(setToken(response.data.Token))
 
             }, (error) => {
                 dispatch({type: "setLoading", payload: false})
                 if (checkError(error)) {
-                    switch (error.response.data.error) {
-                        case "1": //wrong code
-
-                            dispatch({
-                                type: "setErrorMessage",
-                                payload: {errorMessage: "Vous vous êtes trompé de code. Veuillez réessayer."}
-
-                            })
-                            passwordAttempt -= 1;
-                            if (passwordAttempt > 0) {
-                                dispatch({type: "setPasswordAttempt", payload: passwordAttempt})
-                            } else {
-                                dispatch({type: "reset", payload: init()})
-                                navigation.navigate("Auth");
-                            }
-                            break;
-                    }
+                    handleErrorCode(error.response.data.error)
                 } else {
                     checkConnexion()
                 }
@@ -300,7 +291,6 @@ export const AuthProvider: React.FC = ({children}) => {
     };
 
     const authNavigation = (dispatch: React.Dispatch<ActionType>) => (container: Container) => {
-        dispatch({type: "setErrorMessage", payload: {errorMessage: ""}})
         dispatch({type: "setContainer", payload: container})
     }
 

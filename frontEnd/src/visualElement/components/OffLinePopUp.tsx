@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Animated, StyleSheet, Text, View} from "react-native";
 import {Borders, Colors, Dimension, Positions, Typography} from "../../styles";
+// @ts-ignore
 import OfflineSVG from "../../img/offlinecircle.svg";
 import {Spacer} from "./Spacer";
 import {useTranslation} from "react-i18next";
@@ -12,7 +13,7 @@ type ModalType = {
 }
 export default ({visible}: ModalType) => {
     const {t} = useTranslation()
-    const [topPosition] = useState(new Animated.Value(0))
+    const [topPosition] = useState(new Animated.Value(-Dimension.POPUP_HEIGHT))
     useEffect(() => {
         Animated.timing(topPosition, {
             toValue: visible ? Dimension.POPUP_TOP : -Dimension.POPUP_HEIGHT,

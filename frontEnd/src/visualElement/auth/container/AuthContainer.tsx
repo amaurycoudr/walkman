@@ -1,5 +1,5 @@
 import React, {useContext} from "react";
-import {Image, StyleSheet, View} from "react-native";
+import {Image, StatusBar, StyleSheet, View} from "react-native";
 
 import SignUpContainer from "./SignUpContainer";
 import GetCodeContainer from "./GetCodeContainer";
@@ -13,15 +13,21 @@ import TransitionScrollView from "../../components/TransitionScrollView";
 import Titles from "../components/Titles";
 import {Spacer} from "../../components/Spacer";
 import "../../../img/auth.png";
-import {GET_CODE_CONTAINER, SIGN_IN_CONTAINER, SIGN_UP_CONTAINER} from "../../../helpers/consts/AuthConst";
+import {
+    GET_CODE_CONTAINER,
+    SIGN_IN_CONTAINER,
+    SIGN_UP_CONTAINER
+}
+    from "../../../helpers/consts/AuthConst";
 import {useTranslation} from "react-i18next";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import {auth_container_size, auth_img_size} from "../../../styles/auth";
 import OffLineModal from "../../components/OffLinePopUp";
+import LoadingContainer from "./LoadingContainer";
 
 export default function AuthContainer() {
     const {t} = useTranslation()
-    const {container, netConnexion} = useContext(AuthContext)!;
+    const {container, netConnexion, loading} = useContext(AuthContext)!;
     //change the position of one of this elements on the array to change Container position on the screen
     const containers = [
         [SIGN_UP_CONTAINER, <SignUpContainer/>, t('authScreen:titleSignUp')],
@@ -48,6 +54,11 @@ export default function AuthContainer() {
             enableOnAndroid={true}
             contentContainerStyle={{flexGrow: 1}}
         >
+            <StatusBar
+                backgroundColor={Colors.green_0}
+                translucent
+                barStyle={'dark-content'}
+            />
             <View style={styles.root}>
                 <OffLineModal
                     visible={!netConnexion}
@@ -69,6 +80,9 @@ export default function AuthContainer() {
 
                         style={{...styles.scrollView}}
                     >
+                        <LoadingContainer
+                            loading={loading}
+                        />
                         <TransitionScrollView
                             speed={600}
                             width={Dimension.CONTAINER_WIDTH}
@@ -99,6 +113,7 @@ const styles = StyleSheet.create({
         ...auth_img_size,
     },
     scrollView: {
+        position: "relative",
         ...auth_container_size,
         ...Borders.border_shadow,
         ...Borders.border_radius_30,

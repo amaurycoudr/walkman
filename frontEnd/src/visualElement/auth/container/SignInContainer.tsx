@@ -17,7 +17,6 @@ const SignInContainer: FC = () => {
     const {
         code,
         codeChange,
-        passwordAttempt,
         signIn,
         identification,
         mean,
@@ -25,6 +24,7 @@ const SignInContainer: FC = () => {
         changeMean,
         identificationChange,
         identificationIsValid,
+        errorMessage,
         loading
     } = useContext(AuthContext)!;
 
@@ -48,19 +48,25 @@ const SignInContainer: FC = () => {
                 autoFocusOnLoad={false}
                 codeInputFieldStyle={styles.input}
                 codeInputHighlightStyle={styles.underlineStyleHighLighted}
-                onCodeFilled={(code) => {
-                    codeChange(code)
-                }}
+                onCodeChanged={(code1 => {
+                    codeChange(code1)
+                })}
             />
-            {passwordAttempt < 3 ? <ErrorMessage
-                errorMessage={"Le code est invalide il vous reste " + passwordAttempt + " tentative(s)"}/> : null}
             <Spacer.Row nbSpace={20 * PX_CONVERSION}/>
             <AuthButton
                 text={t('authScreen:btnSignIn')}
                 changer={signIn}
-                args={[identification, code, mean, passwordAttempt]}
+                args={[identification, code, mean]}
                 disabled={code.length < 6 || !identificationIsValid}
             />
+            {errorMessage ?
+                <View>
+                    <ErrorMessage errorMessage={errorMessage}/>
+                    <Spacer.Row nbSpace={20 * PX_CONVERSION - AuthDimension.AUTH_ERROR_MESSAGE_HEIGHT}/>
+                </View>
+                :
+                <Spacer.Row nbSpace={20 * PX_CONVERSION}/>
+            }
             <Spacer.Row nbSpace={20 * PX_CONVERSION}/>
             <View
                 style={{
@@ -104,6 +110,7 @@ const styles = StyleSheet.create({
         ...Colors.white_background,
         ...AuthDimension.auth_code_input_size,
         ...Positions.text_center,
+        ...Typography.input_text,
         fontSize: 25,
         ...Colors.grey_dark_text,
         borderColor: Colors.white_custom

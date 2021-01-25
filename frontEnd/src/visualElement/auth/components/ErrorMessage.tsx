@@ -1,18 +1,20 @@
-import React,{FC} from 'react'
-import {View, Text, StyleSheet} from 'react-native'
-import {Colors, Typography} from "../../../styles";
+import React, {FC} from 'react'
+import {StyleSheet, Text, View} from 'react-native'
+import {AuthDimension, Colors, Typography} from "../../../styles";
 
-const ErrorMessage:FC<{errorMessage:string}> = ({errorMessage}) => {
+
+const ErrorMessage: FC<{ errorMessage: string }> = ({errorMessage}) => {
     return (
         <View>
-            <Text style={styles.text} >{errorMessage}</Text>
+            <Text style={styles.text}>{errorMessage}</Text>
         </View>
     )
 };
-const styles=StyleSheet.create({
-    text:{
+const styles = StyleSheet.create({
+    text: {
         ...Colors.red_text,
         ...Typography.p_text,
+        ...AuthDimension.error_message_lineHeight
     }
 })
 

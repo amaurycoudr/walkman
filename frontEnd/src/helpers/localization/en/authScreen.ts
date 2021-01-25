@@ -21,4 +21,8 @@ export default {
     errorMessageMail: "Email address does not appear to be valid",
     errorMessagePhone: "The phone number does not appear to be valid",
     singInMessage: "It may take a few minutes to send the code. Do not forget to check your spam",
+    errorMessageBadCode: "invalid code",
+    errorMessageAlreadyUse: "username or email / phone already registered",
+    errorMessageNotSignUp: "email / phone not registered",
+    errorMessageTime: "A code has already sent you (new sms in {{time}})"
 }

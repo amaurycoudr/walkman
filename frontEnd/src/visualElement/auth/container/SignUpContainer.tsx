@@ -13,6 +13,7 @@ import SwitcherInput from "../components/SwitcherInput";
 //const & style
 import {GET_CODE_CONTAINER, SIGN_IN_CONTAINER} from "../../../helpers/consts/AuthConst";
 import {AuthDimension, Positions} from "../../../styles";
+import ErrorMessage from "../components/ErrorMessage";
 
 
 const SignUpContainer: FC = () => {
@@ -28,6 +29,7 @@ const SignUpContainer: FC = () => {
         identificationIsValid,
         signUp,
         authNavigation,
+        errorMessage,
         loading
     } = useContext(AuthContext)!
 
@@ -58,24 +60,27 @@ const SignUpContainer: FC = () => {
                 args={[pseudo, mean, identification]}
                 disabled={loading || !identificationIsValid || !pseudoIsValid}
             />
-
-            <Spacer.Row nbSpace={AuthDimension.AUTH_SPACER_SIGN_UP_NAVIGATION}/>
-
+            {errorMessage?
+                <View>
+                    <ErrorMessage errorMessage={errorMessage}/>
+                    <Spacer.Row nbSpace={AuthDimension.AUTH_SPACER_SIGN_UP_NAVIGATION-AuthDimension.AUTH_ERROR_MESSAGE_HEIGHT}/>
+                </View>
+                :
+                <Spacer.Row nbSpace={AuthDimension.AUTH_SPACER_SIGN_UP_NAVIGATION}/>
+            }
             <AuthNavigation
                 message={t('authScreen:textAlreadyCount')}
                 linkName={t('authScreen:linkAlreadyCount')}
                 changeContainer={authNavigation}
                 container={GET_CODE_CONTAINER}
             />
-
+            <Spacer.Row nbSpace={AuthDimension.AUTH_SPACER_SIGN_UP_BT_NAVIGATION}/>
             <AuthNavigation
                 message={t('authScreen:textAlreadyCode')}
                 linkName={t('authScreen:linkAlreadyCode')}
                 changeContainer={authNavigation}
                 container={SIGN_IN_CONTAINER}
             />
-
-
         </View>
     )
 }
