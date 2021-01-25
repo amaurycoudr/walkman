@@ -16,6 +16,10 @@ export const p_text = {
     fontSize: 14*PX_CONVERSION,
     fontFamily: 'Lato_300Light'
 }
+export const popup_text={
+    fontSize: 25*PX_CONVERSION,
+    fontFamily: 'Lato_300Light'
+}
 export const title_text = {
     fontSize: 25*PX_CONVERSION,
     fontFamily: 'Lato_900Black'

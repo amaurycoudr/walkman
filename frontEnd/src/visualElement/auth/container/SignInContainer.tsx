@@ -42,10 +42,8 @@ const SignInContainer: FC = () => {
             />
 
             <OTPInputView
-                style={{width: Dimension.SWITCHER_INPUT_WIDTH,height:AuthDimension.AUTH_CODE_HEIGHT}}
+                style={{width: Dimension.SWITCHER_INPUT_WIDTH, height: AuthDimension.AUTH_CODE_HEIGHT}}
                 pinCount={6}
-                // code={this.state.code} //You can supply this prop or not. The component will be used as a controlled / uncontrolled component respectively.
-                // onCodeChanged = {code => { this.setState({code})}}
                 autoFocusOnLoad={false}
                 codeInputFieldStyle={styles.input}
                 codeInputHighlightStyle={styles.underlineStyleHighLighted}
@@ -60,7 +58,7 @@ const SignInContainer: FC = () => {
                 text={t('authScreen:btnSignIn')}
                 changer={signIn}
                 args={[identification, code, mean, passwordAttempt]}
-                disabled={loading}
+                disabled={code.length < 6 || !identificationIsValid}
             />
             <Spacer.Row nbSpace={20 * PX_CONVERSION}/>
             <View
@@ -107,11 +105,9 @@ const styles = StyleSheet.create({
         ...Positions.text_center,
         fontSize: 25,
         ...Colors.grey_dark_text,
-        borderColor:Colors.white_custom
+        borderColor: Colors.white_custom
     },
-    underlineStyleHighLighted: {
-
-    },
+    underlineStyleHighLighted: {},
 });
 
 export default SignInContainer;
