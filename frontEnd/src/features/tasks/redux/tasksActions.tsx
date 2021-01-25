@@ -1,5 +1,5 @@
 import {CaseReducer, PayloadAction} from "@reduxjs/toolkit";
-import { tasksDictType, tasksState, taskType, taskTypeApiResult} from "../tasksType";
+import {tasksDictType, tasksState, taskType, taskTypeApiResult} from "../tasksType";
 import {filterType} from "../tasksType";
 import {FAILED, LOADING, SUCCEEDED} from "../../../helpers/api";
 import {initialTaskState} from "../tasksConst";
@@ -11,12 +11,12 @@ export const changeFilterAction: CaseReducer<tasksState, PayloadAction<filterTyp
 }
 export const initEditTaskAction: CaseReducer<tasksState, PayloadAction<number | null>> = (state, action) => {
     return ({
-        ...state,taskEdit: action.payload
+        ...state, taskEdit: action.payload
     })
 }
 export const focusTaskAction: CaseReducer<tasksState, PayloadAction<number>> = (state, action) => {
     return ({
-        ...state,  taskEdit: null, taskFocus: action.payload
+        ...state, taskEdit: null, taskFocus: action.payload
     })
 }
 export const initFocusTaskAction: CaseReducer<tasksState> = (state) => {

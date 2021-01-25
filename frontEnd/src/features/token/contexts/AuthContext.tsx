@@ -1,20 +1,18 @@
-import React, {createContext, Reducer, useReducer} from "react";
+import React, {createContext, Reducer, useEffect, useReducer, useState} from "react";
 import axios from "axios";
 import {useNavigation} from '@react-navigation/native';
 
-import usePseudo from "../hooks/usePseudo";
-
 import {setToken} from "../redux/tokenSlice";
-
-
 import {
     mailCorrect,
     phoneCorrect,
-    pseudoValid, setAPIFormatPhone, setFormatPhone,
+    pseudoValid,
+    setAPIFormatPhone,
+    setFormatPhone,
     signInValid,
-    signUpValid
 } from "../../../helpers/authCheckers";
 import {useDispatch} from "react-redux";
+
 import {BASE_URL} from "../../../helpers/api";
 import {
     GET_CODE_CONTAINER,
@@ -23,6 +21,7 @@ import {
     SIGN_IN_CONTAINER,
     SIGN_UP_CONTAINER
 } from "../../../helpers/consts/AuthConst";
+import {userIsConnected} from "../../../helpers/netInfo";
 
 // Typescript
 export type Container = typeof SIGN_IN_CONTAINER | typeof SIGN_UP_CONTAINER | typeof GET_CODE_CONTAINER
@@ -38,6 +37,7 @@ type StateType = {
     passwordAttempt: number,
     container: Container,
     loading: boolean,
+    netConnexion: boolean,
 };
 
 
@@ -52,7 +52,7 @@ type ContextType<T> = {
     getCode: (mean: string, identification: string) => void,
     signIn: (identification: string, otp: string, mean: string, passwordAttempt: number) => void,
     reset: () => void,
-    errorMessageChange: (errorMessage: string) => void,
+
     authNavigation: (container: Container) => void,
 }
 
@@ -64,7 +64,7 @@ type ActionType =
     | { type: 'setCode'; payload: string }
     | { type: 'setPasswordAttempt'; payload: number }
     | { type: 'reset'; payload: StateType }
-    | { type: 'setErrorMessage'; payload: string }
+    | { type: 'setErrorMessage'; payload: { errorMessage: string, netConnexion?: boolean } }
     | { type: 'setLoading'; payload: boolean }
     | { type: 'setContainer'; payload: Container };
 
@@ -79,7 +79,8 @@ const initialState: StateType = {
     code: "",
     passwordAttempt: 3,
     container: SIGN_UP_CONTAINER,
-    loading: false
+    loading: false,
+    netConnexion: true
 
 };
 
@@ -106,7 +107,15 @@ const reducer: Reducer<StateType, ActionType> = (state, action) => {
         case 'setContainer':
             return {...state, container: action.payload}
         case 'setErrorMessage':
-            return {...state, errorMessage: action.payload}
+            return action.payload.netConnexion !== undefined ? {
+                ...state,
+                errorMessage: action.payload.errorMessage,
+                netConnexion: action.payload.netConnexion
+            } : {
+                ...state,
+                errorMessage: action.payload.errorMessage,
+                netConnexion: true
+            }
         case 'setLoading':
             return {...state, loading: action.payload}
     }
@@ -127,9 +136,10 @@ export const AuthProvider: React.FC = ({children}) => {
 
     const navigation = useNavigation();
 
-    const pseudos = usePseudo();
 
     const dispatchRedux = useDispatch()
+
+    const [pseudos, setPseudo] = useState([]);
 
     const [state, dispatch] = useReducer(reducer, initialState, init);
 
@@ -149,9 +159,6 @@ export const AuthProvider: React.FC = ({children}) => {
         dispatch({type: "setPseudo", payload: value});
 
     }
-    const errorMessageChange = (dispatch: React.Dispatch<ActionType>) => (errorMessage: string) => {
-        dispatch({type: "setErrorMessage", payload: errorMessage});
-    }
 
     const codeChange = (dispatch: React.Dispatch<ActionType>) => (value: string) => {
         dispatch({type: "setCode", payload: value})
@@ -162,49 +169,54 @@ export const AuthProvider: React.FC = ({children}) => {
         navigation.navigate("Auth");
     }
 
+    const checkConnexion = () => {
+        userIsConnected().then(value => {
+                console.log(value, "the value")
+                dispatch({
+                    type: "setErrorMessage",
+                    payload: {
+                        errorMessage: "",
+                        netConnexion: Boolean(value),
+                    }
+                })
+            }
+        )
+    }
+
 
     const signUp = (dispatch: React.Dispatch<ActionType>) => (pseudo: string, mean: string, identification: string) => {
 
-        if (!signUpValid(identification, pseudo, pseudos)) {
-            dispatch({type: "setErrorMessage", payload: "Veuillez rentrer un pseudo et/ou un identifiant correct"})
-            return
-        }
         const url = user_url + "/signup/?type=" + mean
 
         let data = {
             [mean]: mean === MEAN_PHONE ? setAPIFormatPhone(identification) : identification,
             name: pseudo
         }
-
         dispatch({type: "setLoading", payload: true})
         axios.post(url, data)
             .then(
                 (result) => {
                     dispatch({type: "setLoading", payload: false})
                     dispatch({type: "setContainer", payload: SIGN_IN_CONTAINER})
-                    dispatch({type: "setErrorMessage", payload: ""})
-                },
-                (error) => {
-                    dispatch({type: "setLoading", payload: false})
-                    switch (error.response.data.error) {
-                        case "2":
-                            dispatch({
-                                type: "setErrorMessage",
-                                payload: "Il semblerait que votre compte existe déjà. Essayez de vous connecter"
-                            })
-                            return
+                    dispatch({type: "setErrorMessage", payload: {errorMessage: ""}})
+                }, (error) => {
+                    if (error.response.data.error === "2") {
+                        dispatch({type: "setLoading", payload: false})
+                        dispatch({
+                            type: "setErrorMessage",
+                            payload: {
+                                errorMessage: "Il semblerait que votre compte existe déjà. Essayez de vous connecter"
+                            }
+                        })
+                    } else {
+                        checkConnexion()
                     }
-                }).catch((e) => {
-            console.log(e)
-        })
-    };
+                })
+    }
 
 
     const getCode = (dispatch: React.Dispatch<ActionType>) => (mean: string, identification: string) => {
-        if (!signInValid(identification)) {
-            dispatch({type: "setErrorMessage", payload: "Il semblerait que vous ayez déjà reçu un code de connexion."})
-            return
-        }
+
         const url = user_url + "/getcode/?type=" + mean
 
         dispatch({type: "setLoading", payload: true})
@@ -214,31 +226,41 @@ export const AuthProvider: React.FC = ({children}) => {
             .then(
                 (result) => {
                     dispatch({type: "setLoading", payload: false})
-                    dispatch({type: "setErrorMessage", payload: ""})
+                    dispatch({type: "setErrorMessage", payload: {errorMessage: ""}})
                     dispatch({type: "setContainer", payload: SIGN_IN_CONTAINER})
                 },
                 (error) => {
                     dispatch({type: "setLoading", payload: false})
-                    switch (error.response.data.error) {
-                        case "3":
-                            dispatch({type: "setErrorMessage", payload: "Vous n'êtes pas encore inscrit."})
-                            return
-                        case "4":
-                            const message = `vous pourrez recevoir un code dans ${error.response.data.time}s`
-                            dispatch({type: "setErrorMessage", payload: message})
-                            return
+                    if (error.response.data.error) {
+                        switch (error.response.data.error) {
+                            case "3":
+                                dispatch({
+                                    type: "setErrorMessage",
+                                    payload: {errorMessage: "Vous n'êtes pas encore inscrit."}
+                                })
+                                break;
+                            case "4":
+                                const message = `vous pourrez recevoir un code dans ${error.response.data.time}s`
+                                dispatch({type: "setErrorMessage", payload: {errorMessage: message}})
+                                break;
+                            default:
+                                checkConnexion()
+                        }
+                    } else {
+                        checkConnexion()
                     }
                 }
-            ).catch((e) => {
-            console.log(e)
-        })
+            )
 
     };
 
     const signIn = (dispatch: React.Dispatch<ActionType>) => (identification: string, otp: string, mean: string, passwordAttempt: number) => {
         const url = user_url + "/signin/?type=" + mean;
         if (!signInValid(identification)) {
-            dispatch({type: "setErrorMessage", payload: "Il semblerait que vous ayez déjà reçu un code de connexion."})
+            dispatch({
+                type: "setErrorMessage",
+                payload: {errorMessage: "Il semblerait que vous ayez déjà reçu un code de connexion."}
+            })
             return
         }
 
@@ -251,37 +273,50 @@ export const AuthProvider: React.FC = ({children}) => {
             .then(response => {
                 dispatch({type: "setLoading", payload: false})
                 dispatch({type: "reset", payload: init()})
-                dispatch({type: "setErrorMessage", payload: ""})
+                dispatch({type: "setErrorMessage", payload: {errorMessage: ""}})
                 dispatchRedux(setToken(response.data.Token))
 
             }, (error) => {
                 dispatch({type: "setLoading", payload: false})
-                switch (error.response.data.error) {
-                    case "1": //wrong code
+                if (error.response.data.error) {
+                    switch (error.response.data.error) {
+                        case "1": //wrong code
 
-                        dispatch({
-                            type: "setErrorMessage",
-                            payload: "Vous vous êtes trompé de code. Veuillez réessayer."
-                        })
-                        passwordAttempt -= 1;
-                        if (passwordAttempt > 0) {
-                            dispatch({type: "setPasswordAttempt", payload: passwordAttempt})
-                        } else {
-                            dispatch({type: "reset", payload: init()})
-                            navigation.navigate("Auth");
-                        }
-                        break;
+                            dispatch({
+                                type: "setErrorMessage",
+                                payload: {errorMessage: "Vous vous êtes trompé de code. Veuillez réessayer."}
+
+                            })
+                            passwordAttempt -= 1;
+                            if (passwordAttempt > 0) {
+                                dispatch({type: "setPasswordAttempt", payload: passwordAttempt})
+                            } else {
+                                dispatch({type: "reset", payload: init()})
+                                navigation.navigate("Auth");
+                            }
+                            break;
+                    }
+                } else {
+                    checkConnexion()
                 }
-            }).catch((e) => {
-            console.log(e)
-        })
+            })
     };
 
     const authNavigation = (dispatch: React.Dispatch<ActionType>) => (container: Container) => {
-        dispatch({type: "setErrorMessage", payload: ""})
+        dispatch({type: "setErrorMessage", payload: {errorMessage: ""}})
         dispatch({type: "setContainer", payload: container})
     }
 
+    useEffect(() => {
+        const url = BASE_URL + "users/signup/";
+        axios.get(url)
+            .then(result => {
+
+                setPseudo(result.data)
+            }).catch(reason => {
+            checkConnexion()
+        })
+    }, []);
 
     return (
         <AuthContext.Provider
@@ -295,7 +330,6 @@ export const AuthProvider: React.FC = ({children}) => {
                 getCode: getCode(dispatch),
                 signIn: signIn(dispatch),
                 reset: reset(dispatch),
-                errorMessageChange: errorMessageChange(dispatch),
                 authNavigation: authNavigation(dispatch),
             }}
         >

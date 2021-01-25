@@ -36,7 +36,6 @@ export const setFormatPhone = (prevPhone: string, phone: string): string => {
         }
     }
     if((prevPhone.length>phone.length)&&(prevPhone[prevPhone.length-1]===' ')){
-        console.log("prout2")
         return phone.slice(0, phone.length - 1)
     }
     return phone
