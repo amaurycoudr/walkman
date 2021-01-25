@@ -182,6 +182,10 @@ export const AuthProvider: React.FC = ({children}) => {
             }
         )
     }
+    const checkError = (error: any) => {
+        return error && error.response && error.response.data && error.response.data.error
+
+    }
 
 
     const signUp = (dispatch: React.Dispatch<ActionType>) => (pseudo: string, mean: string, identification: string) => {
@@ -200,14 +204,16 @@ export const AuthProvider: React.FC = ({children}) => {
                     dispatch({type: "setContainer", payload: SIGN_IN_CONTAINER})
                     dispatch({type: "setErrorMessage", payload: {errorMessage: ""}})
                 }, (error) => {
-                    if (error.response.data.error === "2") {
-                        dispatch({type: "setLoading", payload: false})
-                        dispatch({
-                            type: "setErrorMessage",
-                            payload: {
-                                errorMessage: "Il semblerait que votre compte existe déjà. Essayez de vous connecter"
-                            }
-                        })
+                    dispatch({type: "setLoading", payload: false})
+                    if (checkError(error)) {
+                        if (error.response.data.error === "2") {
+                            dispatch({
+                                type: "setErrorMessage",
+                                payload: {
+                                    errorMessage: "Il semblerait que votre compte existe déjà. Essayez de vous connecter"
+                                }
+                            })
+                        }
                     } else {
                         checkConnexion()
                     }
@@ -231,7 +237,7 @@ export const AuthProvider: React.FC = ({children}) => {
                 },
                 (error) => {
                     dispatch({type: "setLoading", payload: false})
-                    if (error.response.data.error) {
+                    if (checkError(error)) {
                         switch (error.response.data.error) {
                             case "3":
                                 dispatch({
@@ -278,7 +284,7 @@ export const AuthProvider: React.FC = ({children}) => {
 
             }, (error) => {
                 dispatch({type: "setLoading", payload: false})
-                if (error.response.data.error) {
+                if (checkError(error)) {
                     switch (error.response.data.error) {
                         case "1": //wrong code
 
