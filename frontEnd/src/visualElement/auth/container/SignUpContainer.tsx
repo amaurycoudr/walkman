@@ -16,7 +16,6 @@ import {AuthDimension, Positions} from "../../../styles";
 
 
 const SignUpContainer: FC = () => {
-
     const {t} = useTranslation()
     const {
         pseudo,

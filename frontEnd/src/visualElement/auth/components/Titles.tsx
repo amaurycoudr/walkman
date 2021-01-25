@@ -2,16 +2,15 @@ import React, {FC} from "react";
 import {Text, View} from "react-native";
 import TransitionScrollView from "../../components/TransitionScrollView";
 import {Colors, Dimension, Positions, Typography} from "../../../styles";
-import {useTranslation} from "react-i18next";
+
 
 
 type Props = {
     mean: string,
     means: string[],
-    titles:string[]
+    titles: string[]
 }
-const Titles: FC<Props> = ({mean, means,titles,}) => {
-    const {t} = useTranslation()
+const Titles: FC<Props> = ({mean, means, titles,}) => {
     const ViewStyle = {
         width: Dimension.SCREEN_WIDTH,
         ...Dimension.title_height
@@ -24,8 +23,6 @@ const Titles: FC<Props> = ({mean, means,titles,}) => {
         ...Typography.big_title_text,
         ...Colors.white_text
     }
-    const AUTH_TITLES = [
-        t('authScreen:titleGetCode'),t('authScreen:titleSignUp'),  t('authScreen:titleSignIn')]
     return (
         <View style={ViewStyle}>
             <TransitionScrollView speed={600} width={Dimension.SCREEN_WIDTH} items={means} currentItem={mean}>

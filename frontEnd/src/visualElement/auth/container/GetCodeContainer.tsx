@@ -21,8 +21,7 @@ const getCodeContainer: FC = () => {
         identification,
         identificationIsValid,
         authNavigation,
-        getCode,
-        loading
+        getCode
     } = useContext(AuthContext)!;
 
 

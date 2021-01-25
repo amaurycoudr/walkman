@@ -1,6 +1,5 @@
 import React, {FC, RefObject, useRef, useState} from "react";
 import {View, TextInput, StyleSheet, TouchableOpacity, Text} from "react-native";
-
 import {
     Borders,
     Dimension,
@@ -14,21 +13,17 @@ import InputVerticalIndicator from "../../components/InputVerticalIndicator";
 import {Spacer} from "../../components/Spacer";
 import {useTranslation} from "react-i18next";
 import {MEAN_MAIL, MEAN_PHONE} from "../../../helpers/consts/AuthConst";
-
 interface Props {
     field: string;
     fieldChange: Function;
     fieldIsValid: boolean;
     fieldValue: string;
 }
-
 interface inputConfigType {
     keyboard: "default" | "phone-pad" | "email-address";
     placeholder: string;
     errorMessage: string;
 }
-
-
 const AuthInput: FC<Props> = ({
                                   field,
                                   fieldChange,
@@ -56,7 +51,7 @@ const AuthInput: FC<Props> = ({
                     errorMessage: t('authScreen:errorMessagePseudo')
                 }
         const textColor = fieldValue.length > 0 ? Colors.grey_dark_text : Colors.grey_light_text
-        const textSize = fieldValue.length<20?25:25*20/fieldValue.length
+        const textSize = fieldValue.length < 20 ? 25 : 25 * 20 / fieldValue.length
 
         const input: RefObject<TextInput> = useRef(null)
 
@@ -89,7 +84,7 @@ const AuthInput: FC<Props> = ({
                             field === MEAN_PHONE &&
                             <Text
                                 style={
-                                    {...Colors.grey_dark_text,fontSize:textSize}
+                                    {...Colors.grey_dark_text, fontSize: textSize}
                                 }
                             >
                                 (+ 33)
@@ -111,7 +106,7 @@ const AuthInput: FC<Props> = ({
                             }}
                             keyboardType={config.keyboard}
                             placeholder={config.placeholder}
-                            style={{...textColor,fontSize:textSize}}
+                            style={{...textColor, fontSize: textSize}}
                             autoCapitalize="none"
                             autoCorrect={false}
                         />

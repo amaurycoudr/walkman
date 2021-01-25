@@ -1,5 +1,5 @@
 import React, {useContext} from "react";
-import {Image, Platform, StyleSheet, View} from "react-native";
+import {Image, StyleSheet, View} from "react-native";
 
 import SignUpContainer from "./SignUpContainer";
 import GetCodeContainer from "./GetCodeContainer";
@@ -31,7 +31,6 @@ export default function AuthContainer() {
     const auth_titles = containers.map(value => value[2]) as string[]
     const auth_containers = containers.map(value => value[0]) as string[]
     const auth_components = containers.map(value => value[1]) as JSX.Element[]
-    console.log(netConnexion)
     const renderAuthComponents = (item: JSX.Element, index: number) => {
 
         return (

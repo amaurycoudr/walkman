@@ -1,6 +1,5 @@
 import React, {useContext, FC} from 'react'
 import {View, StyleSheet, Text} from 'react-native'
-import CodeInput from "../components/CodeInput"
 import {AuthContext} from "../../../features/token/contexts/AuthContext";
 import ErrorMessage from "../components/ErrorMessage";
 import AuthButton from "../components/AuthButton";
@@ -44,6 +43,8 @@ const SignInContainer: FC = () => {
             <OTPInputView
                 style={{width: Dimension.SWITCHER_INPUT_WIDTH, height: AuthDimension.AUTH_CODE_HEIGHT}}
                 pinCount={6}
+                placeholderCharacter={"0"}
+                placeholderTextColor={Colors.grey_light}
                 autoFocusOnLoad={false}
                 codeInputFieldStyle={styles.input}
                 codeInputHighlightStyle={styles.underlineStyleHighLighted}

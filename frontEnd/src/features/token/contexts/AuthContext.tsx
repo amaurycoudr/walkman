@@ -171,7 +171,6 @@ export const AuthProvider: React.FC = ({children}) => {
 
     const checkConnexion = () => {
         userIsConnected().then(value => {
-                console.log(value, "the value")
                 dispatch({
                     type: "setErrorMessage",
                     payload: {
@@ -262,14 +261,6 @@ export const AuthProvider: React.FC = ({children}) => {
 
     const signIn = (dispatch: React.Dispatch<ActionType>) => (identification: string, otp: string, mean: string, passwordAttempt: number) => {
         const url = user_url + "/signin/?type=" + mean;
-        if (!signInValid(identification)) {
-            dispatch({
-                type: "setErrorMessage",
-                payload: {errorMessage: "Il semblerait que vous ayez déjà reçu un code de connexion."}
-            })
-            return
-        }
-
         let data = {
             [mean]: mean === MEAN_PHONE ? setAPIFormatPhone(identification) : identification,
             otp: otp
