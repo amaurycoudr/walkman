@@ -8,7 +8,7 @@ import {AuthContext} from "../../../features/token/contexts/AuthContext";
 import SwitcherInput from "../components/SwitcherInput";
 import {SIGN_IN_CONTAINER, SIGN_UP_CONTAINER} from "../../../helpers/consts/AuthConst";
 import {useTranslation} from "react-i18next";
-import {AuthDimension, Dimension, Positions} from "../../../styles";
+import {AuthDimension, Positions} from "../../../styles";
 import {Spacer} from "../../components/Spacer";
 import ErrorMessage from "../components/ErrorMessage";
 
@@ -47,7 +47,8 @@ const getCodeContainer: FC = () => {
             {errorMessage ?
                 <View>
                     <ErrorMessage errorMessage={errorMessage}/>
-                    <Spacer.Row nbSpace={AuthDimension.AUTH_SPACER_GET_CODE_NAVIGATION-AuthDimension.AUTH_ERROR_MESSAGE_HEIGHT}/>
+                    <Spacer.Row
+                        nbSpace={AuthDimension.AUTH_SPACER_GET_CODE_NAVIGATION - AuthDimension.AUTH_ERROR_MESSAGE_HEIGHT}/>
                 </View>
                 : <Spacer.Row nbSpace={AuthDimension.AUTH_SPACER_GET_CODE_NAVIGATION}/>}
             <AuthNavigation

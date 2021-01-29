@@ -109,7 +109,7 @@ const AuthInput: FC<Props> = ({
                             }}
                             keyboardType={config.keyboard}
                             placeholder={config.placeholder}
-                            style={{...styles.text, ...textColor, fontSize: textSize}}
+                            style={{flexGrow:1,...styles.text, ...textColor, fontSize: textSize}}
                             autoCapitalize="none"
                             autoCorrect={false}
                         />
