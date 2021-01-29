@@ -48,14 +48,12 @@ export interface editTaskType {
 export type difficulty = {
     label: string,
     point: number,
-    id : number,
-    icon: string
+    id: number,
 }
 //type for the categories of a task
 export type category = {
     title: string,
     color: string,
-    icon: string,
     id: number,
 }
 //type for the states of a task
