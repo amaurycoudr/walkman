@@ -1,5 +1,5 @@
 import React from "react";
-import {Text,View, Button, FlatList, SafeAreaView} from "react-native";
+import {Text, View, Button, FlatList, SafeAreaView} from "react-native";
 import {useDispatch, useSelector} from "react-redux";
 
 import {
@@ -44,9 +44,7 @@ const TasksScreen = () => {
         boundChangeFilter
     } = useEditTask()
 
-
-
-
+    console.log(elements)
     return (
         <SafeAreaView>
             {/* <Text>Example for the redux actions </Text>
@@ -90,6 +88,8 @@ const TasksScreen = () => {
                 title="update task"
                 onPress={() => saveTaskEdition()}
             />
+            */}
+
             <Text>CREATE TASK</Text>
             <Button
                 title="Add element of the new task"
@@ -105,18 +105,17 @@ const TasksScreen = () => {
             <Button
                 title="create the task"
                 onPress={() => createNewTask()}
-            /> */}
-
-
+            />
             {
                 categories && categories.length > 0 && difficulties.length > 0 && Object.values(taskValues).length > 0 ?
                     <View>
+
                         <Text>TASK THUMBNAIL</Text>
                         <View>
                             <FlatList
                                 data={Object.values(taskValues)}
                                 keyExtractor={(item) => item.title}
-                                renderItem={({ item, index }) => {
+                                renderItem={({item, index}) => {
                                     return (
                                         <TaskThumbnail
                                             task={item}

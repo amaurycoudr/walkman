@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Animated, StyleSheet, Text, View} from "react-native";
+import {Animated, StyleSheet, Text} from "react-native";
 import {Borders, Colors, Dimension, Positions, Typography} from "../../styles";
 // @ts-ignore
 import OfflineSVG from "../../img/offlinecircle.svg";
@@ -24,7 +24,7 @@ export default ({visible}: ModalType) => {
     return (
         <>
             <Animated.View
-                style={{...styles.view,top:topPosition}}
+                style={{...styles.view, top: topPosition}}
             >
 
                 <OfflineSVG width={Dimension.POPUP_HEIGHT} height={Dimension.POPUP_HEIGHT}/>
