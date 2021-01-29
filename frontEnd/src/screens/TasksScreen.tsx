@@ -36,7 +36,7 @@ const TasksScreen: FC<TasksScreenProps> = ({navigation}) => {
 
     const categories = useSelector(tasksCategoriesSelector);
     const difficulties = useSelector(tasksDifficultiesSelector)
-    console.log(categories,difficulties)
+
 
     const {
         state: {

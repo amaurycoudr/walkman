@@ -1,7 +1,7 @@
 import {Dispatch, Reducer, useEffect, useReducer} from "react";
 import {editTaskType, filterType, taskType} from "../tasksType";
 import {useDispatch, useSelector} from "react-redux";
-import {createTask  , fetchTasks, updateTask} from "../redux/tasksAsyncThunk";
+import {createTask, fetchTasks, updateTask} from "../redux/tasksAsyncThunk";
 import {tasksStatusSelector, tasksTasksSelector, tasksTitleSelector} from "../redux/tasksSlice";
 import {taskIsValid, titleIsValid} from "../taskVerification";
 import {selectToken} from "../../token/redux/tokenSlice";
@@ -21,7 +21,7 @@ type StateType = {
     taskTitles: string[],
 }
 
-const reducer: Reducer<StateType, ActionType> = (state, action) => {
+const reducer: Reducer<StateType, ActionType> = (state, action): StateType => {
     switch (action.type) {
         case 'addElement':
             return {
@@ -35,6 +35,8 @@ const reducer: Reducer<StateType, ActionType> = (state, action) => {
             return init(action.payload)
         case "selectTaskForEdition":
             return {...init(action.payload.titles), initialTask: action.payload.taskForEdit}
+        default:
+            return state
 
     }
 }
@@ -43,13 +45,20 @@ const init = (taskTitles: string[]) => {
     state.taskTitles = taskTitles;
     return state
 }
-const initialState = {
+const initialState: StateType = {
     initialTask: null,
     elements: {} as editTaskType,
     errorTitle: false,
     taskTitles: [],
-} as StateType
-export default () => {
+}
+
+interface ReturnType {
+    state: StateType,
+    [key: string]: any;
+
+}
+
+export default (): ReturnType => {
     //redux selector
     const tasksStatus = useSelector(tasksStatusSelector)
     const token = useSelector(selectToken)!
@@ -57,12 +66,12 @@ export default () => {
     const taskTitles = useSelector(tasksTitleSelector)
 
     const [state, dispatch] = useReducer(reducer, initialState)
+
     const reduxDispatch = useDispatch()
     const addElement = (dispatch: Dispatch<ActionType>) => {
         return ((edit: editTaskType) => {
             dispatch({type: 'addElement', payload: edit})
         })
-
     }
     // action to init the task state => editable=null
     const initTaskState = (dispatch: Dispatch<ActionType>) => {

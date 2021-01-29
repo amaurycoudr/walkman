@@ -53,7 +53,6 @@ type ContextType<T> = {
     getCode: (mean: string, identification: string) => void,
     signIn: (identification: string, otp: string, mean: string) => void,
     reset: () => void,
-
     authNavigation: (container: Container) => void,
 }
 

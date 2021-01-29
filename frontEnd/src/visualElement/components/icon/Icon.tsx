@@ -31,12 +31,13 @@ interface Props {
 }
 
 export default ({width, height, name, viewStyle, color = "white"}: Props) => (
+
     <View style={viewStyle}>
         <React.Suspense fallback={<></>}>
             {name === SPORT_ICON && <SportIcon color={color} width={width} height={height}/>}
             {name === CREATIVITY_ICON && <CreativityIcon color={color} width={width} height={height}/>}
-            {name === WELL_BEING_ICON && <StudyIcon color={color} width={width} height={height}/>}
-            {name === STUDY_ICON && <WellBeingIcon color={color} width={width} height={height}/>}
+            {name === WELL_BEING_ICON && <WellBeingIcon color={color} width={width} height={height}/>}
+            {name === STUDY_ICON && <StudyIcon color={color} width={width} height={height}/>}
             {name === EASY_ICON && <EasyIcon color={color} width={width} height={height}/>}
             {name === MEDIUM_ICON && <MediumIcon color={color} width={width} height={height}/>}
             {name === DIFFICULT_ICON && <DifficultIcon color={color} width={width} height={height}/>}

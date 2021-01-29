@@ -9,10 +9,22 @@ import {category} from "../tasksType";
 
 const categories: category[] = [
     {
+        id: CATEGORY_ID_STUDY,
+        title: "task:study",
+        color: "#006992",
+        icon: STUDY_ICON
+    },
+    {
         id: CATEGORY_ID_SPORT,
         title: "task:sport",
         color: "#C92A2A",
         icon: SPORT_ICON
+    },
+    {
+        id: CATEGORY_ID_CREATIVITY,
+        title: "task:creativity",
+        color: "#E3B505",
+        icon: CREATIVITY_ICON
     },
     {
         id: CATEGORY_ID_WELL_BEING,
@@ -20,18 +32,6 @@ const categories: category[] = [
         color: "#C98986",
         icon: WELL_BEING_ICON
     },
-    {
-        id: CATEGORY_ID_STUDY,
-        title: "task:study",
-        color: "#006992",
-        icon: STUDY_ICON
-    },
-    {
-        id: CATEGORY_ID_CREATIVITY,
-        title: "task:creativity",
-        color: "#006992",
-        icon: CREATIVITY_ICON
-    }
 ]
 
 export default categories
