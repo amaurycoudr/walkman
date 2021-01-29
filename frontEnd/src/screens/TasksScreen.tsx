@@ -21,7 +21,7 @@ import {StackNavigationProp} from "@react-navigation/stack";
 import {StackNavigatorParam} from "../../App";
 
 type TasksScreenNavigationProps = StackNavigationProp<StackNavigatorParam,
-    'Tasks'>
+    'TabNavigation'>
 type TasksScreenProps = {
     navigation: TasksScreenNavigationProps
 }

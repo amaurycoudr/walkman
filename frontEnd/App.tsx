@@ -1,10 +1,8 @@
-// React & React native
+// React & React native & ReactNavigation
 import React from "react";
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
-import {Provider, useSelector} from "react-redux";
-
 
 // Screens
 import SettingsScreen from "./src/screens/SettingsScreen";
@@ -14,6 +12,7 @@ import DashboardScreen from "./src/screens/DashboardScreen";
 import AuthScreen from "./src/screens/AuthScreen";
 
 //Redux
+import {Provider, useSelector} from "react-redux";
 import store, {persist} from "./src/features/store";
 import {selectToken} from "./src/features/token/redux/tokenSlice";
 import {PersistGate} from "redux-persist/integration/react";
@@ -51,7 +50,7 @@ const StackNavigator = createStackNavigator<StackNavigatorParam>();
 const TabNavigator = createBottomTabNavigator();
 
 const TabNavigation = () => (
-    <TabNavigator.Navigator initialRouteName="TaskNavigation">
+    <TabNavigator.Navigator initialRouteName="Task">
         <TabNavigator.Screen name="Settings" component={SettingsScreen}/>
         <TabNavigator.Screen
             name="Task"
