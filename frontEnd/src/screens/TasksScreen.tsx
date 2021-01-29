@@ -1,4 +1,4 @@
-import React from "react";
+import React, {FC} from "react";
 import {Text, View, Button, FlatList, SafeAreaView} from "react-native";
 import {useDispatch, useSelector} from "react-redux";
 
@@ -16,9 +16,16 @@ import {TASKS_FILTER_CATEGORY, TASKS_FILTER_STATE} from "../features/tasks/tasks
 // Container
 import TaskThumbnail from "../visualElement/tasks/container/TaskThumbnail";
 import useEditTask from "../features/tasks/hooks/useTask";
+import {NavigationContainer} from '@react-navigation/native';
+import {StackNavigationProp} from "@react-navigation/stack";
+import {StackNavigatorParam} from "../../App";
 
-
-const TasksScreen = () => {
+type TasksScreenNavigationProps = StackNavigationProp<StackNavigatorParam,
+    'TabNavigation'>
+type TasksScreenProps = {
+    navigation: TasksScreenNavigationProps
+}
+const TasksScreen: FC<TasksScreenProps> = ({navigation}) => {
 
     const dispatch = useDispatch()
 
@@ -89,7 +96,7 @@ const TasksScreen = () => {
                 onPress={() => saveTaskEdition()}
             />
             */}
-
+            <Button title={"create task screen"} onPress={() => navigation.navigate('CreationTask')}/>
             <Text>CREATE TASK</Text>
             <Button
                 title="Add element of the new task"

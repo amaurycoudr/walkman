@@ -1,11 +1,19 @@
-import React from "react";
-import { View, Text } from "react-native";
+import React, {FC} from "react";
+import {View, Text, SafeAreaView, Button} from "react-native";
+import {StackNavigationProp} from "@react-navigation/stack";
+import {StackNavigatorParam} from "../../App";
 
-const CreationTaskScreen = () => {
+type CreationTaskScreenNavigationProps = StackNavigationProp<StackNavigatorParam,
+    'TabNavigation'>
+type CreationTaskProps = {
+    navigation: CreationTaskScreenNavigationProps
+}
+const CreationTaskScreen: FC<CreationTaskProps> = ({navigation}) => {
     return (
-        <View>
+        <SafeAreaView>
             <Text>Creation Task Screen </Text>
-        </View>
+            <Button title={"return to te main screen"} onPress={() => navigation.navigate('TabNavigation')}/>
+        </SafeAreaView>
     );
 };
 
