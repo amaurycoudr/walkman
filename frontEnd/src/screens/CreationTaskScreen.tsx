@@ -9,6 +9,7 @@ type CreationTaskProps = {
     navigation: CreationTaskScreenNavigationProps
 }
 const CreationTaskScreen: FC<CreationTaskProps> = ({navigation}) => {
+
     return (
         <SafeAreaView>
             <Text>Creation Task Screen </Text>

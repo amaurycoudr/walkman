@@ -1,4 +1,5 @@
 import {TASKS_FILTER_CATEGORY, TASKS_FILTER_STATE,} from "./tasksConst";
+import {IconNameType} from "../../visualElement/components/icon/IconName";
 
 export interface taskTypeApiResult {
     description?: string,
@@ -49,12 +50,14 @@ export type difficulty = {
     label: string,
     point: number,
     id: number,
+    icon: IconNameType,
 }
 //type for the categories of a task
 export type category = {
     title: string,
     color: string,
     id: number,
+    icon: IconNameType,
 }
 //type for the states of a task
 export type statesTask = {

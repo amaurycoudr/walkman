@@ -1,32 +1,36 @@
-import React, { FC } from 'react'
-import { View, TouchableOpacity } from 'react-native'
+import React, {FC} from 'react'
+import {TouchableOpacity, ViewStyle} from 'react-native'
 
-import IconActionLess from "./IconActionLess";
+
+import Icon from "../../components/icon/Icon";
+import {IconNameType} from "../../components/icon/IconName";
 
 interface Props {
-    iconName: string,
-    size: number,
+    iconName: IconNameType,
+    width: number,
+    height: number,
     color: string,
     handlePress: Function,
     disabled?: boolean,
+    style: ViewStyle
 }
 
-const IconAction: FC<Props> = ({ iconName, size, color, handlePress, disabled }) => {
+const IconAction: FC<Props> = ({iconName, width, height, style, handlePress, disabled}) => {
     return (
-        <View>
+        <>
             <TouchableOpacity
                 onPress={() => handlePress()}
                 disabled={disabled}
             >
-
-                <IconActionLess
+                <Icon
                     name={iconName}
-                    size={size}
-                    color={color}
+                    width={width}
+                    height={height}
+                    viewStyle={style}
                 />
             </TouchableOpacity>
-        </View>
-        
+        </>
+
 
     )
 };
