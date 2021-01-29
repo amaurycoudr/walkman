@@ -38,41 +38,51 @@ import {AppLoading} from "expo";
 //Languages
 import './src/helpers/localization/initI18next'
 
+//type
+export type StackNavigatorParam = {
+    TabNavigation: undefined,
+    Auth: undefined,
+    CreationTask: undefined,
+
+}
 
 // Navigation
-const StackTask = createStackNavigator();
-const TabMain = createBottomTabNavigator();
+const StackNavigator = createStackNavigator<StackNavigatorParam>();
+const TabNavigator = createBottomTabNavigator();
 
-const TaskNavigation = () => {
-    return (
-        <StackTask.Navigator initialRouteName="Tasks">
-            <StackTask.Screen name="Tasks" component={TasksScreen}/>
-            <StackTask.Screen name="CreationTask" component={CreationTaskScreen}/>
-        </StackTask.Navigator>
-
-
-    )
-};
+const TabNavigation = () => (
+    <TabNavigator.Navigator initialRouteName="TaskNavigation">
+        <TabNavigator.Screen name="Settings" component={SettingsScreen}/>
+        <TabNavigator.Screen
+            name="Task"
+            component={TasksScreen}
+        />
+        <TabNavigator.Screen name="Dashboard" component={DashboardScreen}/>
+    </TabNavigator.Navigator>
+)
 
 const AppNav = () => {
     const token = useSelector(selectToken)
+    const isSignedIn = (token == null)
     return (
         <NavigationContainer>
-            {
-                token == null ?
-                    <StackTask.Navigator
-                        screenOptions={{
-                            headerShown: false
-                        }}>
-                        <StackTask.Screen name="Auth" component={AuthScreen}/>
-                    </StackTask.Navigator>
-                    :
-                    <TabMain.Navigator initialRouteName="TaskNavigation">
-                        <TabMain.Screen name="Settings" component={SettingsScreen}/>
-                        <TabMain.Screen name="TaskNavigation" component={TaskNavigation}/>
-                        <TabMain.Screen name="Dashboard" component={DashboardScreen}/>
-                    </TabMain.Navigator>
-            }
+            <StackNavigator.Navigator
+                screenOptions={{
+                    headerShown: false
+                }}>
+                {
+                    isSignedIn ?
+                        <StackNavigator.Screen name="Auth" component={AuthScreen}/>
+                        :
+                        <>
+                            <StackNavigator.Screen name="TabNavigation" component={TabNavigation}/>
+                            <StackNavigator.Screen
+                                name="CreationTask"
+                                component={CreationTaskScreen}
+                            />
+                        </>
+                }
+            </StackNavigator.Navigator>
         </NavigationContainer>
     );
 };
