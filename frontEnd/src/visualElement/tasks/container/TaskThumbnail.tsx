@@ -84,13 +84,11 @@ const TaskThumbnail: FC<Props> = ({ task, edits, cate, difficulty, isEditable, i
             }
 
             <Category
-                iconName={cate.icon}
-                color={cate.color}
+                cate={cate}
             />
 
             <Difficulty
-                iconName={difficulty.icon}
-                color="black"
+                difficulty={difficulty}
             />
 
             {

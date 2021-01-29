@@ -1,5 +1,5 @@
 import React, {FC} from "react";
-import {View, Text, SafeAreaView, Button} from "react-native";
+import {Text, SafeAreaView, Button} from "react-native";
 import {StackNavigationProp} from "@react-navigation/stack";
 import {StackNavigatorParam} from "../../App";
 
