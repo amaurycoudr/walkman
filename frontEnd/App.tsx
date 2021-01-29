@@ -4,7 +4,6 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Provider, useSelector} from "react-redux";
-import {createNavigator} from "react-navigation";
 
 
 // Screens
@@ -15,10 +14,29 @@ import DashboardScreen from "./src/screens/DashboardScreen";
 import AuthScreen from "./src/screens/AuthScreen";
 
 //Redux
-
 import store, {persist} from "./src/features/store";
 import {selectToken} from "./src/features/token/redux/tokenSlice";
 import {PersistGate} from "redux-persist/integration/react";
+
+//Fonts
+import {
+    useFonts,
+    Lato_900Black_Italic,
+    Lato_700Bold_Italic,
+    Lato_700Bold,
+    Lato_400Regular_Italic,
+    Lato_400Regular,
+    Lato_300Light_Italic,
+    Lato_300Light,
+    Lato_100Thin,
+    Lato_100Thin_Italic,
+    Lato_900Black
+} from "@expo-google-fonts/lato";
+
+import {AppLoading} from "expo";
+
+//Languages
+import './src/helpers/localization/initI18next'
 
 
 // Navigation
@@ -59,14 +77,31 @@ const AppNav = () => {
     );
 };
 
+
 const App = () => {
-    return (
-        <Provider store={store}>
-            <PersistGate loading={null} persistor={persist}>
-                <AppNav/>
-            </PersistGate>
-        </Provider>
-    )
+    let [fontsLoaded] = useFonts({
+        Lato_900Black_Italic,
+        Lato_700Bold_Italic,
+        Lato_700Bold,
+        Lato_400Regular_Italic,
+        Lato_400Regular,
+        Lato_300Light_Italic,
+        Lato_300Light,
+        Lato_100Thin,
+        Lato_100Thin_Italic,
+        Lato_900Black
+    });
+    if (fontsLoaded) {
+        return (
+            <Provider store={store}>
+                <PersistGate loading={null} persistor={persist}>
+                    <AppNav/>
+                </PersistGate>
+            </Provider>
+        )
+    } else {
+        return (<AppLoading/>)
+    }
 }
 
 

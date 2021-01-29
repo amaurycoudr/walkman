@@ -1,40 +1,86 @@
-import React, {useContext,FC} from 'react'
-import { View, Text } from 'react-native'
-
+//logic
+import React, {useContext, FC} from 'react'
+import {View} from 'react-native'
+//hooks
 import {AuthContext} from "../../../features/token/contexts/AuthContext";
-
-import PseudoInput from "../components/PseudoInput"
-import Switcher from "../components/Switcher"
-import PhoneInput from "../components/PhoneInput"
-import EmailInput from "../components/EmailInput"
+import {useTranslation} from "react-i18next";
+//components
 import AuthNavigation from "../components/AuthNavigation"
 import AuthButton from "../components/AuthButton"
+import AuthInput from "../components/AuthInput"
+import {Spacer} from "../../components/Spacer"
+import SwitcherInput from "../components/SwitcherInput";
+//const & style
+import {GET_CODE_CONTAINER, SIGN_IN_CONTAINER} from "../../../helpers/consts/AuthConst";
+import {AuthDimension, Positions} from "../../../styles";
+import ErrorMessage from "../components/ErrorMessage";
 
 
-const SignUpContainer:FC = () => {
-
-    const {pseudo,pseudoChange,pseudoIsValid,mean,changeMean,identificationChange,identification,identificationIsValid,signUp,authNavigation,loading} = useContext(AuthContext)!
+const SignUpContainer: FC = () => {
+    const {t} = useTranslation()
+    const {
+        pseudo,
+        pseudoChange,
+        pseudoIsValid,
+        mean,
+        changeMean,
+        identificationChange,
+        identification,
+        identificationIsValid,
+        signUp,
+        authNavigation,
+        errorMessage,
+        loading
+    } = useContext(AuthContext)!
 
     return (
-        <View>
-            <PseudoInput 
-            pseudoChange={pseudoChange}
-            pseudo={pseudo}
-            pseudoIsValid={pseudoIsValid}
+        <View style={{...Positions.items_center}}>
+            <Spacer.Row nbSpace={AuthDimension.AUTH_SPACER_SIGN_UP_TOP}/>
+
+            <AuthInput
+                field="pseudo"
+                fieldChange={pseudoChange}
+                fieldValue={pseudo}
+                fieldIsValid={pseudoIsValid}
+            />
+            <Spacer.Row nbSpace={AuthDimension.AUTH_SPACER_SIGN_UP_SWITCHER}/>
+
+            <SwitcherInput
+                changeMean={changeMean}
+                identification={identification}
+                identificationChange={identificationChange}
+                identificationIsValid={identificationIsValid}
+                mean={mean}
+                spacerPx={AuthDimension.AUTH_SPACER_SIGN_UP_SWITCHER}
             />
 
-            <Switcher 
-            mean={mean}
-            changeMean={changeMean}
+            <AuthButton
+                text={t('authScreen:btnSignUp')}
+                changer={signUp}
+                args={[pseudo, mean, identification]}
+                disabled={loading || !identificationIsValid || !pseudoIsValid}
             />
-
-            {mean==="phone" ? <PhoneInput identificationChange={identificationChange} identification={identification} identificationIsValid={identificationIsValid} /> : <EmailInput identificationChange={identificationChange} identification={identification} identificationIsValid={identificationIsValid} />}
-
-            <AuthButton text="S'inscrire" changer={signUp} args={[pseudo,mean,identification]} loading={loading} />
-
-            <AuthNavigation message="Déjà un compte ? " linkName="Recevoir mon code" changeContainer={authNavigation} container="GetCodeContainer" />
-            <AuthNavigation message="Déjà reçu un code ? " linkName="Se connecter" changeContainer={authNavigation} container="SignInContainer" />
-
+            {errorMessage?
+                <View>
+                    <ErrorMessage errorMessage={errorMessage}/>
+                    <Spacer.Row nbSpace={AuthDimension.AUTH_SPACER_SIGN_UP_NAVIGATION-AuthDimension.AUTH_ERROR_MESSAGE_HEIGHT}/>
+                </View>
+                :
+                <Spacer.Row nbSpace={AuthDimension.AUTH_SPACER_SIGN_UP_NAVIGATION}/>
+            }
+            <AuthNavigation
+                message={t('authScreen:textAlreadyCount')}
+                linkName={t('authScreen:linkAlreadyCount')}
+                changeContainer={authNavigation}
+                container={GET_CODE_CONTAINER}
+            />
+            <Spacer.Row nbSpace={AuthDimension.AUTH_SPACER_SIGN_UP_BT_NAVIGATION}/>
+            <AuthNavigation
+                message={t('authScreen:textAlreadyCode')}
+                linkName={t('authScreen:linkAlreadyCode')}
+                changeContainer={authNavigation}
+                container={SIGN_IN_CONTAINER}
+            />
         </View>
     )
 }

@@ -1,38 +1,20 @@
-import { createSelector, createSlice } from "@reduxjs/toolkit";
-import { INITIAL } from "../../../helpers/api";
-import { RootState } from "../../store";
-import { TASKS_FILTER_STATE } from "../tasksConst";
-import { createTask, fetchCategories, fetchDifficulties, fetchTasks, updateTask } from "./tasksAsyncThunk";
-import { tasksState, taskTypeApiResult } from "../tasksType";
 
-
-export const initialTaskState: tasksState = {
-    tasksDict: {},
-    status: INITIAL,
-    filter: TASKS_FILTER_STATE,
-    categories: [],
-    difficulties: [],
-    statesTask: [],
-    taskFocus: null,
-    taskEdit: null,
-}
-
+import {createSlice} from "@reduxjs/toolkit";
+import {RootState} from "../../store";
+import {initialTaskState} from "../tasksConst";
+import {createTask, fetchCategories, fetchDifficulties, fetchTasks, updateTask} from "./tasksAsyncThunk";
 
 import {
-    changeFilterAction,
-
-    focusTaskAction,
-    initEditTaskAction,
-    initFocusTaskAction,
-    initTaskStateAction,
+    addTask,
     addTasksFetch,
     apiCallFailed,
     apiCallLoading,
-    addTask
+    changeFilterAction,
+    focusTaskAction,
+    initEditTaskAction,
+    initFocusTaskAction,
+    initTaskStateAction
 } from "./tasksActions";
-
-
-
 
 export const tasksSlice = createSlice({
     name: 'tasks',
@@ -79,8 +61,6 @@ export const { changeFilter, initEditTask, focusTask, initFocusTask, initTaskSta
 const tasksReducer = tasksSlice.reducer
 export default tasksReducer
 
-
-export const tasksSelector = (state: RootState) => state.tasks
 export const tasksStatusSelector = (state: RootState) => state.tasks.status
 export const tasksFilterSelector = (state: RootState) => state.tasks.filter
 export const tasksDifficultiesSelector = (state: RootState) => state.tasks.difficulties

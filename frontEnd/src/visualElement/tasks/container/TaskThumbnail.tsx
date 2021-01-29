@@ -14,10 +14,12 @@ import Duration from "../components/fields/Duration";
 import EditableSlider from "../components/EditableSlider";
 import Category from '../components/fields/Category';
 
+
 // Type 
 import { taskType, editTaskType, category, difficulty } from "../../../features/tasks/tasksType"
 
 import Difficulty from '../components/fields/Difficulty';
+import {Spacer} from "../../components/Spacer";
 
 
 interface Props {
@@ -45,11 +47,12 @@ const TaskThumbnail: FC<Props> = ({ task, edits, cate, difficulty, isEditable, i
 
         <View style={styles.root}>
 
+            <Spacer.Column nbSpace={15} />
+
             <EditIcon
                 initEdit={initEdit}
                 disabled={!isEditable}
             />
-
 
             <Title
                 value={edits ? "title" in edits ? edits.title! : task.title : task.title}

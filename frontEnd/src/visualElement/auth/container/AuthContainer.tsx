@@ -1,45 +1,130 @@
 import React, {useContext} from "react";
-import {View,StyleSheet,StatusBar} from "react-native";
+import {Image, StatusBar, StyleSheet, View} from "react-native";
 
 import SignUpContainer from "./SignUpContainer";
 import GetCodeContainer from "./GetCodeContainer";
 import SignInContainer from "./SignInContainer";
-import ErrorMessage from "../components/ErrorMessage";
 
 import {AuthContext} from "../../../features/token/contexts/AuthContext"
 
-const switchRender = (container:"SignUpContainer"|"SignInContainer"|"GetCodeContainer") => {
-    
-    switch(container){
-        case "SignUpContainer":
-            return <SignUpContainer />
-        case "GetCodeContainer":
-            return <GetCodeContainer />
-        case "SignInContainer":
-            return <SignInContainer />
-    }
+import {Borders, Colors, Dimension, Positions} from "../../../styles";
+
+import TransitionScrollView from "../../components/TransitionScrollView";
+import Titles from "../components/Titles";
+import {Spacer} from "../../components/Spacer";
+import "../../../img/auth.png";
+import {
+    GET_CODE_CONTAINER,
+    SIGN_IN_CONTAINER,
+    SIGN_UP_CONTAINER
 }
-
-
+    from "../../../helpers/consts/AuthConst";
+import {useTranslation} from "react-i18next";
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
+import {auth_container_size, auth_img_size} from "../../../styles/auth";
+import OffLineModal from "../../components/OffLinePopUp";
+import LoadingContainer from "./LoadingContainer";
 
 export default function AuthContainer() {
+    const {t} = useTranslation()
+    const {container, netConnexion, loading} = useContext(AuthContext)!;
+    //change the position of one of this elements on the array to change Container position on the screen
+    const containers = [
+        [SIGN_UP_CONTAINER, <SignUpContainer/>, t('authScreen:titleSignUp')],
+        [SIGN_IN_CONTAINER, <SignInContainer/>, t('authScreen:titleSignIn')],
+        [GET_CODE_CONTAINER, <GetCodeContainer/>, t('authScreen:titleGetCode')],
+    ]
+    const auth_titles = containers.map(value => value[2]) as string[]
+    const auth_containers = containers.map(value => value[0]) as string[]
+    const auth_components = containers.map(value => value[1]) as JSX.Element[]
+    const renderAuthComponents = (item: JSX.Element, index: number) => {
 
-    const {container,errorMessage} = useContext(AuthContext)!;
-
+        return (
+            <View
+                key={index}
+                style={styles.scrollViewElements}
+            >
+                {item}
+            </View>
+        )
+    }
     return (
-        <View style={styles.root}>
-                <StatusBar />
-                <ErrorMessage errorMessage={errorMessage} />
-                {switchRender(container)}
-        </View>
+
+        <KeyboardAwareScrollView
+            enableOnAndroid={true}
+            contentContainerStyle={{flexGrow: 1}}
+        >
+            <StatusBar
+                backgroundColor={Colors.green_0}
+                translucent
+                barStyle={'dark-content'}
+            />
+            <View style={styles.root}>
+                <OffLineModal
+                    visible={!netConnexion}
+
+                />
+                <Image source={require("../../../img/auth.png")} style={styles.image}/>
+                <View
+
+                    style={{...styles.globalElement}}
+                >
+
+                    <Titles
+                        means={auth_containers}
+                        mean={container}
+                        titles={auth_titles}
+                    />
+                    <Spacer.Row nbSpace={10 * Dimension.PX_CONVERSION}/>
+                    <View
+
+                        style={{...styles.scrollView}}
+                    >
+                        <LoadingContainer
+                            loading={loading}
+                        />
+                        <TransitionScrollView
+                            speed={600}
+                            width={Dimension.CONTAINER_WIDTH}
+                            items={auth_containers}
+                            currentItem={container}
+                        >
+                            {auth_components.map((value, index) =>
+                                renderAuthComponents(value, index))
+                            }
+                        </TransitionScrollView>
+                    </View>
+                </View>
+            </View>
+        </KeyboardAwareScrollView>
     )
 };
 
 const styles = StyleSheet.create({
-    root : {
-        flex : 1,
-        flexDirection : "column",
-        justifyContent : "center",
-        alignItems : "center"
+    root: {
+        flex: 1,
+        ...Colors.green_0_background,
+        ...Positions.flex_column,
+        ...Positions.items_center
+    },
+    image: {
+        ...Positions.img_position_absolute,
+        ...Positions.auth_img,
+        ...auth_img_size,
+    },
+    scrollView: {
+        position: "relative",
+        ...auth_container_size,
+        ...Borders.border_shadow,
+        ...Borders.border_radius_30,
+        ...Colors.white_background
+    },
+    scrollViewElements: {
+
+        ...auth_container_size
+    },
+    globalElement: {
+        ...Positions.auth_container,
+        ...Positions.items_center
     }
 });
