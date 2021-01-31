@@ -10,7 +10,7 @@ import logger from "redux-logger";
 const tasksConfig = {
     key: 'tasks',
     storage: AsyncStorage,
-    whitelist: ['tasksDict','difficulties','categories']
+    whitelist: ['tasksDict']
 }
 const reducers = combineReducers({
     token: tokenReducer,

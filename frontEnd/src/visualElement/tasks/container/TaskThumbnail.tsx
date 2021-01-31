@@ -1,25 +1,25 @@
-import React, { FC, useState } from 'react'
-import { useSelector } from "react-redux"
-import { View, StyleSheet } from 'react-native'
+import React, {FC, useState} from 'react'
+import {useSelector} from "react-redux"
+import {View, StyleSheet} from 'react-native'
 
 
 // Components
 import Title from "../components/fields/Title";
 import Frequency from "../components/fields/Frequency";
-import EditIcon from "../components/fields/EditIcon";
 import ProgressBar from "../components/fields/ProgressBar";
 import CancelEdit from "../components/fields/CancelEdit";
 import SendEdit from "../components/fields/SendEdit";
 import Duration from "../components/fields/Duration";
 import EditableSlider from "../components/EditableSlider";
-import Category from '../components/fields/Category';
 
 
-// Type 
-import { taskType, editTaskType, category, difficulty } from "../../../features/tasks/tasksType"
+// Type
+import {taskType, editTaskType, category, difficulty} from "../../../features/tasks/tasksType"
 
-import Difficulty from '../components/fields/Difficulty';
+
 import {Spacer} from "../../components/Spacer";
+import Icon from "../../components/icon/Icon";
+import IconAction from "../components/IconAction";
 
 
 interface Props {
@@ -36,8 +36,7 @@ interface Props {
 }
 
 
-
-const TaskThumbnail: FC<Props> = ({ task, edits, cate, difficulty, isEditable, isEditing, initEdit, editTask, cancelEdit, sendEdit }) => {
+const TaskThumbnail: FC<Props> = ({task, edits, cate, difficulty, isEditable, isEditing, initEdit, editTask, cancelEdit, sendEdit}) => {
 
     const [sliderField, setSliderField] = useState<"frequency" | "duration" | null>(null)
 
@@ -47,10 +46,13 @@ const TaskThumbnail: FC<Props> = ({ task, edits, cate, difficulty, isEditable, i
 
         <View style={styles.root}>
 
-            <Spacer.Column nbSpace={15} />
+            <Spacer.Column nbSpace={15}/>
 
-            <EditIcon
-                initEdit={initEdit}
+            <IconAction
+                iconName="edit"
+                size={20}
+                color="#A1A1A1"
+                handlePress={initEdit}
                 disabled={!isEditable}
             />
 
@@ -83,15 +85,19 @@ const TaskThumbnail: FC<Props> = ({ task, edits, cate, difficulty, isEditable, i
                     null
             }
 
-            <Category
-                iconName={cate.icon}
-                color={cate.color}
+            <Icon
+                width={100}
+                height={100}
+                name={cate.icon}
+                viewStyle={{backgroundColor: "blue", padding:5}}
+            />
+            <Icon
+                width={20}
+                height={20}
+                name={difficulty.icon}
+                viewStyle={{backgroundColor: "red"}}
             />
 
-            <Difficulty
-                iconName={difficulty.icon}
-                color="black"
-            />
 
             {
                 sliderField ?

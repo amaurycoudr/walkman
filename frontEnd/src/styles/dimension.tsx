@@ -25,6 +25,7 @@ export const POPUP_TOP = 40 * PX_CONVERSION
 export const POPUP_HEIGHT = 60 * PX_CONVERSION
 export const POPUP_WIDTH = 260 * PX_CONVERSION
 
+
 export const switcher_size = {
     height: SWITCHER_HEIGHT,
     width: SWITCHER_INPUT_WIDTH

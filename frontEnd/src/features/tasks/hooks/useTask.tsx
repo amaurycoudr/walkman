@@ -1,7 +1,7 @@
 import {Dispatch, Reducer, useEffect, useReducer} from "react";
 import {editTaskType, filterType, taskType} from "../tasksType";
 import {useDispatch, useSelector} from "react-redux";
-import {createTask, fetchCategories, fetchDifficulties, fetchTasks, updateTask} from "../redux/tasksAsyncThunk";
+import {createTask  , fetchTasks, updateTask} from "../redux/tasksAsyncThunk";
 import {tasksStatusSelector, tasksTasksSelector, tasksTitleSelector} from "../redux/tasksSlice";
 import {taskIsValid, titleIsValid} from "../taskVerification";
 import {selectToken} from "../../token/redux/tokenSlice";
@@ -36,7 +36,6 @@ const reducer: Reducer<StateType, ActionType> = (state, action) => {
         case "selectTaskForEdition":
             return {...init(action.payload.titles), initialTask: action.payload.taskForEdit}
 
-
     }
 }
 const init = (taskTitles: string[]) => {
@@ -48,7 +47,6 @@ const initialState = {
     initialTask: null,
     elements: {} as editTaskType,
     errorTitle: false,
-
     taskTitles: [],
 } as StateType
 export default () => {
@@ -57,7 +55,6 @@ export default () => {
     const token = useSelector(selectToken)!
     const taskValues = useSelector(tasksTasksSelector)
     const taskTitles = useSelector(tasksTitleSelector)
-
 
     const [state, dispatch] = useReducer(reducer, initialState)
     const reduxDispatch = useDispatch()
@@ -103,12 +100,9 @@ export default () => {
         reduxDispatch(changeFilter(filter))
     }
 
-
     useEffect(() => {
         if (tasksStatus == INITIAL) {
             reduxDispatch(fetchTasks(token))
-            reduxDispatch(fetchDifficulties())
-            reduxDispatch(fetchCategories())
         }
     }, [tasksStatus])
     return ({

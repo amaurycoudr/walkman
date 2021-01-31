@@ -1,7 +1,7 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {BASE_URL} from "../../../helpers/api";
 import axios from "axios";
-import {category, difficulty, editTaskType, taskType, taskTypeApiResult} from "../tasksType";
+import {editTaskType, taskType, taskTypeApiResult} from "../tasksType";
 import {RootState} from "../../store";
 
 export const fetchTasks = createAsyncThunk('tasks/fetchTasks', async (token: string) => {
@@ -45,23 +45,3 @@ export const createTask = createAsyncThunk<taskTypeApiResult | undefined,
             console.log(err)
         }
     })
-export const fetchCategories = createAsyncThunk('tasks/fetchCategories', async () => {
-    try {
-        const tasksUrl = BASE_URL + 'tasks/'
-        const result = await axios.get(tasksUrl + 'categories',)
-        return result.data as category[]
-    } catch (err
-        ) {
-        console.log(err)
-    }
-})
-export const fetchDifficulties = createAsyncThunk('tasks/fetchDifficulties', async () => {
-    try {
-        const tasksUrl = BASE_URL + 'tasks/'
-        const result = await axios.get(tasksUrl + 'difficulties',)
-        return result.data as difficulty[]
-    } catch (err
-        ) {
-        console.log(err)
-    }
-})
