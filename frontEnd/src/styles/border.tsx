@@ -10,13 +10,19 @@ export const border_radius_20 = {
 export const border_radius_30 = {
     borderRadius: 30*PX_CONVERSION
 }
-export const border_radius_50p={
-    borderRadius:'50%'
-}
 export const border_shadow = {
     shadowColor: black,
     shadowOffset: {width: 4, height: 4},
     shadowOpacity: 0.06,
+    shadowRadius: 4,
+    elevation: 2
+
+}
+export const border_icon_shadow = {
+
+    shadowColor: black,
+    shadowOffset: {width: 4, height: 4},
+    shadowOpacity: 0.12,
     shadowRadius: 4,
     elevation: 2
 

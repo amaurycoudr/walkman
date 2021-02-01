@@ -4,6 +4,7 @@ export const green_2 = '#74B49B'
 export const green_3 = '#5C8D89'
 export const white_custom = '#F8F9FA'
 export const grey_light = '#C4C4C4'
+export const grey_middle = '#E5E5E5'
 export const grey_dark = '#727272'
 export const blue = '#006FBE'
 export const black = '#000000'
@@ -38,6 +39,9 @@ export const green_0_background = {
 export const white_background = {
     backgroundColor: white_custom,
 }
-export const red_text={
-    color:red
+export const red_text = {
+    color: red
+}
+export const grey_middle_background = {
+    backgroundColor: grey_middle
 }

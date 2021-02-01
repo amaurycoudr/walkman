@@ -33,3 +33,6 @@ export const auth_img: ImageStyle = {
 export const auth_container = {
     top: AUTH_TOP_HEIGHT
 }
+export const space_between: ViewStyle = {
+    justifyContent: "space-between"
+}
