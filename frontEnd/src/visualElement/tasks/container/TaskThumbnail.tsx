@@ -11,15 +11,22 @@ import CancelEdit from "../components/fields/CancelEdit";
 import SendEdit from "../components/fields/SendEdit";
 import Duration from "../components/fields/Duration";
 import EditableSlider from "../components/EditableSlider";
+import {Spacer} from "../../components/Spacer";
+import Icon from "../../components/icon/Icon";
+import IconAction from "../components/IconAction";
 
 
 // Type
 import {taskType, editTaskType, category, difficulty} from "../../../features/tasks/tasksType"
 
-
-import {Spacer} from "../../components/Spacer";
-import Icon from "../../components/icon/Icon";
-import IconAction from "../components/IconAction";
+// Style
+import {
+    Borders,
+    Dimension,
+    Colors,
+    Positions,
+    Typography, AuthDimension,
+} from "../../../styles";
 
 
 interface Props {
@@ -44,7 +51,7 @@ const TaskThumbnail: FC<Props> = ({task, edits, cate, difficulty, isEditable, is
     return (
 
 
-        <View style={styles.root}>
+        <View style={styles.container}>
 
             <Spacer.Column nbSpace={15}/>
 
@@ -135,10 +142,12 @@ const TaskThumbnail: FC<Props> = ({task, edits, cate, difficulty, isEditable, is
 };
 
 const styles = StyleSheet.create({
-    root: {
+    container: {
         backgroundColor: "white",
         flex: 1,
-        marginVertical: 20
+        marginVertical: 20,
+        width: Dimension.SWITCHER_INPUT_WIDTH,
+        ...Borders.border_shadow
     }
 })
 

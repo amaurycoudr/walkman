@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
         ...auth_container_size,
         ...Borders.border_shadow,
         ...Borders.border_radius_30,
-        ...Colors.white_background
+        ...Colors.white_background,
     },
     scrollViewElements: {
 

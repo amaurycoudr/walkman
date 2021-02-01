@@ -20,6 +20,15 @@ import {NavigationContainer} from '@react-navigation/native';
 import {StackNavigationProp} from "@react-navigation/stack";
 import {StackNavigatorParam} from "../../App";
 
+// Style
+import {
+    Borders,
+    Dimension,
+    Colors,
+    Positions,
+    Typography, AuthDimension,
+} from "../styles";
+
 type TasksScreenNavigationProps = StackNavigationProp<StackNavigatorParam,
     'TabNavigation'>
 type TasksScreenProps = {
@@ -118,7 +127,9 @@ const TasksScreen: FC<TasksScreenProps> = ({navigation}) => {
                     <View>
 
                         <Text>TASK THUMBNAIL</Text>
-                        <View>
+                        <View
+                            style={Positions.items_center}
+                        >
                             <FlatList
                                 data={Object.values(taskValues)}
                                 keyExtractor={(item) => item.title}
