@@ -6,16 +6,16 @@ import Icon from "../../components/icon/Icon";
 import {IconNameType} from "../../components/icon/IconName";
 
 interface Props {
-    iconName: IconNameType,
+    name: IconNameType,
     width: number,
     height: number,
     color: string,
     handlePress: Function,
     disabled?: boolean,
-    style: ViewStyle
+    style?: ViewStyle
 }
 
-const IconAction: FC<Props> = ({iconName, width, height, style, handlePress, disabled}) => {
+const IconAction: FC<Props> = ({name, width, height, style, handlePress, disabled,color}) => {
     return (
         <>
             <TouchableOpacity
@@ -23,10 +23,11 @@ const IconAction: FC<Props> = ({iconName, width, height, style, handlePress, dis
                 disabled={disabled}
             >
                 <Icon
-                    name={iconName}
+                    name={name}
                     width={width}
                     height={height}
                     viewStyle={style}
+                    color={color}
                 />
             </TouchableOpacity>
         </>

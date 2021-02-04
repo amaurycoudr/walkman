@@ -15,17 +15,22 @@ const ProgressBar: FC<Props> = ({ fullWidth, progressWidth, height, colorComplet
 
     const styles = StyleSheet.create({
         container: {
-            width: fullWidth,
+            position:"relative",
+            width: fullWidth+"%",
             backgroundColor: backgroundColor,
-            height: height
+            height: height,
+            borderRadius : 4,
+            zIndex : -1
         },
         progress: {
             position: "absolute",
             top: 0,
             left: 0,
+            zIndex : 10,
             height: "100%",
-            width: `${progressWidth}%`,
-            backgroundColor: colorCompleted
+            width: progressWidth,
+            backgroundColor: colorCompleted,
+            borderRadius : 4
         }
     });
 

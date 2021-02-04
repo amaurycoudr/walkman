@@ -9,6 +9,7 @@ export const grey_dark = '#727272'
 export const blue = '#006FBE'
 export const black = '#000000'
 export const red = '#f03e3e'
+export const red_icon = "#DE3C4B"
 export const black_text = {
     color: black,
 }

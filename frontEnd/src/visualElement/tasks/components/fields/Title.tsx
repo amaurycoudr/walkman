@@ -18,6 +18,7 @@ const Title: FC<Props> = ({ value, editTitle, isEditable, style }) => {
                 value={value}
                 isEditable={isEditable}
                 isEdited={editTitle}
+                styleText={style}
             />
         </View>
     )
