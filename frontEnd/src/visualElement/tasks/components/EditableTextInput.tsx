@@ -35,7 +35,7 @@ const EditableTextInput: FC<Props> = ({ field, value, isEdited, isEditable, styl
                         onChangeText={newValue => handleChangeText(newValue)}
                         autoCapitalize="none"
                         autoCorrect={false}
-                        style={[styleInput, styles.input]}
+                        style={styleInput}
                         autoFocus={true}
                     />
             }
@@ -43,11 +43,5 @@ const EditableTextInput: FC<Props> = ({ field, value, isEdited, isEditable, styl
     )
 };
 
-const styles = StyleSheet.create({
-    input: {
-        borderColor: "black",
-        borderWidth: 1
-    }
-})
 
 export default EditableTextInput;

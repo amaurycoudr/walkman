@@ -31,7 +31,4 @@ export const big_title_text={
     fontSize: BIG_TITLE_SIZE,
     fontFamily: 'Lato_900Black'
 }
-export const card_title_text = {
-    fontSize : 20*PX_CONVERSION,
-    fontFamily : 'Lato_700Bold'
-}
+

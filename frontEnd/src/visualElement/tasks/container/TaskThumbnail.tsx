@@ -80,6 +80,7 @@ const TaskThumbnail: FC<Props> = ({
             isEdited={editTask}
             isEditable={isEditing}
             styleText={{ ...styles.title_text, color: cate.color }}
+            styleInput={{...TaskThumbDim.card_title_text_edit,color:cate.color}}
           />
 
           <Spacer.Column nbSpace={TaskThumbDim.COL_SPACE_SMALL} />
@@ -225,15 +226,14 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     flex: 1,
     marginVertical: 20, // Temp
-    //paddingVertical: 25 * Dimension.PX_CONVERSION,
-    paddingHorizontal: 15 * Dimension.PX_CONVERSION,
+    paddingHorizontal: TaskThumbDim.CONTAINER_PAD,
     width: Dimension.CARD_WIDTH,
     ...Borders.border_shadow,
     ...Positions.flex_column,
     ...Borders.border_radius_15,
   },
   title_text: {
-    ...Typography.card_title_text,
+    ...TaskThumbDim.card_title_text,
   },
   line: {
     ...Positions.flex_row,
