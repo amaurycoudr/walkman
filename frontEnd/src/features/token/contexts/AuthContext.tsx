@@ -207,7 +207,6 @@ export const AuthProvider: React.FC = ({children}) => {
                 })
                 break;
             case "4":
-                console.log(time)
                 const message = t('authScreen:errorMessageTime', {time: new Date(time * 1000).toISOString().substr(11, 8)})
                 dispatch({type: "setErrorMessage", payload: {errorMessage: message}})
                 break;

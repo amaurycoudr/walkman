@@ -6,19 +6,24 @@ interface Props {
     value: string,
     isEdited: Function,
     isEditable: boolean,
+    setCurrentField: Function
     styleText?: StyleProp<TextStyle>,
     styleInput?: StyleProp<TextStyle | ViewStyle>
 };
 
 
 
-const EditableTextInput: FC<Props> = ({ field, value, isEdited, isEditable, styleText, styleInput }) => {
+const EditableTextInput: FC<Props> = ({ field, value, isEdited, isEditable,setCurrentField, styleText, styleInput }) => {
 
 
 
     const handleChangeText = (newValue: string) => {
         isEdited({ [field]: newValue });
     };
+
+    const handleField = (value:"title"|"description"|null)=>{
+        setCurrentField(value)
+    }
 
     return (
         <View>
@@ -37,6 +42,8 @@ const EditableTextInput: FC<Props> = ({ field, value, isEdited, isEditable, styl
                         autoCorrect={false}
                         style={styleInput}
                         autoFocus={false}
+                        onFocus={() => handleField(field)}
+                        onBlur={() => handleField(null)}
                     />
             }
         </View>

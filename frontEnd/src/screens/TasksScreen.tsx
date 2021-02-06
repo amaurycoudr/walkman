@@ -59,7 +59,6 @@ const TasksScreen: FC<TasksScreenProps> = ({navigation}) => {
         boundChangeFilter
     } = useEditTask()
 
-    console.log(elements)
     return (
         <SafeAreaView>
             {/* <Text>Example for the redux actions </Text>

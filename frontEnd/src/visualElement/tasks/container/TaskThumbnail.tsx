@@ -1,8 +1,8 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { View, StyleSheet, Text } from "react-native";
 
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 
 // Components
 import EditableTextInput from "../components/EditableTextInput";
@@ -61,11 +61,21 @@ const TaskThumbnail: FC<Props> = ({
     "frequency" | "duration" | null
   >(null);
 
-  const {t} = useTranslation()
+  const [fieldEdited, setFieldEdited] = useState<
+    "title" | "duration" | "frequency" | "category" | "difficulty" | null
+  >(null);
+
+  useEffect(()=>{
+    if(["title","category","difficulty",null].includes(fieldEdited)){
+      setSliderField(null)
+    }
+  },[fieldEdited])
+
+  const { t } = useTranslation();
 
   return (
     <View style={[styles.container]}>
-      <Spacer.Row nbSpace={TaskThumbDim.ROW_SPACE_BIG}/>
+      <Spacer.Row nbSpace={TaskThumbDim.ROW_SPACE_BIG} />
       <View style={[styles.line, { justifyContent: "space-between" }]}>
         <View style={[styles.line]}>
           <EditableTextInput
@@ -79,8 +89,12 @@ const TaskThumbnail: FC<Props> = ({
             }
             isEdited={editTask}
             isEditable={isEditing}
+            setCurrentField={setFieldEdited}
             styleText={{ ...styles.title_text, color: cate.color }}
-            styleInput={{...TaskThumbDim.card_title_text_edit,color:cate.color}}
+            styleInput={{
+              ...TaskThumbDim.card_title_text_edit,
+              color: cate.color,
+            }}
           />
 
           <Spacer.Column nbSpace={TaskThumbDim.COL_SPACE_SMALL} />
@@ -160,14 +174,14 @@ const TaskThumbnail: FC<Props> = ({
             width={TaskThumbDim.ICON_SIZE}
             height={TaskThumbDim.ICON_SIZE}
             name={difficulty.icon}
-            color={isEditing ? cate.color :Colors.grey_dark}
+            color={isEditing ? cate.color : Colors.grey_dark}
           />
           <Spacer.Column nbSpace={TaskThumbDim.COL_SPACE} />
           <Icon
             width={TaskThumbDim.ICON_SIZE}
             height={TaskThumbDim.ICON_SIZE}
             name={cate.icon}
-            color={isEditing ? cate.color :Colors.grey_dark}
+            color={isEditing ? cate.color : Colors.grey_dark}
           />
         </View>
       </View>
@@ -184,39 +198,46 @@ const TaskThumbnail: FC<Props> = ({
 
       {isEditing ? (
         <>
-        <View style={[styles.line, { justifyContent: "center",alignItems : "flex-end" }]}>
-          <View style={styles.col}>
-            <IconAction
-              width={TaskThumbDim.ICON_WIDTH_BIG}
-              height={TaskThumbDim.ICON_SIZE_BIG}
-              name="done"
-              color={Colors.green_2}
-              handlePress={sendEdit}
-              disabled={isEditable}
-            />
-            <Text style={TaskThumbDim.legend}>{t('task:legendDone')}</Text>
-          </View>
+          <View
+            style={[
+              styles.line,
+              { justifyContent: "center", alignItems: "flex-end" },
+            ]}
+          >
+            <View style={styles.col}>
+              <IconAction
+                width={TaskThumbDim.ICON_WIDTH_BIG}
+                height={TaskThumbDim.ICON_SIZE_BIG}
+                name="done"
+                color={Colors.green_2}
+                handlePress={()=>{setSliderField(null);sendEdit}}
+                disabled={isEditable}
+              />
+              <Text style={TaskThumbDim.legend}>{t("task:legendDone")}</Text>
+            </View>
 
-          <Spacer.Column nbSpace={TaskThumbDim.COL_SPACE_BIG} />
+            <Spacer.Column nbSpace={TaskThumbDim.COL_SPACE_BIG} />
 
-          <View style={styles.col}>
-            <IconAction
-              width={TaskThumbDim.ICON_SIZE_BIG}
-              height={TaskThumbDim.ICON_SIZE_BIG}
-              name="cancel"
-              color={cate.color}
-              handlePress={cancelEdit}
-              disabled={isEditable}
-            />
-            <Text style={TaskThumbDim.legend}>{t('task:legendCancel')}</Text>
+            <View style={styles.col}>
+              <IconAction
+                width={TaskThumbDim.ICON_SIZE_BIG}
+                height={TaskThumbDim.ICON_SIZE_BIG}
+                name="cancel"
+                color={cate.color}
+                handlePress={()=>{
+                  setSliderField(null)
+                  cancelEdit()
+                }}
+                disabled={isEditable}
+              />
+              <Text style={TaskThumbDim.legend}>{t("task:legendCancel")}</Text>
+            </View>
           </View>
-        </View>
-        <Spacer.Row nbSpace={TaskThumbDim.ROW_SPACE_SMALL}/>
+          <Spacer.Row nbSpace={TaskThumbDim.ROW_SPACE_SMALL} />
         </>
-        
-      ) : 
-        <Spacer.Row nbSpace={TaskThumbDim.ROW_SPACE_BIG}/>
-      }
+      ) : (
+        <Spacer.Row nbSpace={TaskThumbDim.ROW_SPACE_BIG} />
+      )}
     </View>
   );
 };
@@ -242,7 +263,7 @@ const styles = StyleSheet.create({
   col: {
     ...Positions.flex_column,
     ...Positions.content_items_center,
-  }
+  },
 });
 
 export default TaskThumbnail;
