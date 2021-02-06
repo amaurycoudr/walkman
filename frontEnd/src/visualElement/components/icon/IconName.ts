@@ -8,6 +8,7 @@ export const DIFFICULT_ICON = "difficult"
 export const EDIT_ICON = "edit"
 export const DONE_ICON = "done"
 export const DURATION_ICON = "duration"
+export const CANCEL_ICON = "cancel"
 
 
 export type IconNameType = typeof SPORT_ICON
@@ -20,6 +21,7 @@ export type IconNameType = typeof SPORT_ICON
     | typeof EDIT_ICON
     | typeof DONE_ICON
     | typeof DURATION_ICON
+    | typeof CANCEL_ICON
 
 export interface IconComponentType {
     width: number,

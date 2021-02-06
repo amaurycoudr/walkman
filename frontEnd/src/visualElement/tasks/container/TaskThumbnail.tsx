@@ -93,6 +93,7 @@ const TaskThumbnail: FC<Props> = ({
         </View>
 
         <View style={styles.line}>
+
           <IconAction
             width={20}
             height={20}
@@ -104,14 +105,30 @@ const TaskThumbnail: FC<Props> = ({
 
           <Spacer.Column nbSpace={20*Dimension.PX_CONVERSION} />
 
-          <IconAction
-            width={20}
-            height={20}
-            name="edit"
-            color={cate.color}
-            handlePress={initEdit}
-            disabled={!isEditable}
-          />
+          {!isEditing ? 
+            <IconAction
+              width={20}
+              height={20}
+              name="edit"
+              color={cate.color}
+              handlePress={initEdit}
+              disabled={!isEditable}
+            />
+            : 
+            <IconAction
+              width={20}
+              height={20}
+              name="cancel"
+              color={cate.color}
+              handlePress={cancelEdit}
+              disabled={isEditable}
+            /> 
+          }
+
+
+          
+            
+
         </View>
       </View>
 

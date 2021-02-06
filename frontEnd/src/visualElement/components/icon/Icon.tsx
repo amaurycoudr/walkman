@@ -10,7 +10,8 @@ import {
     WELL_BEING_ICON,
     EDIT_ICON,
     DONE_ICON,
-    DURATION_ICON
+    DURATION_ICON,
+    CANCEL_ICON
 } from "./IconName";
 import {View, ViewStyle} from "react-native";
 
@@ -25,6 +26,7 @@ const DifficultIcon = React.lazy((() => import('./DifficultIcon')))
 const EditIcon = React.lazy((() => import('./EditIcon')))
 const DoneIcon = React.lazy((() => import('./DoneIcon')))
 const DurationIcon = React.lazy((() => import('./DurationIcon')))
+const CancelIcon = React.lazy((() => import('./CancelIcon')))
 
 
 interface Props {
@@ -50,6 +52,7 @@ export default ({width, height, name, viewStyle, color = "white"}: Props) => (
             {name === EDIT_ICON && <EditIcon color={color} width={width} height={height}/>}
             {name === DONE_ICON && <DoneIcon color={color} width={width} height={height}/>}
             {name === DURATION_ICON && <DurationIcon color={color} width={width} height={height}/>}
+            {name === CANCEL_ICON && <CancelIcon color={color} width={width} height={height}/>}
         </React.Suspense>
     </View>
 )
