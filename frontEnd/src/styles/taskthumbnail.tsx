@@ -16,6 +16,9 @@ export const ICON_SIZE = 20*PX_CONVERSION
 export const ICON_SIZE_BIG = 30*PX_CONVERSION
 export const ICON_WIDTH_BIG = 38*PX_CONVERSION
 
+export const FREQ_PADDING = 6*PX_CONVERSION
+export const DUR_PADDING = 4*PX_CONVERSION
+
 export const legend = {
     color : Colors.grey_light,
     fontSize : 12*PX_CONVERSION,
@@ -29,16 +32,14 @@ export const card_title_text = {
 
 export const card_title_text_edit = {
     fontSize : 20*PX_CONVERSION,
-    fontFamily : 'Lato_400Regular_Italic'
+    fontFamily : 'Lato_700Bold_Italic'
 }
 
 export const highlight_field_round = {
     backgroundColor : Colors.grey_middle,
     borderRadius : "50%",
-    padding: 6*PX_CONVERSION,
 }
 export const highlight_field_pills = {
     backgroundColor : Colors.grey_middle,
     borderRadius : 10*PX_CONVERSION,
-    padding: 4*PX_CONVERSION,
 }

@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
   root: {
     ...Positions.flex_row,
     alignItems: "center",
+    padding: TaskThumbDim.DUR_PADDING
   },
 });
 
