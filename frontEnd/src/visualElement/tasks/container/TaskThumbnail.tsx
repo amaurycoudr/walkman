@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { View, StyleSheet, Dimensions } from "react-native";
 
 // Components
-import Title from "../components/fields/Title";
+import EditableTextInput from "../components/EditableTextInput";
 import Frequency from "../components/fields/Frequency";
 import ProgressBar from "../components/fields/ProgressBar";
 import CancelEdit from "../components/fields/CancelEdit";
@@ -68,17 +68,13 @@ const TaskThumbnail: FC<Props> = ({
 
       <View style={[styles.line, { justifyContent: "space-between" }]}>
         <View style={[styles.line]}>
-          <Title
-            value={
-              edits
-                ? "title" in edits
-                  ? edits.title!
-                  : task.title
-                : task.title
-            }
-            editTitle={editTask}
+          
+          <EditableTextInput 
+            field="title"
+            value={edits ? "title" in edits ? edits.title! : task.title : task.title}
+            isEdited={editTask}
             isEditable={isEditing}
-            style={{ ...styles.title_text, color: cate.color }}
+            styleText={{ ...styles.title_text, color: cate.color }}
           />
 
           <Spacer.Column nbSpace={10} />
@@ -102,8 +98,8 @@ const TaskThumbnail: FC<Props> = ({
             height={20}
             name="done"
             color={Colors.green_2}
-            handlePress={initEdit}
-            disabled={!isEditable}
+            handlePress={sendEdit}
+            disabled={isEditable}
           />
 
           <Spacer.Column nbSpace={20*Dimension.PX_CONVERSION} />
@@ -112,7 +108,7 @@ const TaskThumbnail: FC<Props> = ({
             width={20}
             height={20}
             name="edit"
-            color={Colors.red_icon}
+            color={cate.color}
             handlePress={initEdit}
             disabled={!isEditable}
           />

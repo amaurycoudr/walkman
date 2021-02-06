@@ -21,7 +21,7 @@ const EditableTextInput: FC<Props> = ({ field, value, isEdited, isEditable, styl
     };
 
     return (
-        <View>
+        <>
             {
                 !isEditable ?
                     <Text
@@ -39,7 +39,7 @@ const EditableTextInput: FC<Props> = ({ field, value, isEdited, isEditable, styl
                         autoFocus={true}
                     />
             }
-        </View>
+        </>
     )
 };
 
