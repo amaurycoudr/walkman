@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import { View, Text } from 'react-native'
 
-import {Dimension} from "../../../../styles/index"
+import {Dimension,TaskThumbDim} from "../../../../styles/index"
 
 
 import EditableSlider from "../EditableSlider";
@@ -18,10 +18,10 @@ const Frequency: FC<Props> = ({ value, setSliderField, isEditable }) => {
 
 
     return (
-        <View>
+        <View style={isEditable ? TaskThumbDim.highlight_field_round : null }>
             <Text
                 onPress={() => isEditable ? setSliderField("frequency") : null}
-                style={{color:Colors.grey_dark}}
+                style={{color: Colors.grey_dark}}
             >
                 {value}j
             </Text>

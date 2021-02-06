@@ -160,14 +160,14 @@ const TaskThumbnail: FC<Props> = ({
             width={TaskThumbDim.ICON_SIZE}
             height={TaskThumbDim.ICON_SIZE}
             name={difficulty.icon}
-            color="red"
+            color={isEditing ? cate.color :Colors.grey_dark}
           />
           <Spacer.Column nbSpace={TaskThumbDim.COL_SPACE} />
           <Icon
             width={TaskThumbDim.ICON_SIZE}
             height={TaskThumbDim.ICON_SIZE}
             name={cate.icon}
-            color={cate.color}
+            color={isEditing ? cate.color :Colors.grey_dark}
           />
         </View>
       </View>
@@ -197,7 +197,7 @@ const TaskThumbnail: FC<Props> = ({
             <Text style={TaskThumbDim.legend}>{t('task:legendDone')}</Text>
           </View>
 
-          <Spacer.Column nbSpace={TaskThumbDim.COL_SPACE} />
+          <Spacer.Column nbSpace={TaskThumbDim.COL_SPACE_BIG} />
 
           <View style={styles.col}>
             <IconAction

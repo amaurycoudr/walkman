@@ -7,6 +7,7 @@ export const ROW_SPACE_BIG = 20*PX_CONVERSION
 
 export const COL_SPACE = 20*PX_CONVERSION
 export const COL_SPACE_SMALL = 10*PX_CONVERSION
+export const COL_SPACE_BIG = 40*PX_CONVERSION
 
 export const CONTAINER_PAD = 15*PX_CONVERSION
 
@@ -17,7 +18,7 @@ export const ICON_WIDTH_BIG = 38*PX_CONVERSION
 
 export const legend = {
     color : Colors.grey_light,
-    fontSize : 10*PX_CONVERSION,
+    fontSize : 12*PX_CONVERSION,
     fontFamily : 'Lato_400Regular'
 }
 
@@ -29,4 +30,15 @@ export const card_title_text = {
 export const card_title_text_edit = {
     fontSize : 20*PX_CONVERSION,
     fontFamily : 'Lato_400Regular_Italic'
+}
+
+export const highlight_field_round = {
+    backgroundColor : Colors.grey_middle,
+    borderRadius : "50%",
+    padding: 6*PX_CONVERSION,
+}
+export const highlight_field_pills = {
+    backgroundColor : Colors.grey_middle,
+    borderRadius : 10*PX_CONVERSION,
+    padding: 4*PX_CONVERSION,
 }

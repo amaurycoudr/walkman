@@ -36,7 +36,7 @@ const EditableTextInput: FC<Props> = ({ field, value, isEdited, isEditable, styl
                         autoCapitalize="none"
                         autoCorrect={false}
                         style={styleInput}
-                        autoFocus={true}
+                        autoFocus={false}
                     />
             }
         </View>

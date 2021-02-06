@@ -15,7 +15,7 @@ interface Props {
 
 const Duration: FC<Props> = ({ value, setSliderField, isEditable }) => {
   return (
-    <View style={styles.root}>
+    <View style={[styles.root,isEditable ? TaskThumbDim.highlight_field_pills : null]}>
       <Icon name="duration" width={TaskThumbDim.ICON_SIZE} height={TaskThumbDim.ICON_SIZE} color={Colors.grey_dark} />
       <Spacer.Column nbSpace={TaskThumbDim.COL_SPACE_SMALL} />
       <Text 
@@ -31,7 +31,7 @@ const Duration: FC<Props> = ({ value, setSliderField, isEditable }) => {
 const styles = StyleSheet.create({
   root: {
     ...Positions.flex_row,
-    alignItems: "center"
+    alignItems: "center",
   },
 });
 
