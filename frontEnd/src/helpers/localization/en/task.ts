@@ -6,4 +6,6 @@ export default {
     wellBeing: "well-being",
     study: "study",
     creativity: "creativity",
+    legendDone: "submit",
+    legendCancel: "cancel"
 }

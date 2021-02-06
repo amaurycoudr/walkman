@@ -1,13 +1,13 @@
 import React, { FC, useState } from "react";
 import { useSelector } from "react-redux";
-import { View, StyleSheet, Dimensions } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
+
+import {useTranslation} from "react-i18next";
 
 // Components
 import EditableTextInput from "../components/EditableTextInput";
 import Frequency from "../components/fields/Frequency";
 import ProgressBar from "../components/fields/ProgressBar";
-import CancelEdit from "../components/fields/CancelEdit";
-import SendEdit from "../components/fields/SendEdit";
 import Duration from "../components/fields/Duration";
 import EditableSlider from "../components/EditableSlider";
 import { Spacer } from "../../components/Spacer";
@@ -29,7 +29,7 @@ import {
   Colors,
   Positions,
   Typography,
-  AuthDimension,
+  TaskThumbDim,
 } from "../../../styles";
 
 interface Props {
@@ -61,23 +61,28 @@ const TaskThumbnail: FC<Props> = ({
     "frequency" | "duration" | null
   >(null);
 
+  const {t} = useTranslation()
 
   return (
-    <View style={styles.container}>
-      {/* <Spacer.Column nbSpace={15*Dimension.PX_CONVERSION} /> */}
-
+    <View style={[styles.container]}>
+      <Spacer.Row nbSpace={TaskThumbDim.ROW_SPACE_BIG}/>
       <View style={[styles.line, { justifyContent: "space-between" }]}>
         <View style={[styles.line]}>
-          
-          <EditableTextInput 
+          <EditableTextInput
             field="title"
-            value={edits ? "title" in edits ? edits.title! : task.title : task.title}
+            value={
+              edits
+                ? "title" in edits
+                  ? edits.title!
+                  : task.title
+                : task.title
+            }
             isEdited={editTask}
             isEditable={isEditing}
             styleText={{ ...styles.title_text, color: cate.color }}
           />
 
-          <Spacer.Column nbSpace={10} />
+          <Spacer.Column nbSpace={TaskThumbDim.COL_SPACE_SMALL} />
 
           <Frequency
             value={
@@ -93,59 +98,48 @@ const TaskThumbnail: FC<Props> = ({
         </View>
 
         <View style={styles.line}>
-
           <IconAction
-            width={20}
-            height={20}
-            name="done"
-            color={Colors.green_2}
-            handlePress={sendEdit}
+            width={TaskThumbDim.ICON_SIZE}
+            height={TaskThumbDim.ICON_SIZE}
+            name="play"
+            color={Colors.grey_dark}
+            handlePress={() => {
+              return null;
+            }}
             disabled={isEditable}
           />
 
-          <Spacer.Column nbSpace={20*Dimension.PX_CONVERSION} />
+          <Spacer.Column nbSpace={TaskThumbDim.COL_SPACE} />
 
-          {!isEditing ? 
-            <IconAction
-              width={20}
-              height={20}
-              name="edit"
-              color={cate.color}
-              handlePress={initEdit}
-              disabled={!isEditable}
-            />
-            : 
-            <IconAction
-              width={20}
-              height={20}
-              name="cancel"
-              color={cate.color}
-              handlePress={cancelEdit}
-              disabled={isEditable}
-            /> 
-          }
-
-
-          
-            
-
+          <IconAction
+            width={TaskThumbDim.ICON_SIZE}
+            height={TaskThumbDim.ICON_SIZE}
+            name="edit"
+            color={cate.color}
+            handlePress={initEdit}
+            disabled={!isEditable}
+          />
         </View>
       </View>
 
-      <Spacer.Row nbSpace={10 * Dimension.PX_CONVERSION} />
+      <Spacer.Row nbSpace={TaskThumbDim.ROW_SPACE} />
 
       <ProgressBar
         fullWidth={100}
         progressWidth={(task.done! / task.repeat) * 100}
-        height={10*Dimension.PX_CONVERSION}
+        height={10 * Dimension.PX_CONVERSION}
         colorCompleted={cate.color}
         backgroundColor={Colors.grey_middle}
-
       />
 
-      <Spacer.Row nbSpace={10 * Dimension.PX_CONVERSION} />
+      <Spacer.Row nbSpace={TaskThumbDim.ROW_SPACE} />
 
-      <View style={[styles.line, { justifyContent: task.duration ? "space-between" : "flex-end" }]}>
+      <View
+        style={[
+          styles.line,
+          { justifyContent: task.duration ? "space-between" : "flex-end" },
+        ]}
+      >
         {task.duration ? (
           <Duration
             value={
@@ -161,9 +155,19 @@ const TaskThumbnail: FC<Props> = ({
         ) : null}
 
         <View style={styles.line}>
-          <Icon width={20} height={20} name={difficulty.icon} color="red" />
-          <Spacer.Column nbSpace={20*Dimension.PX_CONVERSION} />
-          <Icon width={20} height={20} name={cate.icon} color={cate.color} />
+          <Icon
+            width={TaskThumbDim.ICON_SIZE}
+            height={TaskThumbDim.ICON_SIZE}
+            name={difficulty.icon}
+            color="red"
+          />
+          <Spacer.Column nbSpace={TaskThumbDim.COL_SPACE} />
+          <Icon
+            width={TaskThumbDim.ICON_SIZE}
+            height={TaskThumbDim.ICON_SIZE}
+            name={cate.icon}
+            color={cate.color}
+          />
         </View>
       </View>
 
@@ -178,16 +182,40 @@ const TaskThumbnail: FC<Props> = ({
       ) : null}
 
       {isEditing ? (
-        <View>
-          <CancelEdit
-            cancel={() => {
-              cancelEdit();
-              setSliderField(null);
-            }}
-          />
-          <SendEdit send={sendEdit} />
+        <>
+        <View style={[styles.line, { justifyContent: "center",alignItems : "flex-end" }]}>
+          <View style={styles.col}>
+            <IconAction
+              width={TaskThumbDim.ICON_WIDTH_BIG}
+              height={TaskThumbDim.ICON_SIZE_BIG}
+              name="done"
+              color={Colors.green_2}
+              handlePress={sendEdit}
+              disabled={isEditable}
+            />
+            <Text style={TaskThumbDim.legend}>{t('task:legendDone')}</Text>
+          </View>
+
+          <Spacer.Column nbSpace={TaskThumbDim.COL_SPACE} />
+
+          <View style={styles.col}>
+            <IconAction
+              width={TaskThumbDim.ICON_SIZE_BIG}
+              height={TaskThumbDim.ICON_SIZE_BIG}
+              name="cancel"
+              color={cate.color}
+              handlePress={cancelEdit}
+              disabled={isEditable}
+            />
+            <Text style={TaskThumbDim.legend}>{t('task:legendCancel')}</Text>
+          </View>
         </View>
-      ) : null}
+        <Spacer.Row nbSpace={TaskThumbDim.ROW_SPACE_SMALL}/>
+        </>
+        
+      ) : 
+        <Spacer.Row nbSpace={TaskThumbDim.ROW_SPACE_BIG}/>
+      }
     </View>
   );
 };
@@ -196,13 +224,13 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
     flex: 1,
-    marginVertical: 20,
-    paddingVertical: 25 * Dimension.PX_CONVERSION,
-    paddingHorizontal: 15*Dimension.PX_CONVERSION,
+    marginVertical: 20, // Temp
+    //paddingVertical: 25 * Dimension.PX_CONVERSION,
+    paddingHorizontal: 15 * Dimension.PX_CONVERSION,
     width: Dimension.CARD_WIDTH,
     ...Borders.border_shadow,
     ...Positions.flex_column,
-    ...Borders.border_radius_15
+    ...Borders.border_radius_15,
   },
   title_text: {
     ...Typography.card_title_text,
@@ -211,6 +239,10 @@ const styles = StyleSheet.create({
     ...Positions.flex_row,
     alignItems: "center",
   },
+  col: {
+    ...Positions.flex_column,
+    ...Positions.content_items_center,
+  }
 });
 
 export default TaskThumbnail;

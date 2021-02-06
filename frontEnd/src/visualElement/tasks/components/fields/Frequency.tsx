@@ -1,6 +1,9 @@
 import React, { FC } from 'react'
 import { View, Text } from 'react-native'
 
+import {Dimension} from "../../../../styles/index"
+
+
 import EditableSlider from "../EditableSlider";
 
 import {Colors} from "../../../../styles/index"
