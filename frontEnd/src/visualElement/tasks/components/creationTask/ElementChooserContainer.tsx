@@ -3,12 +3,11 @@ import {Text} from "react-native";
 
 interface Props {
     title: String,
-    step: number,
     indication: String,
 
 }
 
-const ElementChooserContainer: FC<Props> = ({title, step, indication, children}) => (
+const ElementChooserContainer: FC<Props> = ({title, indication, children}) => (
     <>
         <Text>{title}</Text>
         <Text>{indication}</Text>

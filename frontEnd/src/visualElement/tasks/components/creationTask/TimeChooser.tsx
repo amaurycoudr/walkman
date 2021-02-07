@@ -1,9 +1,10 @@
-import React, {FC, useState} from "react";
-import {ScrollView, StyleSheet, Text, View} from "react-native";
+import React, {FC, useEffect, useState} from "react";
+import {StyleSheet, View} from "react-native";
 
 
-import {Borders, Colors, CreateTaskDimension, Dimension, Positions, Typography} from "../../../../styles";
+import {Borders, Colors, CreateTaskDimension, Positions, Typography} from "../../../../styles";
 import CustomPicker from "../../../components/CustomPicker";
+import {useTranslation} from "react-i18next";
 
 type multipliers = {
     [key: number]: string
@@ -21,13 +22,19 @@ const TimeChooser: FC<Props> = ({multipliers, max, min, handleChange,}) => {
     const multipliersStr: string[] = Object.values(multipliers);
     const multipliersNumb: number[] = Object.keys(multipliers).map(value => parseInt(value));
     const [currentTime, setCurrentTime] = useState({number: 0, multiplier: 0})
+
+    useEffect(() => {
+        handleChange(multipliersNumb[currentTime.multiplier] * currentTime.number)
+    }, [currentTime])
     const setCurrentNumber = (number: number) => {
-        handleChange(multipliersNumb[currentTime.multiplier] * number)
-        setCurrentTime(prevState => ({...prevState, number}))
+        if (number !== currentTime.number) {
+            setCurrentTime(prevState => ({...prevState, number}))
+        }
     }
     const setCurrentMultiplier = (multiplier: number) => {
-        handleChange(multipliersNumb[multiplier] * currentTime.number)
-        setCurrentTime(prevState => ({...prevState, multiplier}))
+        if (multiplier !== currentTime.multiplier) {
+            setCurrentTime(prevState => ({...prevState, multiplier}))
+        }
     }
     return (
         <View
@@ -50,7 +57,6 @@ const TimeChooser: FC<Props> = ({multipliers, max, min, handleChange,}) => {
                             />
                         </View>
                         <View>
-
                             <CustomPicker
                                 currentIndex={currentTime.multiplier}
                                 setIndex={setCurrentMultiplier}

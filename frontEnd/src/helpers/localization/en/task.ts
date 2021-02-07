@@ -14,4 +14,10 @@ export default {
     creationIndicationTitle: "select a title",
     creationTitleDuration: "Duration",
     creationIndicationDuration: "select a Duration",
+    creationTitleFrequency: "Frequency",
+    creationIndicationFrequency: "select a Frequency",
+    hours: "hours",
+    minutes: "minutes",
+    days: "days",
+    weeks: "weeks",
 }

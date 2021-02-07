@@ -1,5 +1,6 @@
 import React from "react";
-import {Platform, ScrollView, Text, TextStyle, View, ViewStyle} from "react-native";
+import {ScrollView, Text, TextStyle, View, ViewStyle} from "react-native";
+import {useTranslation} from "react-i18next";
 
 interface Size {
     width: number,
@@ -33,15 +34,17 @@ const PickerItem = (
         textStyle,
         itemSelectedColor,
         itemUnSelectedColor
-    }: ItemProps) => (
-    <View style={style}>
-        <Text style={[{color: selected ? itemSelectedColor : itemUnSelectedColor}, textStyle]}>
-            {value}
-        </Text>
-    </View>
-)
+    }: ItemProps) => {
+    const {t} = useTranslation();
+    return (
+        <View style={style}>
+            <Text style={[{color: selected ? itemSelectedColor : itemUnSelectedColor}, textStyle]}>
+                {t(value)}
+            </Text>
+        </View>)
+}
+
 const CustomPicker = ({currentIndex, setIndex, array, pickerSize, itemSelectedColor, itemUnSelectedColor, textStyle}: PickerProps) => {
-    console.log(pickerSize.height, "height")
     const selectItem = (pxValue: number) => {
         setIndex(Math.floor((pickerSize.height / 4 + pxValue) / pickerSize.height * 2))
     }
@@ -60,17 +63,14 @@ const CustomPicker = ({currentIndex, setIndex, array, pickerSize, itemSelectedCo
     }
 
     return (
-
         <ScrollView
             onScroll={(event) => {
                 selectItem(event.nativeEvent.contentOffset.y);
             }}
             showsVerticalScrollIndicator={false}
-
             scrollEventThrottle={12}
             decelerationRate={"fast"}
             snapToInterval={pickerSize.height / 2}
-
             snapToEnd={false}
             style={pickerStyle}
         >
