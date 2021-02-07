@@ -15,6 +15,9 @@ export const content_items_center: ViewStyle = {
     alignItems: "center",
     justifyContent: "center",
 }
+export const content_center:ViewStyle={
+    justifyContent:"center"
+}
 export const text_center: TextStyle = {
     textAlign: "center",
 }
@@ -35,4 +38,7 @@ export const auth_container = {
 }
 export const space_between: ViewStyle = {
     justifyContent: "space-between"
+}
+export const space_around: ViewStyle = {
+    justifyContent: "space-around"
 }

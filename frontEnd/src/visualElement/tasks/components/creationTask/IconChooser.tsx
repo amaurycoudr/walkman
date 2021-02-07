@@ -1,8 +1,8 @@
-import React, {useRef} from "react";
+import React from "react";
 import {IconNameType} from "../../../components/icon/IconName";
-import {StyleSheet, TouchableOpacity, View, ViewStyle} from "react-native";
+import {StyleSheet, Text, TouchableOpacity, View, ViewStyle} from "react-native";
 import {Borders, Colors, CreateTaskDimension, Positions} from "../../../../styles";
-import Icon from "../../../components/icon/Icon";
+import Icon from "../../../components/Icon";
 
 interface Element {
     id: number,
@@ -14,12 +14,12 @@ interface Props {
     elements: Element[],
     handlePress: (id: number) => void,
     viewStyle: ViewStyle,
-    iconSelected: number
+    iconSelected: number | undefined
 }
 
 export default ({elements, handlePress, viewStyle, iconSelected}: Props) => {
-    const renderIcon = (id: number, iconName: IconNameType, color?: string) => {
 
+    const renderIcon = (id: number, iconName: IconNameType, color?: string) => {
         const selected = (iconSelected === id)
         const viewStyle = [styles.iconStyle,
             color ?
@@ -32,24 +32,27 @@ export default ({elements, handlePress, viewStyle, iconSelected}: Props) => {
                     styles.colorDefault
 
 
-        ]
+        ] as ViewStyle
         return (
             <TouchableOpacity
                 onPress={() => handlePress(id)}
                 key={id}
             >
-                <Icon
-                    name={iconName}
-                    width={CreateTaskDimension.ICON_SIZE}
-                    height={CreateTaskDimension.ICON_SIZE}
-                    color={Colors.white_custom}
-                    viewStyle={viewStyle}
-                />
+                <View style={viewStyle}>
+
+                    <Icon
+                        name={iconName}
+                        width={CreateTaskDimension.ICON_SIZE}
+                        height={CreateTaskDimension.ICON_SIZE}
+                        color={Colors.white_custom}
+                    />
+                </View>
             </TouchableOpacity>
         )
     }
     return (
         <View style={viewStyle}>
+
             {elements.map(value => (
                 renderIcon(value.id, value.icon, value.color)
             ))}

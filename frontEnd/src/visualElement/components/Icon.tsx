@@ -8,17 +8,17 @@ import {
     SPORT_ICON,
     STUDY_ICON,
     WELL_BEING_ICON
-} from "./IconName";
-import {View, ViewStyle} from "react-native";
+} from "./icon/IconName";
+import { View, ViewStyle} from "react-native";
 
 
-const SportIcon = React.lazy((() => import('./SportIcon')))
-const StudyIcon = React.lazy((() => import('./StudyIcon')))
-const WellBeingIcon = React.lazy((() => import('./WellBeingIcon')))
-const CreativityIcon = React.lazy((() => import('./CreativityIcon')))
-const EasyIcon = React.lazy((() => import('./EasyIcon')))
-const MediumIcon = React.lazy((() => import('./MediumIcon')))
-const DifficultIcon = React.lazy((() => import('./DifficultIcon')))
+const SportIcon = React.lazy((() => import('./icon/SportIcon')))
+const StudyIcon = React.lazy((() => import('./icon/StudyIcon')))
+const WellBeingIcon = React.lazy((() => import('./icon/WellBeingIcon')))
+const CreativityIcon = React.lazy((() => import('./icon/CreativityIcon')))
+const EasyIcon = React.lazy((() => import('./icon/EasyIcon')))
+const MediumIcon = React.lazy((() => import('./icon/MediumIcon')))
+const DifficultIcon = React.lazy((() => import('./icon/DifficultIcon')))
 
 
 interface Props {
