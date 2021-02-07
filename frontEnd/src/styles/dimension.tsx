@@ -49,3 +49,10 @@ export const popup_dimension = {
     height: POPUP_HEIGHT
 }
 
+export const input_size = {
+    width: SWITCHER_INPUT_WIDTH,
+    height: INPUT_HEIGHT
+}
+export const container_width = {
+    width: CONTAINER_WIDTH
+}

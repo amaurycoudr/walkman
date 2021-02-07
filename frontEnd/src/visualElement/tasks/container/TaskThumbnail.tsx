@@ -1,6 +1,5 @@
 import React, {FC, useState} from 'react'
-import {useSelector} from "react-redux"
-import {View, StyleSheet} from 'react-native'
+import {StyleSheet, View} from 'react-native'
 
 
 // Components
@@ -14,12 +13,13 @@ import EditableSlider from "../components/EditableSlider";
 
 
 // Type
-import {taskType, editTaskType, category, difficulty} from "../../../features/tasks/tasksType"
+import {category, difficulty, editTaskType, taskType} from "../../../features/tasks/tasksType"
 
 
 import {Spacer} from "../../components/Spacer";
-import Icon from "../../components/icon/Icon";
+import Icon from "../../components/Icon";
 import IconAction from "../components/IconAction";
+import {MEDIUM_ICON} from "../../components/icon/IconName";
 
 
 interface Props {
@@ -49,8 +49,10 @@ const TaskThumbnail: FC<Props> = ({task, edits, cate, difficulty, isEditable, is
             <Spacer.Column nbSpace={15}/>
 
             <IconAction
-                iconName="edit"
-                size={20}
+                iconName={MEDIUM_ICON}
+                width={20}
+                height={20}
+                style={{}}
                 color="#A1A1A1"
                 handlePress={initEdit}
                 disabled={!isEditable}
@@ -89,11 +91,13 @@ const TaskThumbnail: FC<Props> = ({task, edits, cate, difficulty, isEditable, is
                 width={100}
                 height={100}
                 name={cate.icon}
+                color={"white"}
                 viewStyle={{backgroundColor: "blue", padding:5}}
             />
             <Icon
                 width={20}
                 height={20}
+                color={"white"}
                 name={difficulty.icon}
                 viewStyle={{backgroundColor: "red"}}
             />
