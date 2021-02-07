@@ -11,26 +11,9 @@ def saveTaskPhoto(instance,filename):
     name,ext = splitext(filename)
     return f'tasks/task_{taskId}{ext}'
     
-
-class Difficulty(models.Model):
-    label = models.CharField(max_length=30,unique=True)
-    points = models.IntegerField(default=0)
-    icon = models.CharField(max_length=50,blank=True,null=True)
-
-    def __str__(self):
-        return self.label
-
-class Category(models.Model):
-    title = models.CharField(max_length=50,unique=True)
-    color = ColorField(default="#FFF")
-    icon = models.CharField(max_length=50,blank=True,null=True) #for now it's the icon's name (if we use fontello for example)
-
-    def __str__(self):
-        return self.title
-
 class Task(models.Model):
-    difficulty = models.ForeignKey(Difficulty,on_delete=models.SET_NULL,null=True)
-    category = models.ForeignKey(Category,on_delete=models.SET_NULL,null=True)
+    difficulty = models.IntegerField(default=0)
+    category = models.SmallIntegerField(default=0)
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
     title = models.CharField(max_length=150)
     repeat = models.IntegerField() # Set when a tasks is created and will not channge

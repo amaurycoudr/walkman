@@ -6,20 +6,8 @@ from rest_framework.generics import ListAPIView
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
-from .models import Task,Category,Difficulty
-from .serializer import TaskSerializer,CategorySerializer,DifficultySerializer
-
-class Category(ListAPIView):
-    queryset = Category.objects.all()
-    serializer_class = CategorySerializer
-
-
-class Difficulty(ListAPIView):
-    queryset = Difficulty.objects.all()
-    serializer_class = DifficultySerializer
-
-
-
+from .models import Task
+from .serializer import TaskSerializer
 
 
 class Task(viewsets.ModelViewSet):
