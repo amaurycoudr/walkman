@@ -1,6 +1,6 @@
 import React, {FC} from "react";
 import {StyleSheet, TextInput, View} from "react-native";
-import {Borders, Colors, Dimension, Positions, Typography} from "../../../../styles";
+import {Borders, Colors, CreateTaskDimension, Dimension, Positions, Typography} from "../../../../styles";
 
 
 interface Props {
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     view: {
         ...Borders.border_shadow,
         ...Borders.border_radius_20,
-        ...Dimension.input_size,
+        ...CreateTaskDimension.picker_size,
         ...Colors.white_background,
         ...Positions.content_items_center
 
