@@ -20,21 +20,21 @@ const CreationTaskScreen: FC<CreationTaskProps> = ({navigation}) => {
 
     const styleIconChooser = {...Positions.flex_row, ...Positions.space_between}
 
-    const selectCategory = (id) => addElement({category: id})
-    const selectDifficulty = (id) => addElement({difficulty: id})
+    const selectCategory = (id:number) => addElement({category: id})
+    const selectDifficulty = (id:number) => addElement({difficulty: id})
     return (
         <SafeAreaView>
             <IconChooser
                 viewStyle={styleIconChooser}
                 elements={categories}
                 handlePress={selectCategory}
-                iconSelected={elements.category}
+                iconSelected={elements.category!}
             />
             <IconChooser
                 viewStyle={styleIconChooser}
                 elements={difficulties}
                 handlePress={selectDifficulty}
-                iconSelected={elements.difficulty}/>
+                iconSelected={elements.difficulty!}/>
             <Text>Creation Task Screen </Text>
             <Button title={"return to te main screen"} onPress={() => navigation.navigate('TabNavigation')}/>
 

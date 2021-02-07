@@ -25,7 +25,7 @@ interface Props {
     name: IconNameType,
     width: number,
     height: number,
-    viewStyle?: ViewStyle,
+    viewStyle?: ViewStyle ,
     color: string
 
 }
