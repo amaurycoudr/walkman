@@ -45,3 +45,6 @@ export const red_text = {
 export const grey_middle_background = {
     backgroundColor: grey_middle
 }
+export const green_3_text = {
+    color: green_3
+}
