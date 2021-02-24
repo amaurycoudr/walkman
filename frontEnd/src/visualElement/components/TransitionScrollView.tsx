@@ -4,8 +4,8 @@ import {CONTAINER_WIDTH} from "../../styles/dimension";
 import {Positions} from "../../styles";
 
 type TransitionScrollViewProps = {
-    items: string[],
-    currentItem: string,
+    items?: string[],
+    currentItem: string|number,
     width: number,
     speed: number
 }
@@ -23,7 +23,7 @@ const TransitionScrollView: FC<TransitionScrollViewProps> = (
     const [leftAnimation] = useState(new Animated.Value(0))
     //useEffect that handle the animation
     useEffect(() => {
-        const index = items.indexOf(currentItem)
+        const index = items ? items.indexOf(currentItem) : currentItem
         Animated.timing(leftAnimation, {
             toValue: -index * width,
             duration: speed,

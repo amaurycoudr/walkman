@@ -13,22 +13,25 @@ export type TypoType =
     | 'Lato_900Black_Italic';
 
 export const p_text = {
-    fontSize: 14*PX_CONVERSION,
+    fontSize: 14 * PX_CONVERSION,
     fontFamily: 'Lato_300Light'
 }
-export const popup_text={
-    fontSize: 25*PX_CONVERSION,
+export const popup_text = {
+    fontSize: 25 * PX_CONVERSION,
     fontFamily: 'Lato_300Light'
 }
 export const title_text = {
-    fontSize: 25*PX_CONVERSION,
+    fontSize: 25 * PX_CONVERSION,
     fontFamily: 'Lato_900Black'
 }
 export const input_text = {
     fontFamily: 'Lato_700Bold'
 }
-export const big_title_text={
+export const big_title_text = {
     fontSize: BIG_TITLE_SIZE,
     fontFamily: 'Lato_900Black'
 }
-
+export const middle_title_text = {
+    fontSize: 30 * PX_CONVERSION,
+    fontFamily: 'Lato_900Black'
+}

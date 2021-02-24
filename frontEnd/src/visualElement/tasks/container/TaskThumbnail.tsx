@@ -13,6 +13,7 @@ import EditableSlider from "../components/EditableSlider";
 import { Spacer } from "../../components/Spacer";
 import Icon from "../../components/icon/Icon";
 import IconAction from "../components/IconAction";
+import {MEDIUM_ICON} from "../../components/icon/IconName";
 
 // Type
 import {
