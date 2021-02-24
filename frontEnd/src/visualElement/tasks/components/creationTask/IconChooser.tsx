@@ -2,7 +2,7 @@ import React from "react";
 import {IconNameType} from "../../../components/icon/IconName";
 import {StyleSheet, Text, TouchableOpacity, View, ViewStyle} from "react-native";
 import {Borders, Colors, CreateTaskDimension, Positions} from "../../../../styles";
-import Icon from "../../../components/Icon";
+import Icon from "../../../components/icon/Icon";
 
 interface Element {
     id: number,

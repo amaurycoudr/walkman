@@ -2,7 +2,7 @@ import React, {FC} from 'react'
 import {TouchableOpacity, ViewStyle} from 'react-native'
 
 
-import Icon from "../../components/Icon";
+import Icon from "../../components/icon/Icon";
 import {IconNameType} from "../../components/icon/IconName";
 
 interface Props {

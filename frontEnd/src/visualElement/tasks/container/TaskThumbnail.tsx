@@ -4,6 +4,9 @@ import { View, StyleSheet, Text } from "react-native";
 
 import { useTranslation } from "react-i18next";
 
+// Const
+import {TIME_MINUTES} from "../../../features/tasks/tasksConst";
+
 // Components
 import EditableTextInput from "../components/EditableTextInput";
 import Frequency from "../components/fields/Frequency";
@@ -14,6 +17,7 @@ import { Spacer } from "../../components/Spacer";
 import Icon from "../../components/icon/Icon";
 import IconAction from "../components/IconAction";
 import {MEDIUM_ICON} from "../../components/icon/IconName";
+import TimeChooser from "../components/creationTask/TimeChooser";
 
 // Type
 import {
@@ -188,13 +192,16 @@ const TaskThumbnail: FC<Props> = ({
       </View>
 
       {sliderField ? (
-        <EditableSlider
-          value={task[sliderField]!}
-          field={sliderField}
-          isEdited={editTask}
-          min={1}
-          max={30}
+        <>
+        <Spacer.Row nbSpace={TaskThumbDim.ROW_SPACE_BIG}/>
+        <TimeChooser
+        min={0}
+        max={30}
+        multipliers={TIME_MINUTES}
+        handleChange={editTask}
         />
+        <Spacer.Row nbSpace={TaskThumbDim.ROW_SPACE_BIG}/>
+        </>
       ) : null}
 
       {isEditing ? (
