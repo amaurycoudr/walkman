@@ -210,7 +210,7 @@ const TaskThumbnail: FC<Props> = ({
                 height={TaskThumbDim.ICON_SIZE_BIG}
                 name="done"
                 color={Colors.green_2}
-                handlePress={()=>{setSliderField(null);sendEdit}}
+                handlePress={()=>{setSliderField(null);sendEdit;}}
                 disabled={isEditable}
               />
               <Text style={TaskThumbDim.legend}>{t("task:legendDone")}</Text>
